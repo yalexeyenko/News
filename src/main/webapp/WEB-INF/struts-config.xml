@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.1//EN"
+        "http://jakarta.apache.org/struts/dtds/struts-config_1_1.dtd">
+<struts-config>
+    <form-beans>
+        <form-bean name="newsForm" type="com.epam.alexeyenko.form.NewsForm"/>
+    </form-beans>
+
+    <action-mappings>
+        <action path="/news" type="com.epam.alexeyenko.action.NewsAction" name="newsForm" parameter="method">
+            <forward name="view-news-list" path="/WEB-INF/jsp/newslist.jsp"/>
+        </action>
+    </action-mappings>
+    
+
+</struts-config>
