@@ -1,15 +1,21 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page contentType="text/html;charset=UTF-8" language="java"%>
+<%@ taglib uri="http://struts.apache.org/tags-tiles" prefix="tiles"%>
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/css/style.css" type="text/css">
 
 <html>
 <head>
-<title>News Block</title>
+<title><tiles:getAsString name="title" /></title>
 </head>
 <body>
-	<div class="blended_grid">
-		<div class="pageHeader"></div>
-		<div class="pageLeftMenu"></div>
-		<div class="pageContent"></div>
-		<div class="pageFooter"></div>
+	<div class="wrapper">
+		<tiles:insert attribute="header" />
+		<div class="content">
+			<tiles:insert attribute="leftMenu" />
+			<tiles:insert attribute="content" />
+		</div>
+	</div>
+	<tiles:insert attribute="footer" />
+
 </body>
 </html>

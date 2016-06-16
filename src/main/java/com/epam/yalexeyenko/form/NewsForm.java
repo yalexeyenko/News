@@ -2,7 +2,7 @@ package com.epam.yalexeyenko.form;
 
 import org.apache.struts.action.ActionForm;
 
-public class UserForm extends ActionForm {
+public class NewsForm extends ActionForm {
 	private String parameter = " ";
 
 	public String getParameter()

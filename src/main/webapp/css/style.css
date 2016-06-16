@@ -1,0 +1,49 @@
+@CHARSET "UTF-8";
+
+* {
+    margin: 0;
+    padding: 0;
+}
+html {
+    height: 100%;
+}
+
+body {
+    height: 100%;
+}
+
+.wrapper {
+    width: 100%;
+    min-width: 1000px;
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+}
+
+.header {
+	height: 120px;
+    background: #FFE680;
+}
+
+.left_menu {
+	background-color: blue;
+	display: block;
+	float: left;
+	clear: none;
+	width: 200px;
+	height: 128%;
+}
+
+.content {
+	background-color: gray;
+	padding: 0 0 100px;
+	height: 55%;
+}
+
+.footer {
+	margin: -50px auto 0;
+    min-width: 1000px;
+    height: 50px;
+    background: #BFF08E;
+    position: relative;
+}

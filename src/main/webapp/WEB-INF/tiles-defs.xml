@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 1.1//EN"
+        "http://jakarta.apache.org/struts/dtds/tiles-config_1_3.dtd">
+<tiles-definitions>
+
+	<definition name="commonDefinition" path="/WEB-INF/jsp/commonlayout.jsp">
+		<put name="title" type="string" value="Common title" />
+		<put name="header" value="/WEB-INF/jsp/tiles/header/pageHeader.jsp" />
+		<put name="leftMenu" value="/WEB-INF/jsp/tiles/body/pageLeftMenu.jsp" />
+		<put name="footer" value="/WEB-INF/jsp/tiles/footer/pageFooter.jsp" />
+	</definition>
+
+	<definition name="addNews" extends="commonDefinition">
+		<put name="title" type="string" value="Add news" />
+		<put name="content" value="/WEB-INF/jsp/tiles/body/addNewsContent.jsp" />
+	</definition>
+
+	<definition name="viewNews" extends="commonDefinition">
+		<put name="title" type="string" value="View news" />
+		<put name="content" value="/WEB-INF/jsp/tiles/body/viewNewsContent.jsp" />
+	</definition>
+	
+	<definition name="editNews" extends="commonDefinition">
+		<put name="title" type="string" value="Edit news" />
+		<put name="content" value="/WEB-INF/jsp/tiles/body/editNewsContent.jsp" />
+	</definition>
+	
+	<definition name="listNews" extends="commonDefinition">
+		<put name="title" type="string" value="News list" />
+		<put name="content" value="/WEB-INF/jsp/tiles/body/listNewsContent.jsp" />
+	</definition>
+
+</tiles-definitions>

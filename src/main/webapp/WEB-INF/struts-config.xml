@@ -4,18 +4,33 @@
 
 <struts-config>
 	<form-beans>
-		<form-bean name="DispatchActionForm" type="com.epam.yalexeyenko.form.UserForm" />
+		<form-bean name="NewsActionForm" type="com.epam.yalexeyenko.form.NewsForm" />
 	</form-beans>
 
 	<action-mappings>
-		<action path="/user" type="com.epam.yalexeyenko.action.UserAction"
-			parameter="parameter" input="/index.jsp" name="DispatchActionForm"
-			scope="request" validate="false">
+		<action path="/user" type="com.epam.yalexeyenko.action.NewsAction"
+			parameter="parameter" input="/index.jsp" name="NewsActionForm" scope="request"
+			validate="false">
 			<forward name="add" path="/WEB-INF/adduser.jsp" />
 			<forward name="edit" path="/WEB-INF/edituser.jsp" />
 			<forward name="search" path="/WEB-INF/searchuser.jsp" />
 			<forward name="save" path="/WEB-INF/saveuser.jsp" />
 		</action>
+
+		<action path="/news" type="com.epam.yalexeyenko.action.NewsAction"
+			parameter="method" name="NewsActionForm">
+			<forward name="addNews" path="addNews"/>
+			<forward name="viewNews" path="viewNews"/>
+			<forward name="editNews" path="editNews"/>
+			<forward name="listNews" path="listNews"/>
+		</action>
+		
+
 	</action-mappings>
+
+	<plug-in className="org.apache.struts.tiles.TilesPlugin">
+		<set-property property="definitions-config" value="/WEB-INF/tiles-defs.xml" />
+		<set-property property="moduleAware" value="true" />
+	</plug-in>
 
 </struts-config>

@@ -10,9 +10,17 @@ import org.apache.struts.actions.DispatchAction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class UserAction extends DispatchAction {
-	private static final Logger log = LoggerFactory.getLogger(UserAction.class);
+public class NewsAction extends DispatchAction {
+	private static final Logger log = LoggerFactory.getLogger(NewsAction.class);
+	
+	public ActionForward listNews(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		return mapping.findForward("viewNewsList");
+	}
+	
 
+	
+//	delete this later
 	public ActionForward add(ActionMapping mapping, ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		return mapping.findForward("add");
