@@ -19,6 +19,7 @@
 
 		<action path="/news" type="com.epam.yalexeyenko.action.NewsAction"
 			parameter="method" name="newsForm" scope="request">
+			<forward name="showAddNews" path="showAddNews" />
 			<forward name="addNews" path="addNews" />
 			<forward name="viewNews" path="viewNews" />
 			<forward name="editNews" path="editNews" />

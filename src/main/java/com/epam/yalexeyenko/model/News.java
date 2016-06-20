@@ -3,7 +3,7 @@ package com.epam.yalexeyenko.model;
 import org.joda.time.LocalDate;
 
 public class News extends BaseEntity {
-	private String title;
+	private String newsTitle;
 	private LocalDate date;
 	private String brief;
 	private String content;
@@ -11,12 +11,12 @@ public class News extends BaseEntity {
 	public News() {
 	}
 
-	public String getTitle() {
-		return title;
+	public String getNewsTitle() {
+		return newsTitle;
 	}
 
-	public void setTitle(String title) {
-		this.title = title;
+	public void setNewsTitle(String title) {
+		this.newsTitle = title;
 	}
 
 	public LocalDate getDate() {

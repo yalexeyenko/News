@@ -9,7 +9,7 @@ import com.epam.yalexeyenko.model.News;
 public class NewsForm extends ActionForm {
 	private News news;
 	private String id;
-	private String title;
+	private String newsTitle;
 	private String date;
 	private String brief;
 	private String content;
@@ -31,12 +31,12 @@ public class NewsForm extends ActionForm {
 		this.id = id;
 	}
 
-	public String getTitle() {
-		return title;
+	public String getNewsTitle() {
+		return newsTitle;
 	}
 
-	public void setTitle(String title) {
-		this.title = title;
+	public void setNewsTitle(String title) {
+		this.newsTitle = title;
 	}
 
 	public String getDate() {

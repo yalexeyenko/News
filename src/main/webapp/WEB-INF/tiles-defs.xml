@@ -10,6 +10,11 @@
 		<put name="footer" value="/WEB-INF/jsp/tiles/footer/pageFooter.jsp" />
 	</definition>
 
+	<definition name="showAddNews" extends="commonDefinition">
+		<put name="title" type="string" value="Add news" />
+		<put name="content" value="/WEB-INF/jsp/tiles/body/addNewsContent.jsp" />
+	</definition>
+	
 	<definition name="addNews" extends="commonDefinition">
 		<put name="title" type="string" value="Add news" />
 		<put name="content" value="/WEB-INF/jsp/tiles/body/addNewsContent.jsp" />

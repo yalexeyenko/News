@@ -35,7 +35,7 @@ public class NewsDaoImpl implements NewsDao {
 		PreparedStatement preparedStatement = null;
 		try {
 			preparedStatement = connection.prepareStatement(INSERT_NEWS, Statement.RETURN_GENERATED_KEYS);
-			preparedStatement.setString(1, news.getTitle());
+			preparedStatement.setString(1, news.getNewsTitle());
 			preparedStatement.setDate(2, new java.sql.Date(news.getDate().toDate().getTime()));
 			preparedStatement.setString(3, news.getBrief());
 			preparedStatement.setString(4, news.getContent());
@@ -68,7 +68,7 @@ public class NewsDaoImpl implements NewsDao {
 			ResultSet resultSet = preparedStatement.executeQuery();
 			resultSet.next();
 			news.setId(resultSet.getInt("ID"));
-			news.setTitle(resultSet.getString("TITLE"));
+			news.setNewsTitle(resultSet.getString("TITLE"));
 			news.setDate(new LocalDate(resultSet.getString("NEWSDATE")));
 			news.setBrief(resultSet.getString("BRIEF"));
 			news.setContent(resultSet.getString("NEWSCONTENT"));
@@ -96,7 +96,7 @@ public class NewsDaoImpl implements NewsDao {
 			while (resultSet.next()) {
 				News news = new News();
 				news.setId(resultSet.getInt("ID"));
-				news.setTitle(resultSet.getString("TITLE"));
+				news.setNewsTitle(resultSet.getString("TITLE"));
 				news.setDate(new LocalDate(resultSet.getDate("NEWSDATE")));
 				news.setBrief(resultSet.getString("BRIEF"));
 				news.setContent(resultSet.getString("NEWSCONTENT"));
@@ -121,7 +121,7 @@ public class NewsDaoImpl implements NewsDao {
 		PreparedStatement preparedStatement = null;
 		try {
 			preparedStatement = connection.prepareStatement(UPDATE_NEWS);
-			preparedStatement.setString(1, news.getTitle());
+			preparedStatement.setString(1, news.getNewsTitle());
 			preparedStatement.setDate(2, new java.sql.Date(news.getDate().toDate().getTime()));
 			preparedStatement.setString(3, news.getBrief());
 			preparedStatement.setString(4, news.getContent());

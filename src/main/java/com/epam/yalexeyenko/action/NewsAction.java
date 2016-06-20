@@ -15,17 +15,22 @@ import com.epam.yalexeyenko.model.News;
 import com.epam.yalexeyenko.service.NewsService;
 
 public class NewsAction extends DispatchAction {
-	private static final Logger log = LoggerFactory.getLogger(NewsAction.class);
-	
-	
+	private static final Logger log = LoggerFactory.getLogger(NewsAction.class);	
 	
 	public ActionForward listNews(ActionMapping mapping, ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		log.debug("listNews()...");
-		NewsForm newsForm = (NewsForm) form;
-		NewsService newsService = new NewsService();
-		newsForm.setNewsList(newsService.findAllNews());		
+		NewsForm newsForm = (NewsForm) form;		
+		try (NewsService newsService = new NewsService();) {
+			newsForm.setNewsList(newsService.findAllNews());
+		}			
 		return mapping.findForward("listNews");
+	}
+	
+	public ActionForward showAddNews(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) {
+		log.debug("showAddNews()...");
+		return mapping.findForward("showAddNews");
 	}
 	
 }
