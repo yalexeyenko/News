@@ -9,25 +9,8 @@
 <title>News block</title>
 </head>
 <body>
-<!-- 	<h3>Dispatch Action Example</h3> -->
 
-<!-- 	<p> -->
-<%-- 		<html:link page="/user.do?parameter=add">Call Add Section</html:link> --%>
-<!-- 	</p> -->
-<!-- 	<p> -->
-<%-- 		<html:link page="/user.do?parameter=edit">Call Edit Section</html:link> --%>
-<!-- 	</p> -->
-<!-- 	<p> -->
-<%-- 		<html:link page="/user.do?parameter=search">Call Search Section</html:link> --%>
-<!-- 	</p> -->
-<!-- 	<p> -->
-<%-- 		<html:link page="/user.do?parameter=save">Call Save Section</html:link> --%>
-<!-- 	</p> -->
-	
-	<tiles:insert definition="listNews" flush="true"/>
-<%-- <logic:redirect forward="listNews"/> --%>
-	
-	
+	<logic:redirect action="/news?method=listNews" />
 
 </body>
 </html>

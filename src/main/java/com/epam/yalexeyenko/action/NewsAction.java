@@ -10,40 +10,22 @@ import org.apache.struts.actions.DispatchAction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.epam.yalexeyenko.form.NewsForm;
+import com.epam.yalexeyenko.model.News;
+import com.epam.yalexeyenko.service.NewsService;
+
 public class NewsAction extends DispatchAction {
 	private static final Logger log = LoggerFactory.getLogger(NewsAction.class);
 	
+	
+	
 	public ActionForward listNews(ActionMapping mapping, ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
-		return mapping.findForward("viewNewsList");
+		log.debug("listNews()...");
+		NewsForm newsForm = (NewsForm) form;
+		NewsService newsService = new NewsService();
+		newsForm.setNewsList(newsService.findAllNews());		
+		return mapping.findForward("listNews");
 	}
 	
-
-	
-//	delete this later
-	public ActionForward add(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
-		return mapping.findForward("add");
-	}
-
-	public ActionForward edit(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-			HttpServletResponse response) throws Exception
-
-	{
-
-		return mapping.findForward("edit");
-
-	}
-
-	public ActionForward search(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
-		return mapping.findForward("search");
-
-	}
-
-	public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
-		return mapping.findForward("save");
-
-	}
 }

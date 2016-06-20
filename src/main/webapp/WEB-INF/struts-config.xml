@@ -4,30 +4,32 @@
 
 <struts-config>
 	<form-beans>
-		<form-bean name="NewsActionForm" type="com.epam.yalexeyenko.form.NewsForm" />
+		<form-bean name="newsForm" type="com.epam.yalexeyenko.form.NewsForm" />
 	</form-beans>
 
 	<action-mappings>
-		<action path="/user" type="com.epam.yalexeyenko.action.NewsAction"
-			parameter="parameter" input="/index.jsp" name="NewsActionForm" scope="request"
-			validate="false">
-			<forward name="add" path="/WEB-INF/adduser.jsp" />
-			<forward name="edit" path="/WEB-INF/edituser.jsp" />
-			<forward name="search" path="/WEB-INF/searchuser.jsp" />
-			<forward name="save" path="/WEB-INF/saveuser.jsp" />
-		</action>
+		<!-- <action path="/user" type="com.epam.yalexeyenko.action.NewsAction" -->
+		<!-- parameter="parameter" input="/index.jsp" name="NewsActionForm" scope="request" -->
+		<!-- validate="false"> -->
+		<!-- <forward name="add" path="/WEB-INF/adduser.jsp" /> -->
+		<!-- <forward name="edit" path="/WEB-INF/edituser.jsp" /> -->
+		<!-- <forward name="search" path="/WEB-INF/searchuser.jsp" /> -->
+		<!-- <forward name="save" path="/WEB-INF/saveuser.jsp" /> -->
+		<!-- </action> -->
 
 		<action path="/news" type="com.epam.yalexeyenko.action.NewsAction"
-			parameter="method" name="NewsActionForm">
-			<forward name="addNews" path="addNews"/>
-			<forward name="viewNews" path="viewNews"/>
-			<forward name="editNews" path="editNews"/>
-			<forward name="listNews" path="listNews"/>
+			parameter="method" name="newsForm" scope="request">
+			<forward name="addNews" path="addNews" />
+			<forward name="viewNews" path="viewNews" />
+			<forward name="editNews" path="editNews" />
+			<forward name="listNews" path="listNews" />
 		</action>
-		
+
 
 	</action-mappings>
 
+	<controller processorClass="org.apache.struts.tiles.TilesRequestProcessor" />
+	<message-resources parameter="EMSMessageResources" null="false"></message-resources>
 	<plug-in className="org.apache.struts.tiles.TilesPlugin">
 		<set-property property="definitions-config" value="/WEB-INF/tiles-defs.xml" />
 		<set-property property="moduleAware" value="true" />
