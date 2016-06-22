@@ -11,13 +11,13 @@
 		<action path="/news" type="com.epam.yalexeyenko.action.NewsAction"
 			parameter="method" name="newsForm">
 			<forward name="showAddNews" path="showAddNews" />
-			<forward name="addNews" path="/news.do?method=viewNews" />
+			<forward name="addNews" path="/news.do?method=listNews" redirect="true"/>
 			<forward name="showViewNews" path="showViewNews" />
 			<forward name="viewNews" path="viewNews" />
 			<forward name="showEditNews" path="showEditNews" />
 			<forward name="editNews" path="editNews" />
 			<forward name="listNews" path="listNews" />
-			<forward name="deleteNews" path="/news.do?method=listNews" />
+			<forward name="deleteNews" path="/news.do?method=listNews" redirect="true"/>
 		</action>
 
 
