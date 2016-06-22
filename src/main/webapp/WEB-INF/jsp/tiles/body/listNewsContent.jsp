@@ -11,8 +11,12 @@
 			<div class="date_brief"><span><bean:write name="news" property="date" /></span></div>
 			<div class="news_brief"><span><bean:write name="news" property="content" /></span></div>
 			<div class="view_n_edit_ref">
-				<html:link action="/news?method=viewNews" >view</html:link>
-				<html:link action="/news?method=editNews" >edit</html:link>
+				<html:link action="/news?method=showViewNews" >view
+					<html:param name="id" value="${news.id}"></html:param>
+				</html:link>
+				<html:link action="/news?method=showEditNews" >edit
+					<html:param name="id" value="${news.id}"></html:param>
+				</html:link>
 			</div>
 		</div>	
 	</logic:iterate>
