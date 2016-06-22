@@ -34,7 +34,7 @@ public class NewsDaoImpl implements NewsDao {
 		log.debug("insert()...");
 		PreparedStatement preparedStatement = null;
 		try {
-			preparedStatement = connection.prepareStatement(INSERT_NEWS, Statement.RETURN_GENERATED_KEYS);
+			preparedStatement = connection.prepareStatement(INSERT_NEWS, new String[]{"ID"});
 			preparedStatement.setString(1, news.getNewsTitle());
 			preparedStatement.setDate(2, new java.sql.Date(news.getDate().toDate().getTime()));
 			preparedStatement.setString(3, news.getBrief());
@@ -45,6 +45,7 @@ public class NewsDaoImpl implements NewsDao {
 			news.setId(resultSet.getInt(1));
 			return news;
 		} catch (SQLException e) {
+			e.printStackTrace();
 			throw new DaoException("SQL INSERT_NEWS error.", e);
 		} finally {
 			if (preparedStatement != null) {
@@ -69,7 +70,7 @@ public class NewsDaoImpl implements NewsDao {
 			resultSet.next();
 			news.setId(resultSet.getInt("ID"));
 			news.setNewsTitle(resultSet.getString("TITLE"));
-			news.setDate(new LocalDate(resultSet.getString("NEWSDATE")));
+			news.setDate(new LocalDate(resultSet.getDate("NEWSDATE")));
 			news.setBrief(resultSet.getString("BRIEF"));
 			news.setContent(resultSet.getString("NEWSCONTENT"));
 			return news;
@@ -128,6 +129,7 @@ public class NewsDaoImpl implements NewsDao {
 			preparedStatement.setInt(5, news.getId());
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
+			e.printStackTrace();
             throw new DaoException("SQL UPDATE_NEWS error.", e);
         } finally {
             if (preparedStatement != null) {
