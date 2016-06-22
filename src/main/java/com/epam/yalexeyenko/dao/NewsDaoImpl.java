@@ -19,7 +19,7 @@ public class NewsDaoImpl implements NewsDao {
 
 	private static final String INSERT_NEWS = "INSERT INTO NEWSBLOCK (TITLE, NEWSDATE, BRIEF, NEWSCONTENT) VALUES (?, ?, ?, ?)";
 	private static final String FIND_NEWS_BY_ID = "SELECT ID, TITLE, NEWSDATE, BRIEF, NEWSCONTENT FROM NEWSBLOCK WHERE ID = ?";
-	private static final String FIND_ALL_NEWS = "SELECT * FROM NEWSBLOCK";
+	private static final String FIND_ALL_NEWS = "SELECT * FROM NEWSBLOCK ORDER BY NEWSDATE DESC";
 	private static final String UPDATE_NEWS = "UPDATE NEWSBLOCK SET TITLE = ?, NEWSDATE = ?, BRIEF = ?, NEWSCONTENT = ? WHERE ID = ?";
 	private static final String DELETE_NEWS_BY_ID = "DELETE FROM NEWSBLOCK WHERE ID = ?";
 
