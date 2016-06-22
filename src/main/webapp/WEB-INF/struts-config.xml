@@ -8,22 +8,16 @@
 	</form-beans>
 
 	<action-mappings>
-		<!-- <action path="/user" type="com.epam.yalexeyenko.action.NewsAction" -->
-		<!-- parameter="parameter" input="/index.jsp" name="NewsActionForm" scope="request" -->
-		<!-- validate="false"> -->
-		<!-- <forward name="add" path="/WEB-INF/adduser.jsp" /> -->
-		<!-- <forward name="edit" path="/WEB-INF/edituser.jsp" /> -->
-		<!-- <forward name="search" path="/WEB-INF/searchuser.jsp" /> -->
-		<!-- <forward name="save" path="/WEB-INF/saveuser.jsp" /> -->
-		<!-- </action> -->
-
 		<action path="/news" type="com.epam.yalexeyenko.action.NewsAction"
-			parameter="method" name="newsForm" scope="request">
+			parameter="method" name="newsForm">
 			<forward name="showAddNews" path="showAddNews" />
-			<forward name="addNews" path="addNews" />
+			<forward name="addNews" path="/news.do?method=viewNews" />
+			<forward name="showViewNews" path="showViewNews" />
 			<forward name="viewNews" path="viewNews" />
+			<forward name="showEditNews" path="showEditNews" />
 			<forward name="editNews" path="editNews" />
 			<forward name="listNews" path="listNews" />
+			<forward name="deleteNews" path="/news.do?method=listNews" />
 		</action>
 
 
