@@ -48,7 +48,7 @@ public class NewsAction extends DispatchAction {
 		try (NewsService newsService = new NewsService()) {
 			news = newsService.createNews(news);
 		}
-		return mapping.findForward("showAddNews");
+		return mapping.findForward("addNews");
 	}
 	
 	public ActionForward showViewNews(ActionMapping mapping, ActionForm form, HttpServletRequest request,
