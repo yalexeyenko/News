@@ -9,7 +9,7 @@
 		<div class="">
 			<div class="news_title"><span><bean:write name="news" property="newsTitle" /></span></div>
 			<div class="date_brief"><span><bean:write name="news" property="date" /></span></div>
-			<div class="news_brief"><span><bean:write name="news" property="content" /></span></div>
+			<div class="news_brief"><span><bean:write name="news" property="brief" /></span></div>
 			<div class="view_n_edit_ref">
 				<html:link action="/news?method=showViewNews" >view
 					<html:param name="id" value="${news.id}"></html:param>
