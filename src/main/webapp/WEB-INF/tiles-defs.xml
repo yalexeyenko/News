@@ -20,12 +20,22 @@
 		<put name="content" value="/WEB-INF/jsp/tiles/body/addNewsContent.jsp" />
 	</definition>
 
+	<definition name="showViewNews" extends="commonDefinition">
+		<put name="title" type="string" value="View news" />
+		<put name="content" value="/WEB-INF/jsp/tiles/body/viewNewsContent.jsp" />
+	</definition>
+	
 	<definition name="viewNews" extends="commonDefinition">
 		<put name="title" type="string" value="View news" />
 		<put name="content" value="/WEB-INF/jsp/tiles/body/viewNewsContent.jsp" />
 	</definition>
 	
 	<definition name="editNews" extends="commonDefinition">
+		<put name="title" type="string" value="Edit news" />
+		<put name="content" value="/WEB-INF/jsp/tiles/body/editNewsContent.jsp" />
+	</definition>
+	
+	<definition name="showEditNews" extends="commonDefinition">
 		<put name="title" type="string" value="Edit news" />
 		<put name="content" value="/WEB-INF/jsp/tiles/body/editNewsContent.jsp" />
 	</definition>
