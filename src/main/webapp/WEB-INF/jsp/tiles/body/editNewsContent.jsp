@@ -27,10 +27,11 @@
 				<html:textarea name="newsForm" property="content"
 					value="${newsForm.news.content}" />
 			</div>
-			id jsp=${newsForm.news.id}
 			<div class="button_wrap">
 				<html:submit>SAVE</html:submit>
-				<html:reset>CANCEL</html:reset>
+				<html:link action="/news?method=listNews">
+					<button type="button">CANCEL</button>
+				</html:link>
 			</div>
 		</html:form>
 	</div>
