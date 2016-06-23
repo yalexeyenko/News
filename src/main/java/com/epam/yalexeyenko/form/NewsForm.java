@@ -14,6 +14,15 @@ public class NewsForm extends ActionForm {
 	private String brief;
 	private String content;
 	private List<News> newsList;
+	private String[] itemsToDelete;
+
+	public String[] getItemsToDelete() {
+		return itemsToDelete;
+	}
+
+	public void setItemsToDelete(String[] itemsToDelete) {
+		this.itemsToDelete = itemsToDelete;
+	}
 
 	public News getNews() {
 		return news;
