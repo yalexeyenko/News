@@ -16,18 +16,18 @@ import com.epam.yalexeyenko.model.News;
 import com.epam.yalexeyenko.service.NewsService;
 
 public class NewsAction extends DispatchAction {
-	private static final Logger log = LoggerFactory.getLogger(NewsAction.class);	
-	
+	private static final Logger log = LoggerFactory.getLogger(NewsAction.class);
+
 	public ActionForward listNews(ActionMapping mapping, ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		log.debug("listNews()...");
-		NewsForm newsForm = (NewsForm) form;		
+		NewsForm newsForm = (NewsForm) form;
 		try (NewsService newsService = new NewsService();) {
 			newsForm.setNewsList(newsService.findAllNews());
-		}			
+		}
 		return mapping.findForward("listNews");
 	}
-	
+
 	public ActionForward showAddNews(ActionMapping mapping, ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) {
 		log.debug("showAddNews()...");
@@ -35,7 +35,7 @@ public class NewsAction extends DispatchAction {
 		newsForm.setDate(new LocalDate().toString());
 		return mapping.findForward("showAddNews");
 	}
-	
+
 	public ActionForward addNews(ActionMapping mapping, ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		log.debug("addNews()...");
@@ -50,7 +50,7 @@ public class NewsAction extends DispatchAction {
 		}
 		return mapping.findForward("addNews");
 	}
-	
+
 	public ActionForward showViewNews(ActionMapping mapping, ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		log.debug("showViewNews()...");
@@ -60,17 +60,26 @@ public class NewsAction extends DispatchAction {
 		}
 		return mapping.findForward("showViewNews");
 	}
-	
+
 	public ActionForward deleteNews(ActionMapping mapping, ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		log.debug("deleteNews()...");
 		NewsForm newsForm = (NewsForm) form;
 		try (NewsService newsService = new NewsService()) {
-			newsService.deleteNewsById(Integer.valueOf(newsForm.getId()));
+			String[] itemsToDelete = newsForm.getItemsToDelete();
+			if (itemsToDelete != null) {
+				for (int i = 0; i < itemsToDelete.length; i++) {
+					newsService.deleteNewsById(Integer.parseInt(itemsToDelete[i]));
+				}
+				log.debug("itemsToDelete inside if: {}", itemsToDelete);
+			} else {
+				log.debug("itemsToDelete inside else: {}", itemsToDelete);
+				newsService.deleteNewsById(Integer.valueOf(newsForm.getId()));
+			}
 		}
 		return mapping.findForward("deleteNews");
 	}
-	
+
 	public ActionForward showEditNews(ActionMapping mapping, ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		log.debug("showEditNews()...");
@@ -84,10 +93,10 @@ public class NewsAction extends DispatchAction {
 		}
 		return mapping.findForward("showEditNews");
 	}
-	
+
 	public ActionForward editNews(ActionMapping mapping, ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
-		log.debug("editNews()...");		
+		log.debug("editNews()...");
 		NewsForm newsForm = (NewsForm) form;
 		News news = new News();
 		log.debug("id={}", newsForm.getId());
@@ -97,13 +106,13 @@ public class NewsAction extends DispatchAction {
 		news.setBrief(newsForm.getBrief());
 		news.setContent(newsForm.getContent());
 		newsForm.setNews(news);
-		
+
 		log.debug("newsTitle={}", newsForm.getNewsTitle());
 		log.debug("date={}", newsForm.getDate());
 		log.debug("brief={}", newsForm.getBrief());
-		log.debug("content={}", newsForm.getContent());	
+		log.debug("content={}", newsForm.getContent());
 		log.debug("!!!!!!!!!");
-		
+
 		try (NewsService newsService = new NewsService()) {
 			newsService.updateNews(news);
 		}
