@@ -7,26 +7,26 @@
 <div class="viewNewsContent">
 	<div class="view_news">
 		<div class="view_wrap">
-			<span>News Title</span>
+			<span><bean:message key="content.view.title" /></span>
 			<p>${newsForm.news.newsTitle}</p>
 		</div>
 		<div class="view_wrap">
-			<span>News Date</span>
+			<span><bean:message key="content.view.date" /></span>
 			<p>${newsForm.news.date}</p>
 		</div>
 		<div class="view_wrap">
-			<span>Brief</span>
+			<span><bean:message key="content.view.brief" /></span>
 			<p>${newsForm.news.brief}</p>
 		</div>
 		<div class="view_wrap">
-			<span>Content</span>
+			<span><bean:message key="content.view.content" /></span>
 			<p>${newsForm.news.content}</p>
 		</div>
 		<div class="edit_n_delete_ref">
-				<html:link action="/news?method=showEditNews" >EDIT
+				<html:link action="/news?method=showEditNews" ><bean:message key="content.view.button.edit" />
 					<html:param name="id" value="${newsForm.news.id}"></html:param>
 				</html:link>
-				<html:link action="/news?method=deleteNews" >DELETE
+				<html:link action="/news?method=deleteNews" ><bean:message key="content.view.button.delete" />
 					<html:param name="id" value="${newsForm.news.id}"></html:param>
 				</html:link>
 			</div>

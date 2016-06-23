@@ -8,25 +8,25 @@
 	<div class="add_news_form">
 		<html:form action="/news?method=addNews">
 			<div class="input_wrap">
-				<span>News Title</span>
+				<span><bean:message key="content.add.title" /></span>
 				<html:text name="newsForm" property="newsTitle" value="" />
 			</div>
 			<div class="input_wrap">
-				<span>News Date</span>
+				<span><bean:message key="content.add.date" /></span>
 				<html:text name="newsForm" property="date" value="${newsForm.date}" />
 			</div>
 			<div class="input_wrap">
-				<span>Brief</span>
+				<span><bean:message key="content.add.brief" /></span>
 				<html:textarea name="newsForm" property="brief" value="" />
 			</div>
 			<div class="input_wrap">
-				<span>Content</span>
+				<span><bean:message key="content.add.content" /></span>
 				<html:textarea name="newsForm" property="content" value="" />
 			</div>
 			<div class="button_wrap">
-				<html:submit>SAVE</html:submit>
+				<html:submit><bean:message key="content.add.button.save" /></html:submit>
 				<html:link action="/news?method=listNews">
-					<button type="button">CANCEL</button>
+					<button type="button"><bean:message key="content.add.button.cancel" /></button>
 				</html:link>
 			</div>
 		</html:form>

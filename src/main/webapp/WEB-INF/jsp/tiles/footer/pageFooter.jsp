@@ -4,5 +4,5 @@
 <%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic"%>
 
 <div class="footer">
-	<span>Copyright © EPAM 2008. All rights reserved.</span>
+	<span><bean:message key="page.copyright" /></span>
 </div>
