@@ -5,10 +5,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.joda.time.LocalDate;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,7 +37,7 @@ public class NewsDaoImpl implements NewsDao {
 		try {
 			preparedStatement = connection.prepareStatement(INSERT_NEWS, new String[]{"ID"});
 			preparedStatement.setString(1, news.getNewsTitle());
-			preparedStatement.setDate(2, new java.sql.Date(news.getDate().toDate().getTime()));
+			preparedStatement.setDate(2, new java.sql.Date(news.getDate().getTime()));
 			preparedStatement.setString(3, news.getBrief());
 			preparedStatement.setString(4, news.getContent());
 			preparedStatement.executeUpdate();
@@ -70,7 +71,7 @@ public class NewsDaoImpl implements NewsDao {
 			resultSet.next();
 			news.setId(resultSet.getInt("ID"));
 			news.setNewsTitle(resultSet.getString("TITLE"));
-			news.setDate(new LocalDate(resultSet.getDate("NEWSDATE")));
+			news.setDate(new java.util.Date((resultSet.getDate("NEWSDATE").getTime())));
 			news.setBrief(resultSet.getString("BRIEF"));
 			news.setContent(resultSet.getString("NEWSCONTENT"));
 			return news;
@@ -98,7 +99,7 @@ public class NewsDaoImpl implements NewsDao {
 				News news = new News();
 				news.setId(resultSet.getInt("ID"));
 				news.setNewsTitle(resultSet.getString("TITLE"));
-				news.setDate(new LocalDate(resultSet.getDate("NEWSDATE")));
+				news.setDate(new java.util.Date((resultSet.getDate("NEWSDATE").getTime())));
 				news.setBrief(resultSet.getString("BRIEF"));
 				news.setContent(resultSet.getString("NEWSCONTENT"));
 				newsList.add(news);
@@ -123,7 +124,7 @@ public class NewsDaoImpl implements NewsDao {
 		try {
 			preparedStatement = connection.prepareStatement(UPDATE_NEWS);
 			preparedStatement.setString(1, news.getNewsTitle());
-			preparedStatement.setDate(2, new java.sql.Date(news.getDate().toDate().getTime()));
+			preparedStatement.setDate(2, new java.sql.Date(news.getDate().getTime()));
 			preparedStatement.setString(3, news.getBrief());
 			preparedStatement.setString(4, news.getContent());
 			preparedStatement.setInt(5, news.getId());
@@ -161,5 +162,7 @@ public class NewsDaoImpl implements NewsDao {
             }
         }
 	}
+	
+	
 
 }

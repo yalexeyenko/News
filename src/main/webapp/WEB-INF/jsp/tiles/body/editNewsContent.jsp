@@ -6,7 +6,7 @@
 
 <div class="editContent">
 	<div class="edit_news_form">
-		<html:form action="/news?method=editNews" >
+		<html:form action="/news?method=editNews">
 			<div class="input_wrap">
 				<span><bean:message key="content.edit.title" /></span>
 				<html:text name="newsForm" property="newsTitle"
@@ -14,8 +14,7 @@
 			</div>
 			<div class="input_wrap">
 				<span><bean:message key="content.edit.date" /></span>
-				<html:text name="newsForm" property="date"
-					value="${newsForm.news.date}" />
+				<html:text name="newsForm" property="date" value="${newsForm.news.date}" />
 			</div>
 			<div class="input_wrap">
 				<span><bean:message key="content.edit.brief" /></span>
@@ -28,9 +27,13 @@
 					value="${newsForm.news.content}" />
 			</div>
 			<div class="button_wrap">
-				<html:submit><bean:message key="content.edit.button.save" /></html:submit>
+				<html:submit>
+					<bean:message key="content.edit.button.save" />
+				</html:submit>
 				<html:link action="/news?method=listNews">
-					<button type="button"><bean:message key="content.edit.button.cancel" /></button>
+					<button type="button">
+						<bean:message key="content.edit.button.cancel" />
+					</button>
 				</html:link>
 			</div>
 		</html:form>
