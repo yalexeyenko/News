@@ -8,10 +8,10 @@
 	<h1><bean:message key="header.title" /> </h1>
 	<div id="change_locale">
 		<html:link page="/locale.do?method=english">
-			<bean:message key="header.lang.english" /> 
+			<span><bean:message key="header.lang.english" /></span>
 		</html:link>
 		<html:link page="/locale.do?method=russian">
-			<bean:message key="header.lang.russian" />
+			<span><bean:message key="header.lang.russian" /></span>
 		</html:link>
 	</div>	
 </div>
