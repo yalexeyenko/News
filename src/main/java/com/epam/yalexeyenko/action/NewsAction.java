@@ -1,5 +1,9 @@
 package com.epam.yalexeyenko.action;
 
+import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -7,7 +11,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.DispatchAction;
-import org.joda.time.LocalDate;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,7 +36,9 @@ public class NewsAction extends DispatchAction {
 			HttpServletResponse response) {
 		log.debug("showAddNews()...");
 		NewsForm newsForm = (NewsForm) form;
-		newsForm.setDate(new LocalDate().toString());
+		News news = new News();		
+		news.setDate(new Date());
+		newsForm.setNews(news);
 		return mapping.findForward("showAddNews");
 	}
 
@@ -42,7 +48,7 @@ public class NewsAction extends DispatchAction {
 		NewsForm newsForm = (NewsForm) form;
 		News news = new News();
 		news.setNewsTitle(newsForm.getNewsTitle());
-		news.setDate(new LocalDate(newsForm.getDate()));
+		news.setDate(new SimpleDateFormat("MM/dd/yyy").parse(newsForm.getDate()));
 		news.setBrief(newsForm.getBrief());
 		news.setContent(newsForm.getContent());
 		try (NewsService newsService = new NewsService()) {
@@ -71,9 +77,7 @@ public class NewsAction extends DispatchAction {
 				for (int i = 0; i < itemsToDelete.length; i++) {
 					newsService.deleteNewsById(Integer.parseInt(itemsToDelete[i]));
 				}
-				log.debug("itemsToDelete inside if: {}", itemsToDelete);
 			} else {
-				log.debug("itemsToDelete inside else: {}", itemsToDelete);
 				newsService.deleteNewsById(Integer.valueOf(newsForm.getId()));
 			}
 		}
@@ -102,7 +106,7 @@ public class NewsAction extends DispatchAction {
 		log.debug("id={}", newsForm.getId());
 		news.setId(Integer.parseInt(newsForm.getId()));
 		news.setNewsTitle(newsForm.getNewsTitle());
-		news.setDate(new LocalDate(newsForm.getDate()));
+		news.setDate(new SimpleDateFormat("MM/dd/yyy").parse(newsForm.getDate()));
 		news.setBrief(newsForm.getBrief());
 		news.setContent(newsForm.getContent());
 		newsForm.setNews(news);

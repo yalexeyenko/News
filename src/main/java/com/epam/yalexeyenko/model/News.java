@@ -1,10 +1,10 @@
 package com.epam.yalexeyenko.model;
 
-import org.joda.time.LocalDate;
+import java.util.Date;
 
 public class News extends BaseEntity {
 	private String newsTitle;
-	private LocalDate date;
+	private Date date;
 	private String brief;
 	private String content;
 	
@@ -19,11 +19,11 @@ public class News extends BaseEntity {
 		this.newsTitle = title;
 	}
 
-	public LocalDate getDate() {
+	public Date getDate() {
 		return date;
 	}
 
-	public void setDate(LocalDate date) {
+	public void setDate(Date date) {
 		this.date = date;
 	}
 
