@@ -5,22 +5,24 @@
 <%@ taglib uri="http://struts.apache.org/tags-html" prefix="html"%>
 
 <div class="viewNewsContent">
+	<bean:define id="newsItem" name="newsForm" property="news"/>
 	<div class="view_news">
 		<div class="view_wrap">
 			<span><bean:message key="content.view.title" /></span>
-			<p>${newsForm.news.newsTitle}</p>
+			<span><bean:write name="newsItem" property="newsTitle" /></span>
 		</div>
 		<div class="view_wrap">
 			<span><bean:message key="content.view.date" /></span>
-			<p>${newsForm.news.date}</p>
+			<span><bean:write name="newsItem" property="date"
+								formatKey="format.date" /></span>
 		</div>
 		<div class="view_wrap">
 			<span><bean:message key="content.view.brief" /></span>
-			<p>${newsForm.news.brief}</p>
+			<span><bean:write name="newsItem" property="brief" /></span>
 		</div>
 		<div class="view_wrap">
 			<span><bean:message key="content.view.content" /></span>
-			<p>${newsForm.news.content}</p>
+			<span><bean:write name="newsItem" property="content" /></span>
 		</div>
 		<div class="edit_n_delete_ref">
 				<html:link action="/news?method=showEditNews" ><bean:message key="content.view.button.edit" />
