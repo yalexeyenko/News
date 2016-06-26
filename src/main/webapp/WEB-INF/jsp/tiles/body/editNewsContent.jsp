@@ -7,26 +7,26 @@
 <div class="editContent">
 	<div class="edit_news_form">
 		<html:form action="/news?method=editNews">
-			<div class="input_wrap">
+			<div id="input_wrap_title">
 				<span><bean:message key="content.edit.title" /></span>
 				<html:text name="newsForm" property="newsTitle"
 					value="${newsForm.news.newsTitle}" />
 			</div>
-			<div class="input_wrap">
+			<div id="input_wrap_date">
 				<span><bean:message key="content.edit.date" /></span>
-				<html:text name="newsForm" property="date" value="${newsForm.news.date}" />
+				<html:text name="newsForm" property="date" value="${newsForm.date}" />
 			</div>
-			<div class="input_wrap">
+			<div id="input_wrap_brief">
 				<span><bean:message key="content.edit.brief" /></span>
 				<html:textarea name="newsForm" property="brief"
 					value="${newsForm.news.brief}" />
 			</div>
-			<div class="input_wrap">
+			<div id="input_wrap_content">
 				<span><bean:message key="content.edit.content" /></span>
 				<html:textarea name="newsForm" property="content"
 					value="${newsForm.news.content}" />
 			</div>
-			<div class="button_wrap">
+			<div id="button_wrap">
 				<html:submit>
 					<bean:message key="content.edit.button.save" />
 				</html:submit>
