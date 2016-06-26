@@ -33,12 +33,13 @@ public class NewsAction extends DispatchAction {
 	}
 
 	public ActionForward showAddNews(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-			HttpServletResponse response) {
+			HttpServletResponse response) throws Exception {
 		log.debug("showAddNews()...");
 		NewsForm newsForm = (NewsForm) form;
-		News news = new News();		
-		news.setDate(new Date());
-		newsForm.setNews(news);
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+		String strDate = sdf.format(date);
+		newsForm.setDate(strDate);
 		return mapping.findForward("showAddNews");
 	}
 
@@ -48,7 +49,7 @@ public class NewsAction extends DispatchAction {
 		NewsForm newsForm = (NewsForm) form;
 		News news = new News();
 		news.setNewsTitle(newsForm.getNewsTitle());
-		news.setDate(new SimpleDateFormat("MM/dd/yyy").parse(newsForm.getDate()));
+		news.setDate(new SimpleDateFormat("MM/dd/yyyy").parse(newsForm.getDate()));
 		news.setBrief(newsForm.getBrief());
 		news.setContent(newsForm.getContent());
 		try (NewsService newsService = new NewsService()) {
@@ -92,8 +93,8 @@ public class NewsAction extends DispatchAction {
 			News news = newsService.findNewsById(Integer.valueOf(newsForm.getId()));
 			newsForm.setNews(news);
 			String id = String.valueOf(news.getId());
-			log.debug("id={}", id);
 			newsForm.setId(id);
+			newsForm.setDate(new SimpleDateFormat("MM/dd/yyyy").format(news.getDate()));
 		}
 		return mapping.findForward("showEditNews");
 	}
@@ -106,17 +107,10 @@ public class NewsAction extends DispatchAction {
 		log.debug("id={}", newsForm.getId());
 		news.setId(Integer.parseInt(newsForm.getId()));
 		news.setNewsTitle(newsForm.getNewsTitle());
-		news.setDate(new SimpleDateFormat("MM/dd/yyy").parse(newsForm.getDate()));
+		news.setDate(new SimpleDateFormat("MM/dd/yyyy").parse(newsForm.getDate()));
 		news.setBrief(newsForm.getBrief());
 		news.setContent(newsForm.getContent());
 		newsForm.setNews(news);
-
-		log.debug("newsTitle={}", newsForm.getNewsTitle());
-		log.debug("date={}", newsForm.getDate());
-		log.debug("brief={}", newsForm.getBrief());
-		log.debug("content={}", newsForm.getContent());
-		log.debug("!!!!!!!!!");
-
 		try (NewsService newsService = new NewsService()) {
 			newsService.updateNews(news);
 		}
