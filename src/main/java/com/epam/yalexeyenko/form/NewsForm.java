@@ -3,7 +3,6 @@ package com.epam.yalexeyenko.form;
 import java.util.List;
 
 import org.apache.struts.action.ActionForm;
-
 import com.epam.yalexeyenko.model.News;
 
 public class NewsForm extends ActionForm {
@@ -79,5 +78,4 @@ public class NewsForm extends ActionForm {
 	public void setNewsList(List<News> newsList) {
 		this.newsList = newsList;
 	}
-
 }

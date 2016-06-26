@@ -27,7 +27,6 @@
 			<forward name="success" path="/news.do?method=listNews" />
 		</action>
 
-
 	</action-mappings>
 
 	<controller processorClass="org.apache.struts.tiles.TilesRequestProcessor" />
