@@ -4,21 +4,24 @@ import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import java.io.IOException;
 
-@WebFilter(filterName = "0EncodingFilter", urlPatterns = "/*")
 public class EncodingFilter implements Filter {
-    private String encoding = "UTF-8";
 
-    @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
-    }
+	private String encoding = "utf-8";
 
-    @Override
-    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        servletRequest.setCharacterEncoding(encoding);
-        filterChain.doFilter(servletRequest, servletResponse);
-    }
+	public void doFilter(ServletRequest request,
+			ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
+		request.setCharacterEncoding(encoding);
+		filterChain.doFilter(request, response);
+	}
 
-    @Override
-    public void destroy() {
-    }
+	public void init(FilterConfig filterConfig) throws ServletException {
+		String encodingParam = filterConfig.getInitParameter("encoding");
+		if (encodingParam != null) {
+			encoding = encodingParam;
+		}
+	}
+
+	public void destroy() {
+	}
+
 }
