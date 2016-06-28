@@ -8,25 +8,15 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.epam.yalexeyenko.model.News;
+import com.epam.yalexeyenko.util.HibernateUtil;
 
 public class NewsDaoImpl implements NewsDao {
 	private static final Logger log = LoggerFactory.getLogger(NewsDaoImpl.class);
-
-	private static final String INSERT_NEWS = "INSERT INTO NEWSBLOCK (TITLE, NEWSDATE, BRIEF, NEWSCONTENT) VALUES (?, ?, ?, ?)";
-	private static final String FIND_NEWS_BY_ID = "SELECT ID, TITLE, NEWSDATE, BRIEF, NEWSCONTENT FROM NEWSBLOCK WHERE ID = ?";
-	private static final String FIND_ALL_NEWS = "SELECT * FROM NEWSBLOCK ORDER BY NEWSDATE DESC";
-	private static final String UPDATE_NEWS = "UPDATE NEWSBLOCK SET TITLE = ?, NEWSDATE = ?, BRIEF = ?, NEWSCONTENT = ? WHERE ID = ?";
-	private static final String DELETE_NEWS_BY_ID = "DELETE FROM NEWSBLOCK WHERE ID = ?";
-	
-	private static final String ID = "ID";
-	private static final String TITLE = "TITLE";
-	private static final String NEWSDATE = "NEWSDATE";
-	private static final String BRIEF = "BRIEF";
-	private static final String NEWSCONTENT = "NEWSCONTENT";
 
 	private final Connection connection;
 
@@ -37,82 +27,67 @@ public class NewsDaoImpl implements NewsDao {
 	@Override
 	public News insert(News news) {
 		log.debug("insert()...");
-		try (PreparedStatement preparedStatement = connection.prepareStatement(INSERT_NEWS, new String[]{ID});) {
-			preparedStatement.setString(1, news.getNewsTitle());
-			preparedStatement.setDate(2, new java.sql.Date(news.getDate().getTime()));
-			preparedStatement.setString(3, news.getBrief());
-			preparedStatement.setString(4, news.getContent());
-			preparedStatement.executeUpdate();
-			ResultSet resultSet = preparedStatement.getGeneratedKeys();
-			resultSet.next();
-			news.setId(resultSet.getInt(1));
-			return news;
-		} catch (SQLException e) {
-			throw new DaoException("SQL INSERT_NEWS error.", e);
+		News createdNews;
+		Integer createdId;
+		try (Session session = HibernateUtil.getSessionFactory().getCurrentSession()) {
+			session.beginTransaction();
+			createdId = (Integer) session.save(news);
+			createdNews = session.load(News.class, createdId);
+			session.getTransaction().commit();
+		} catch (Exception e) {
+			throw new DaoException("Failed to insert news.", e);
 		}
+		return createdNews;
 	}
 
 	@Override
 	public News findById(int id) {
 		log.debug("findById()...");
-		News news = new News();
-		try (PreparedStatement preparedStatement = connection.prepareStatement(FIND_NEWS_BY_ID);) {
-			preparedStatement.setInt(1, id);
-			ResultSet resultSet = preparedStatement.executeQuery();
-			resultSet.next();
-			news.setId(resultSet.getInt(ID));
-			news.setNewsTitle(resultSet.getString(TITLE));
-			news.setDate(new java.util.Date((resultSet.getDate(NEWSDATE).getTime())));
-			news.setBrief(resultSet.getString(BRIEF));
-			news.setContent(resultSet.getString(NEWSCONTENT));
-			return news;
-		} catch (SQLException e) {
-			throw new DaoException("SQL FIND_NEWS_BY_ID error.", e);
+		News receivedNews;
+		try (Session session = HibernateUtil.getSessionFactory().getCurrentSession()) {
+			session.beginTransaction();
+			receivedNews = session.load(News.class, id);
+			session.getTransaction().commit();
+		} catch (Exception e) {
+			throw new DaoException("Failed to find news by id.", e);
 		}
+		return receivedNews;
 	}
 
 	@Override
 	public List<News> findAll() {
 		List<News> newsList = new ArrayList<>();
-		try (Statement statement = connection.createStatement()) {
-			ResultSet resultSet = statement.executeQuery(FIND_ALL_NEWS);
-			while (resultSet.next()) {
-				News news = new News();
-				news.setId(resultSet.getInt(ID));
-				news.setNewsTitle(resultSet.getString(TITLE));
-				news.setDate(new java.util.Date((resultSet.getDate(NEWSDATE).getTime())));
-				news.setBrief(resultSet.getString(BRIEF));
-				news.setContent(resultSet.getString(NEWSCONTENT));
-				newsList.add(news);
-			}
-			return newsList;
-		} catch (SQLException e) {
-			throw new DaoException("SQL FIND_ALL_NEWS error.", e);
+		try (Session session = HibernateUtil.getSessionFactory().getCurrentSession()) {
+			session.beginTransaction();
+			newsList = session.createCriteria(News.class).list();
+			session.getTransaction().commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new DaoException("Failed to find all news.", e);
 		}
+		return newsList;
 	}
 
 	@Override
 	public void update(News news) {
-		try (PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_NEWS)) {
-			preparedStatement.setString(1, news.getNewsTitle());
-			preparedStatement.setDate(2, new java.sql.Date(news.getDate().getTime()));
-			preparedStatement.setString(3, news.getBrief());
-			preparedStatement.setString(4, news.getContent());
-			preparedStatement.setInt(5, news.getId());
-			preparedStatement.executeUpdate();
-		} catch (SQLException e) {
-            throw new DaoException("SQL UPDATE_NEWS error.", e);
-        }
+		try (Session session = HibernateUtil.getSessionFactory().getCurrentSession()) {
+			session.beginTransaction();
+			session.update(news);
+			session.getTransaction().commit();
+		} catch (Exception e) {
+			throw new DaoException("Failed to update news.", e);
+		}
 	}
 
 	@Override
-	public boolean delete(int id) {
-		try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE_NEWS_BY_ID)) {
-			preparedStatement.setInt(1, id);
-			return (preparedStatement.executeUpdate() != 0);
-		} catch (SQLException e) {
-            throw new DaoException("SQL DELETE_NEWS_BY_ID error.", e);
-        }
+	public void delete(int id) {
+		try (Session session = HibernateUtil.getSessionFactory().getCurrentSession()) {
+			session.beginTransaction();
+			session.delete(session.get(News.class, id));
+			session.getTransaction().commit();
+		} catch (Exception e) {
+			throw new DaoException("Failed to delete news.", e);
+		}
 	}
 	
 	
