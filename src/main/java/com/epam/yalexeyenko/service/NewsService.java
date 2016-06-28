@@ -16,7 +16,7 @@ public class NewsService implements AutoCloseable {
 	private NewsDao newsDao;
 
 	public NewsService() {
-		jdbcDaoFactory = DaoFactory.newInstance(DaoFactory.JDBC);
+		jdbcDaoFactory = DaoFactory.newInstance(DaoFactory.HIBER);
 		newsDao = (NewsDao) jdbcDaoFactory.createDao(News.class);
 	}
 
@@ -36,8 +36,8 @@ public class NewsService implements AutoCloseable {
 		newsDao.update(news);
 	}
 	
-	public boolean deleteNewsById(int id) {
-		return newsDao.delete(id);
+	public void deleteNewsById(int id) {
+		newsDao.delete(id);
 	}
 	
 	@Override
