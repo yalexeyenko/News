@@ -3,12 +3,12 @@ package com.epam.yalexeyenko.dao;
 import com.epam.yalexeyenko.model.BaseEntity;
 
 public abstract class DaoFactory implements AutoCloseable {
-	public static final int JDBC = 1;
+	public static final int HIBER = 1;
 
 	public static DaoFactory newInstance(int whichFactory) {
 		switch (whichFactory) {
-		case JDBC:
-			return new JdbcDaoFactory();
+		case HIBER:
+			return new HibDaoFactory();
 		default:
 			return null;
 		}
