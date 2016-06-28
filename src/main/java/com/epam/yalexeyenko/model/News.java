@@ -7,7 +7,7 @@ public class News extends BaseEntity {
 	private Date date;
 	private String brief;
 	private String content;
-	
+
 	public News() {
 	}
 
@@ -42,6 +42,5 @@ public class News extends BaseEntity {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	
-	
+
 }
