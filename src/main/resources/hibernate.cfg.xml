@@ -16,7 +16,7 @@
 			java:comp/env/jdbc/taskNews
 		</property>
 
-		<mapping resource="News.hbm.xml" />
+		<mapping class="com.epam.yalexeyenko.model.News" />
 	</session-factory>
 
 </hibernate-configuration>
