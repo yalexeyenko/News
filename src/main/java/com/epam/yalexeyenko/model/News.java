@@ -4,12 +4,14 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-@Entity
+@Entity(name = "NEWSBLOCK")
 @Table(name = "NEWSBLOCK")
+@NamedQuery(name = "News.findAll", query = "SELECT n FROM NEWSBLOCK n")
 public class News extends BaseEntity {
 	@Column(name = "TITLE")
 	private String newsTitle;
