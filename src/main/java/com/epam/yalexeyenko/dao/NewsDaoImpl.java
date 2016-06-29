@@ -8,6 +8,10 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Persistence;
+import javax.persistence.TypedQuery;
+
 import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +21,8 @@ import com.epam.yalexeyenko.util.HibernateUtil;
 
 public class NewsDaoImpl implements NewsDao {
 	private static final Logger log = LoggerFactory.getLogger(NewsDaoImpl.class);
+	
+	private EntityManager em = Persistence.createEntityManagerFactory("newsblock").createEntityManager();
 
 	private final Connection connection;
 
@@ -28,66 +34,36 @@ public class NewsDaoImpl implements NewsDao {
 	public News insert(News news) {
 		log.debug("insert()...");
 		News createdNews;
-		Integer createdId;
-		try (Session session = HibernateUtil.getSessionFactory().getCurrentSession()) {
-			session.beginTransaction();
-			createdId = (Integer) session.save(news);
-			createdNews = session.load(News.class, createdId);
-			session.getTransaction().commit();
-		} catch (Exception e) {
-			throw new DaoException("Failed to insert news.", e);
-		}
+		em.getTransaction().begin();
+		createdNews = em.merge(news);
+		em.getTransaction().commit();
 		return createdNews;
 	}
 
 	@Override
 	public News findById(int id) {
 		log.debug("findById()...");
-		News receivedNews;
-		try (Session session = HibernateUtil.getSessionFactory().getCurrentSession()) {
-			session.beginTransaction();
-			receivedNews = session.load(News.class, id);
-			session.getTransaction().commit();
-		} catch (Exception e) {
-			throw new DaoException("Failed to find news by id.", e);
-		}
-		return receivedNews;
+		return em.find(News.class, id);
 	}
 
 	@Override
 	public List<News> findAll() {
-		List<News> newsList = new ArrayList<>();
-		try (Session session = HibernateUtil.getSessionFactory().getCurrentSession()) {
-			session.beginTransaction();
-			newsList = session.createCriteria(News.class).list();
-			session.getTransaction().commit();
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new DaoException("Failed to find all news.", e);
-		}
-		return newsList;
+		TypedQuery<News> namedQuery = em.createNamedQuery("News.findAll", News.class);
+		return namedQuery.getResultList();
 	}
 
 	@Override
 	public void update(News news) {
-		try (Session session = HibernateUtil.getSessionFactory().getCurrentSession()) {
-			session.beginTransaction();
-			session.update(news);
-			session.getTransaction().commit();
-		} catch (Exception e) {
-			throw new DaoException("Failed to update news.", e);
-		}
+		em.getTransaction().begin();
+		em.merge(news);
+		em.getTransaction().commit();
 	}
 
 	@Override
 	public void delete(int id) {
-		try (Session session = HibernateUtil.getSessionFactory().getCurrentSession()) {
-			session.beginTransaction();
-			session.delete(session.get(News.class, id));
-			session.getTransaction().commit();
-		} catch (Exception e) {
-			throw new DaoException("Failed to delete news.", e);
-		}
+		em.getTransaction().begin();
+		em.remove(findById(id));
+		em.getTransaction().commit();
 	}
 	
 	
