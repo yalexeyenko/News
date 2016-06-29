@@ -76,7 +76,7 @@ public class NewsAction extends DispatchAction {
 				for (int i = 0; i < itemsToDelete.length; i++) {
 					newsService.deleteNewsById(Integer.parseInt(itemsToDelete[i]));
 				}
-			} else {
+			} else if (newsForm.getId() != null) {
 				newsService.deleteNewsById(Integer.valueOf(newsForm.getId()));
 			}
 		}
