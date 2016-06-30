@@ -4,20 +4,20 @@
 
 <hibernate-mapping>
 	<class name="com.epam.yalexeyenko.model.News" table="NEWSBLOCK">
-		<id name="id" type="java.lang.Integer">
+		<id name="id">
 			<column name="ID" />
 			<generator class="increment" />
 		</id>
-		<property name="newsTitle" type="java.lang.String">
+		<property name="newsTitle">
 			<column name="TITLE" />
 		</property>
-		<property name="date" type="java.util.Date">
+		<property name="date">
 			<column name="NEWSDATE" />
 		</property>
-		<property name="brief" type="java.lang.String">
+		<property name="brief">
 			<column name="BRIEF" />
 		</property>
-		<property name="content" type="java.lang.String">
+		<property name="content">
 			<column name="NEWSCONTENT" />
 		</property>
 	</class>	
