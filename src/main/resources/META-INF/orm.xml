@@ -21,11 +21,6 @@
 	
 	<entity class="com.epam.yalexeyenko.model.News" name="News">
 		<table name="NEWSBLOCK" />
-		<named-query name="News.findAll">
-			<query>
-				<![CDATA[SELECT n FROM News n]]><!-- where News is the name of the bean -->
-			</query>
-		</named-query>
 		<attributes>
 			<basic name="newsTitle">
 				<column name="TITLE" />
