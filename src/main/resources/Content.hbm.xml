@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.epam.yalexeyenko.model.Content" table="CONTENT">
+		<id name="id">
+			<column name="ID" />
+			<generator class="foreign">
+				<param name="property">news</param>
+			</generator>
+		</id>
+
+		<one-to-one name="news" class="com.epam.yalexeyenko.model.News"
+			constrained="true"></one-to-one>
+
+		<property name="content">
+			<column name="NEWSCONTENT" />
+		</property>
+	</class>
+</hibernate-mapping>

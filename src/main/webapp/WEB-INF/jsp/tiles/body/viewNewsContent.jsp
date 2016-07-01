@@ -22,7 +22,7 @@
 		</div>
 		<div id="view_wrap_content">
 			<span id="tit"><bean:message key="content.view.content" /></span>
-			<span id="block"><bean:write name="newsItem" property="content" /></span>
+			<span id="block"><bean:write name="newsItem" property="content.content" /></span>
 		</div>
 		<div id="edit_n_delete_ref">
 			<html:link action="/news?method=showEditNews">

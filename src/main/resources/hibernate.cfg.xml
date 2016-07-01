@@ -15,6 +15,7 @@
 		</property>
 
 		<mapping resource="News.hbm.xml" />
+		<mapping resource="Content.hbm.xml" />
 	</session-factory>
 
 </hibernate-configuration>

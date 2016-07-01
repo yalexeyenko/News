@@ -14,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.epam.yalexeyenko.form.NewsForm;
+import com.epam.yalexeyenko.model.Content;
 import com.epam.yalexeyenko.model.News;
 import com.epam.yalexeyenko.service.NewsService;
 
@@ -46,10 +47,12 @@ public class NewsAction extends DispatchAction {
 		log.debug("addNews()...");
 		NewsForm newsForm = (NewsForm) form;
 		News news = new News();
+		Content content = new Content();
 		news.setNewsTitle(newsForm.getNewsTitle());
 		news.setDate(new SimpleDateFormat("MM/dd/yyyy").parse(newsForm.getDate()));
 		news.setBrief(newsForm.getBrief());
-		news.setContent(newsForm.getContent());
+		content.setContent(newsForm.getContent());
+		news.setContent(content);
 		try (NewsService newsService = new NewsService()) {
 			news = newsService.createNews(news);
 		}
@@ -102,12 +105,14 @@ public class NewsAction extends DispatchAction {
 		log.debug("editNews()...");
 		NewsForm newsForm = (NewsForm) form;
 		News news = new News();
+		Content content = new Content();
 		log.debug("id={}", newsForm.getId());
 		news.setId(Integer.parseInt(newsForm.getId()));
 		news.setNewsTitle(newsForm.getNewsTitle());
 		news.setDate(new SimpleDateFormat("MM/dd/yyyy").parse(newsForm.getDate()));
 		news.setBrief(newsForm.getBrief());
-		news.setContent(newsForm.getContent());
+		content.setContent(newsForm.getContent());
+		news.setContent(content);
 		newsForm.setNews(news);
 		try (NewsService newsService = new NewsService()) {
 			newsService.updateNews(news);

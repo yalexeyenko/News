@@ -6,9 +6,17 @@ public class News extends BaseEntity {
 	private String newsTitle;
 	private Date date;
 	private String brief;
-	private String content;
+	private Content content;
 
 	public News() {
+	}
+
+	public Content getContent() {
+		return content;
+	}
+
+	public void setContent(Content content) {
+		this.content = content;
 	}
 
 	public String getNewsTitle() {
@@ -33,14 +41,6 @@ public class News extends BaseEntity {
 
 	public void setBrief(String brief) {
 		this.brief = brief;
-	}
-
-	public String getContent() {
-		return content;
-	}
-
-	public void setContent(String content) {
-		this.content = content;
 	}
 
 }

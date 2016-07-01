@@ -1,13 +1,17 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-	<class name="com.epam.yalexeyenko.model.News" table="NEWSBLOCK">
+	<class name="com.epam.yalexeyenko.model.News" table="NEWS">
 		<id name="id">
 			<column name="ID" />
 			<generator class="increment" />
 		</id>
+
+		<one-to-one name="content" class="com.epam.yalexeyenko.model.Content"
+			cascade="save-update"></one-to-one>
+
 		<property name="newsTitle">
 			<column name="TITLE" />
 		</property>
@@ -20,5 +24,5 @@
 		<property name="content">
 			<column name="NEWSCONTENT" />
 		</property>
-	</class>	
+	</class>
 </hibernate-mapping>

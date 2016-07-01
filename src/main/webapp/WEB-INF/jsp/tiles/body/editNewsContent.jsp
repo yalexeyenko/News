@@ -24,7 +24,7 @@
 			<div id="input_wrap_content">
 				<span><bean:message key="content.edit.content" /></span>
 				<html:textarea name="newsForm" property="content"
-					value="${newsForm.news.content}" />
+					value="${newsForm.news.content.content}" />
 			</div>
 			<div id="button_wrap">
 				<html:submit>
