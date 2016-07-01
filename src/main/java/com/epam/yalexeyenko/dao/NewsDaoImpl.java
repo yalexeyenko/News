@@ -54,7 +54,6 @@ public class NewsDaoImpl implements NewsDao {
 		try {
 			session = HibernateUtil.getSessionFactory().getCurrentSession();
 			transaction = session.beginTransaction();
-			session.beginTransaction();
 			receivedNews = session.load(News.class, id);
 			transaction.commit();
 		} catch (Exception e) {
