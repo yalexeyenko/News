@@ -25,7 +25,7 @@ public class NewsAction extends DispatchAction {
 		log.debug("listNews()...");
 		NewsForm newsForm = (NewsForm) form;
 		try (NewsService newsService = new NewsService();) {
-			newsForm.setNewsList(newsService.findAllNews());
+			newsForm.setNewsList(newsService.findAllNewsOrderByDate());
 		}
 		return mapping.findForward("listNews");
 	}
