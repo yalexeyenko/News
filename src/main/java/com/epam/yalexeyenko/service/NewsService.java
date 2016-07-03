@@ -12,12 +12,12 @@ import com.epam.yalexeyenko.model.News;
 public class NewsService implements AutoCloseable {
 	private static final Logger log = LoggerFactory.getLogger(NewsService.class);
 
-	private DaoFactory jdbcDaoFactory;
+	private DaoFactory hiberDaoFactory;
 	private NewsDao newsDao;
 
 	public NewsService() {
-		jdbcDaoFactory = DaoFactory.newInstance(DaoFactory.HIBER);
-		newsDao = (NewsDao) jdbcDaoFactory.createDao(News.class);
+		hiberDaoFactory = DaoFactory.newInstance(DaoFactory.HIBER);
+		newsDao = (NewsDao) hiberDaoFactory.createDao(News.class);
 	}
 
 	public News createNews(News news) {
@@ -42,8 +42,8 @@ public class NewsService implements AutoCloseable {
 	
 	@Override
 	public void close() throws Exception {
-		if (jdbcDaoFactory != null) {
-			jdbcDaoFactory.close();
+		if (hiberDaoFactory != null) {
+			hiberDaoFactory.close();
 		}
 		
 	}
