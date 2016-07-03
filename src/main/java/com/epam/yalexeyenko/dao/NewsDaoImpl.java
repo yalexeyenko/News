@@ -9,14 +9,14 @@ import org.hibernate.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.epam.yalexeyenko.model.Content;
 import com.epam.yalexeyenko.model.News;
 import com.epam.yalexeyenko.util.HibernateUtil;
 
 public class NewsDaoImpl implements NewsDao {
-	private static final Logger log = LoggerFactory.getLogger(NewsDaoImpl.class);
-
+	private static final Logger log = LoggerFactory.getLogger(NewsDaoImpl.class);	
 	private final Connection connection;
-
+	
 	public NewsDaoImpl(Connection connection) {
 		this.connection = connection;
 	}
@@ -96,7 +96,7 @@ public class NewsDaoImpl implements NewsDao {
 		try {
 			session = HibernateUtil.getSessionFactory().getCurrentSession();
 			transaction = session.beginTransaction();
-			session.update(news);
+			session.merge(news);
 			transaction.commit();
 		} catch (Exception e) {
 			transaction.rollback();
@@ -110,11 +110,13 @@ public class NewsDaoImpl implements NewsDao {
 
 	@Override
 	public void delete(int id) {
+		log.debug("delete()...");
 		Session session = null;
 		Transaction transaction = null;
 		try {
 			session = HibernateUtil.getSessionFactory().getCurrentSession();
 			transaction = session.beginTransaction();
+			session.delete(session.get(Content.class, id));
 			session.delete(session.get(News.class, id));
 			transaction.commit();
 		} catch (Exception e) {
