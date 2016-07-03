@@ -80,6 +80,7 @@ public class NewsDaoImpl implements NewsDao {
 			transaction.commit();
 		} catch (Exception e) {
 			transaction.rollback();
+			e.printStackTrace();
 			throw new DaoException("Failed to find all news.", e);
 		} finally {
 			if (session != null && session.isOpen()) {
