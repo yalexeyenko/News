@@ -20,6 +20,8 @@
 			<forward name="listNews" path="listNews" />
 			<forward name="deleteNews" path="/news.do?method=listNews"
 				redirect="true" />
+			<forward name="deleteNewsList" path="/news.do?method=listNews"
+				redirect="true" />
 		</action>
 
 		<action path="/locale" type="com.epam.yalexeyenko.action.LocaleAction"
