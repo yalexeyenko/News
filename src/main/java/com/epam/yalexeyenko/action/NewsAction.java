@@ -20,7 +20,7 @@ import com.epam.yalexeyenko.service.NewsService;
 
 public class NewsAction extends DispatchAction {
 	private static final Logger log = LoggerFactory.getLogger(NewsAction.class);
-	
+
 	public ActionForward listNews(ActionMapping mapping, ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		log.debug("listNews()...");
@@ -53,6 +53,7 @@ public class NewsAction extends DispatchAction {
 		news.setBrief(newsForm.getBrief());
 		content.setContent(newsForm.getContent());
 		news.setContent(content);
+		content.setNews(news);
 		try (NewsService newsService = new NewsService()) {
 			news = newsService.createNews(news);
 		}
@@ -69,7 +70,7 @@ public class NewsAction extends DispatchAction {
 		return mapping.findForward("showViewNews");
 	}
 
-	public ActionForward deleteNews(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+	public ActionForward deleteNewsList(ActionMapping mapping, ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		log.debug("deleteNews()...");
 		NewsForm newsForm = (NewsForm) form;
@@ -79,9 +80,18 @@ public class NewsAction extends DispatchAction {
 				for (int i = 0; i < itemsToDelete.length; i++) {
 					newsService.deleteNewsById(Integer.parseInt(itemsToDelete[i]));
 				}
-			} else {
-				newsService.deleteNewsById(Integer.valueOf(newsForm.getId()));
+				newsForm.setItemsToDelete(null);
 			}
+		}
+		return mapping.findForward("deleteNews");
+	}
+
+	public ActionForward deleteNews(ActionMapping mapping, ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		log.debug("deleteNews()...");
+		NewsForm newsForm = (NewsForm) form;
+		try (NewsService newsService = new NewsService()) {
+			newsService.deleteNewsById(Integer.parseInt(newsForm.getId()));
 		}
 		return mapping.findForward("deleteNews");
 	}
@@ -111,8 +121,10 @@ public class NewsAction extends DispatchAction {
 		news.setNewsTitle(newsForm.getNewsTitle());
 		news.setDate(new SimpleDateFormat("MM/dd/yyyy").parse(newsForm.getDate()));
 		news.setBrief(newsForm.getBrief());
+		content.setId(news.getId());
 		content.setContent(newsForm.getContent());
 		news.setContent(content);
+		content.setNews(news);
 		newsForm.setNews(news);
 		try (NewsService newsService = new NewsService()) {
 			newsService.updateNews(news);
