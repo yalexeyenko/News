@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_1_0.xsd"
+	version="1.0">
+
+	<description>JPA Hibernate XML</description>
+	<package>com.epam.yalexeyenko.model</package>
+
+	<sequence-generator name="id_Sequence"
+		allocation-size="1" sequence-name="NEWSBLOCK_SEQ" initial-value="1" />
+
+	<mapped-superclass class="com.epam.yalexeyenko.model.BaseEntity">
+		<attributes>
+			<id name="id">
+				<column name="ID" />
+				<generated-value strategy="SEQUENCE" generator="id_Sequence" />
+			</id>
+		</attributes>
+	</mapped-superclass>
+	
+	<entity class="com.epam.yalexeyenko.model.News" name="News">
+		<table name="NEWSBLOCK" />
+		<attributes>
+			<basic name="newsTitle">
+				<column name="TITLE" />
+			</basic>
+			<basic name="date">
+				<column name="NEWSDATE" />
+			</basic>
+			<basic name="brief">
+				<column name="BRIEF" />
+			</basic>
+			<basic name="content">
+				<column name="NEWSCONTENT" />
+			</basic>
+		</attributes>
+
+	</entity>
+
+</entity-mappings>
