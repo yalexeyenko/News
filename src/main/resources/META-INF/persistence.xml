@@ -6,8 +6,8 @@
 
 	<persistence-unit name="newsblock" transaction-type="RESOURCE_LOCAL">
 		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-<!-- 		Uncomment if rename orm.xml -->
-<!-- 		<mapping-file>/META-INF/orm.xml</mapping-file>   -->
+		<mapping-file>/META-INF/News.xml</mapping-file>
+		<mapping-file>/META-INF/queries.xml</mapping-file>  
 		<class>com.epam.yalexeyenko.model.News</class>
 
 		<properties>
