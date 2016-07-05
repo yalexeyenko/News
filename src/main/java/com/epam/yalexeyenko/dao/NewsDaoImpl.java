@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 
@@ -34,9 +35,10 @@ public class NewsDaoImpl implements NewsDao {
 	public News insert(News news) {
 		log.debug("insert()...");
 		News createdNews;
-		em.getTransaction().begin();
+		EntityTransaction transaction = em.getTransaction();
+		transaction.begin();
 		createdNews = em.merge(news);
-		em.getTransaction().commit();
+		transaction.commit();
 		return createdNews;
 	}
 
@@ -60,16 +62,18 @@ public class NewsDaoImpl implements NewsDao {
 
 	@Override
 	public void update(News news) {
-		em.getTransaction().begin();
+		EntityTransaction transaction = em.getTransaction();
+		transaction.begin();
 		em.merge(news);
-		em.getTransaction().commit();
+		transaction.commit();
 	}
 
 	@Override
 	public void delete(int id) {
-		em.getTransaction().begin();
+		EntityTransaction transaction = em.getTransaction();
+		transaction.begin();
 		em.remove(findById(id));
-		em.getTransaction().commit();
+		transaction.commit();
 	}
 	
 	
