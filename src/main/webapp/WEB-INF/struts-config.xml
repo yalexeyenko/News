@@ -18,6 +18,8 @@
 			<forward name="showEditNews" path="showEditNews" />
 			<forward name="editNews" path="editNews" />
 			<forward name="listNews" path="listNews" />
+			<forward name="deleteNewsList" path="/news.do?method=listNews"
+				redirect="true" />
 			<forward name="deleteNews" path="/news.do?method=listNews"
 				redirect="true" />
 		</action>
