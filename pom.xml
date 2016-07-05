@@ -20,6 +20,7 @@
 		<commons.version>1.3.2</commons.version>
 		<struts.version>1.3.10</struts.version>
 		<oracle-connector.version>12.1.0.2</oracle-connector.version>
+		<spring-context.version>4.3.1.RELEASE</spring-context.version>
 
 	</properties>
 
@@ -130,6 +131,13 @@
 			<version>1.0.0.Final</version>
 		</dependency>
 
+		<!-- Spring -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${spring-context.version}</version>
+		</dependency>
+
 
 	</dependencies>
 
@@ -154,15 +162,6 @@
 				</configuration>
 			</plugin>
 
-			<!-- Maven Tomcat Plugin -->
-			<!-- <plugin> -->
-			<!-- <groupId>org.apache.tomcat.maven</groupId> -->
-			<!-- <artifactId>tomcat7-maven-plugin</artifactId> -->
-			<!-- <version>2.2</version> -->
-			<!-- <configuration> -->
-			<!-- <path>/taskNews</path> -->
-			<!-- </configuration> -->
-			<!-- </plugin> -->
 		</plugins>
 
 	</build>
