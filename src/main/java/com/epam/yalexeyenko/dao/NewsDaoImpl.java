@@ -1,35 +1,22 @@
 package com.epam.yalexeyenko.dao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
+import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
-import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.epam.yalexeyenko.model.News;
-import com.epam.yalexeyenko.util.HibernateUtil;
 
 public class NewsDaoImpl implements NewsDao {
 	private static final Logger log = LoggerFactory.getLogger(NewsDaoImpl.class);
 	
-	private EntityManager em = Persistence.createEntityManagerFactory("newsblock").createEntityManager();
-
-	private final Connection connection;
-
-	public NewsDaoImpl(Connection connection) {
-		this.connection = connection;
-	}
+	@PersistenceContext
+	private EntityManager em;
 
 	@Override
 	public News insert(News news) {
