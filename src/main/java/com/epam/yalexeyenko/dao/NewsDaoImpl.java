@@ -51,6 +51,12 @@ public class NewsDaoImpl implements NewsDao {
 		TypedQuery<News> namedQuery = em.createNamedQuery("News.findAll", News.class);
 		return namedQuery.getResultList();
 	}
+	
+	@Override
+	public List<News> findAllSortByDate() {
+		TypedQuery<News> namedQuery = em.createNamedQuery("News.findAllOrderedByDate", News.class);
+		return namedQuery.getResultList();
+	}
 
 	@Override
 	public void update(News news) {
