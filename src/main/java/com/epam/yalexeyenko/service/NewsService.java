@@ -32,6 +32,10 @@ public class NewsService implements AutoCloseable {
 		return newsDao.findAll();
 	}
 	
+	public List<News> findAllNewsSortByDate() {
+		return newsDao.findAllSortByDate();
+	}
+	
 	public void updateNews(News news) {
 		newsDao.update(news);
 	}
