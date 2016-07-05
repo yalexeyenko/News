@@ -5,7 +5,7 @@
 <%@ taglib uri="http://struts.apache.org/tags-html" prefix="html"%>
 
 <div class="listNewsContent">
-	<html:form action="/news?method=deleteNews">
+	<html:form action="/news?method=deleteNewsList">
 		<logic:iterate name="newsForm" property="newsList" id="news">
 			<div class="news_item_block">
 				<div class="title_date">
