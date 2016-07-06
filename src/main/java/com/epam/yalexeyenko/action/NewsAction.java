@@ -15,18 +15,24 @@ import org.slf4j.LoggerFactory;
 
 import com.epam.yalexeyenko.form.NewsForm;
 import com.epam.yalexeyenko.model.News;
-import com.epam.yalexeyenko.service.NewsService;
+import com.epam.yalexeyenko.service.NewsServiceImpl;
 
 public class NewsAction extends DispatchAction {
 	private static final Logger log = LoggerFactory.getLogger(NewsAction.class);
+	private NewsServiceImpl newsServiceImpl;
+
+	public void setNewsServiceImpl(NewsServiceImpl newsServiceImpl) {
+		this.newsServiceImpl = newsServiceImpl;
+	}
 
 	public ActionForward listNews(ActionMapping mapping, ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		log.debug("listNews()...");
-		NewsForm newsForm = (NewsForm) form;
-		try (NewsService newsService = new NewsService();) {
-			newsForm.setNewsList(newsService.findAllNewsSortByDate());
+		if (newsServiceImpl == null) {
+			throw new ActionException("newsServiceImpl is null.");
 		}
+		NewsForm newsForm = (NewsForm) form;
+		newsForm.setNewsList(newsServiceImpl.findAllSortByDate());
 		return mapping.findForward("listNews");
 	}
 
@@ -44,40 +50,43 @@ public class NewsAction extends DispatchAction {
 	public ActionForward addNews(ActionMapping mapping, ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		log.debug("addNews()...");
+		if (newsServiceImpl == null) {
+			throw new ActionException("newsServiceImpl is null.");
+		}
 		NewsForm newsForm = (NewsForm) form;
 		News news = new News();
 		news.setNewsTitle(newsForm.getNewsTitle());
 		news.setDate(new SimpleDateFormat("MM/dd/yyyy").parse(newsForm.getDate()));
 		news.setBrief(newsForm.getBrief());
 		news.setContent(newsForm.getContent());
-		try (NewsService newsService = new NewsService()) {
-			news = newsService.createNews(news);
-		}
+		news = newsServiceImpl.create(news);
 		return mapping.findForward("addNews");
 	}
 
 	public ActionForward showViewNews(ActionMapping mapping, ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		log.debug("showViewNews()...");
-		NewsForm newsForm = (NewsForm) form;
-		try (NewsService newsService = new NewsService()) {
-			newsForm.setNews(newsService.findNewsById(Integer.valueOf(newsForm.getId())));
+		if (newsServiceImpl == null) {
+			throw new ActionException("newsServiceImpl is null.");
 		}
+		NewsForm newsForm = (NewsForm) form;
+		newsForm.setNews(newsServiceImpl.find(Integer.valueOf(newsForm.getId())));
 		return mapping.findForward("showViewNews");
 	}
 
 	public ActionForward deleteNewsList(ActionMapping mapping, ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		log.debug("deleteNews()...");
+		if (newsServiceImpl == null) {
+			throw new ActionException("newsServiceImpl is null.");
+		}
 		NewsForm newsForm = (NewsForm) form;
-		try (NewsService newsService = new NewsService()) {
-			String[] itemsToDelete = newsForm.getItemsToDelete();
-			if (itemsToDelete != null) {
-				for (int i = 0; i < itemsToDelete.length; i++) {
-					newsService.deleteNewsById(Integer.parseInt(itemsToDelete[i]));
-				}
-				newsForm.setItemsToDelete(null);
+		String[] itemsToDelete = newsForm.getItemsToDelete();
+		if (itemsToDelete != null) {
+			for (int i = 0; i < itemsToDelete.length; i++) {
+				newsServiceImpl.delete(Integer.parseInt(itemsToDelete[i]));
 			}
+			newsForm.setItemsToDelete(null);
 		}
 		return mapping.findForward("deleteNews");
 	}
@@ -85,30 +94,35 @@ public class NewsAction extends DispatchAction {
 	public ActionForward deleteNews(ActionMapping mapping, ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		log.debug("deleteNews()...");
-		NewsForm newsForm = (NewsForm) form;
-		try (NewsService newsService = new NewsService()) {
-			newsService.deleteNewsById(Integer.valueOf(newsForm.getId()));
+		if (newsServiceImpl == null) {
+			throw new ActionException("newsServiceImpl is null.");
 		}
+		NewsForm newsForm = (NewsForm) form;
+		newsServiceImpl.delete(Integer.valueOf(newsForm.getId()));
 		return mapping.findForward("deleteNews");
 	}
 
 	public ActionForward showEditNews(ActionMapping mapping, ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		log.debug("showEditNews()...");
-		NewsForm newsForm = (NewsForm) form;
-		try (NewsService newsService = new NewsService()) {
-			News news = newsService.findNewsById(Integer.valueOf(newsForm.getId()));
-			newsForm.setNews(news);
-			String id = String.valueOf(news.getId());
-			newsForm.setId(id);
-			newsForm.setDate(new SimpleDateFormat("MM/dd/yyyy").format(news.getDate()));
+		if (newsServiceImpl == null) {
+			throw new ActionException("newsServiceImpl is null.");
 		}
+		NewsForm newsForm = (NewsForm) form;
+		News news = newsServiceImpl.find(Integer.valueOf(newsForm.getId()));
+		newsForm.setNews(news);
+		String id = String.valueOf(news.getId());
+		newsForm.setId(id);
+		newsForm.setDate(new SimpleDateFormat("MM/dd/yyyy").format(news.getDate()));
 		return mapping.findForward("showEditNews");
 	}
 
 	public ActionForward editNews(ActionMapping mapping, ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		log.debug("editNews()...");
+		if (newsServiceImpl == null) {
+			throw new ActionException("newsServiceImpl is null.");
+		}
 		NewsForm newsForm = (NewsForm) form;
 		News news = new News();
 		log.debug("id={}", newsForm.getId());
@@ -118,9 +132,7 @@ public class NewsAction extends DispatchAction {
 		news.setBrief(newsForm.getBrief());
 		news.setContent(newsForm.getContent());
 		newsForm.setNews(news);
-		try (NewsService newsService = new NewsService()) {
-			newsService.updateNews(news);
-		}
+		newsServiceImpl.update(news);
 		return mapping.findForward("showViewNews");
 	}
 }
