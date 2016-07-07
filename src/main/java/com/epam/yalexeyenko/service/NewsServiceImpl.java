@@ -11,38 +11,38 @@ import com.epam.yalexeyenko.model.News;
 public class NewsServiceImpl implements NewsService {
 	private static final Logger log = LoggerFactory.getLogger(NewsServiceImpl.class);
 
-	private NewsDao newsDao;
+	private NewsDao newsDaoImpl;
 
 	public void setNewsDao(NewsDao newsDao) {
-		this.newsDao = newsDao;
+		this.newsDaoImpl = newsDao;
 	}
 
 	@Override
 	public News create(News news) {
-		return newsDao.insert(news);
+		return newsDaoImpl.insert(news);
 	}
 
 	@Override
 	public News find(int id) {
-		return newsDao.findById(id);
+		return newsDaoImpl.findById(id);
 	}
 	
 	public List<News> findAll() {
-		return newsDao.findAll();
+		return newsDaoImpl.findAll();
 	}
 	
 	@Override
 	public List<News> findAllSortByDate() {
-		return newsDao.findAllSortByDate();
+		return newsDaoImpl.findAllSortByDate();
 	}
 	
 	@Override
 	public void update(News news) {
-		newsDao.update(news);
+		newsDaoImpl.update(news);
 	}
 	
 	@Override
 	public void delete(int id) {
-		newsDao.delete(id);
+		newsDaoImpl.delete(id);
 	}
 }
