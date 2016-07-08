@@ -6,15 +6,20 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.epam.yalexeyenko.dao.NewsDao;
+import com.epam.yalexeyenko.dao.NewsDaoImpl;
 import com.epam.yalexeyenko.model.News;
 
 public class NewsServiceImpl implements NewsService {
 	private static final Logger log = LoggerFactory.getLogger(NewsServiceImpl.class);
 
-	private NewsDao newsDaoImpl;
+	private NewsDao newsDaoImpl = new NewsDaoImpl();
 
-	public void setNewsDao(NewsDao newsDao) {
-		this.newsDaoImpl = newsDao;
+	public NewsDao getNewsDaoImpl() {
+		return newsDaoImpl;
+	}
+
+	public void setNewsDaoImpl(NewsDao newsDaoImpl) {
+		this.newsDaoImpl = newsDaoImpl;
 	}
 
 	@Override

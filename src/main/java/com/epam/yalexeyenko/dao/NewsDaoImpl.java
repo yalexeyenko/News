@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
-import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 import org.slf4j.Logger;
@@ -15,15 +14,23 @@ import com.epam.yalexeyenko.model.News;
 public class NewsDaoImpl implements NewsDao {
 	private static final Logger log = LoggerFactory.getLogger(NewsDaoImpl.class);
 	
-	private EntityManager em;
+	private EntityManager entityManager;
+
+	public EntityManager getEntityManager() {
+		return entityManager;
+	}
+
+	public void setEntityManager(EntityManager entityManager) {
+		this.entityManager = entityManager;
+	}
 
 	@Override
 	public News insert(News news) {
 		log.debug("insert()...");
 		News createdNews;
-		EntityTransaction transaction = em.getTransaction();
+		EntityTransaction transaction = entityManager.getTransaction();
 		transaction.begin();
-		createdNews = em.merge(news);
+		createdNews = entityManager.merge(news);
 		transaction.commit();
 		return createdNews;
 	}
@@ -31,34 +38,34 @@ public class NewsDaoImpl implements NewsDao {
 	@Override
 	public News findById(int id) {
 		log.debug("findById()...");
-		return em.find(News.class, id);
+		return entityManager.find(News.class, id);
 	}
 
 	@Override
 	public List<News> findAll() {
-		TypedQuery<News> namedQuery = em.createNamedQuery("News.findAll", News.class);
+		TypedQuery<News> namedQuery = entityManager.createNamedQuery("News.findAll", News.class);
 		return namedQuery.getResultList();
 	}
 	
 	@Override
 	public List<News> findAllSortByDate() {
-		TypedQuery<News> namedQuery = em.createNamedQuery("News.findAllOrderedByDate", News.class);
+		TypedQuery<News> namedQuery = entityManager.createNamedQuery("News.findAllOrderedByDate", News.class);
 		return namedQuery.getResultList();
 	}
 
 	@Override
 	public void update(News news) {
-		EntityTransaction transaction = em.getTransaction();
+		EntityTransaction transaction = entityManager.getTransaction();
 		transaction.begin();
-		em.merge(news);
+		entityManager.merge(news);
 		transaction.commit();
 	}
 
 	@Override
 	public void delete(int id) {
-		EntityTransaction transaction = em.getTransaction();
+		EntityTransaction transaction = entityManager.getTransaction();
 		transaction.begin();
-		em.remove(findById(id));
+		entityManager.remove(findById(id));
 		transaction.commit();
 	}
 	

@@ -33,16 +33,14 @@
 
 	<controller processorClass="org.apache.struts.tiles.TilesRequestProcessor" />
 	<message-resources parameter="properties.messages" />
-	
+
 	<plug-in className="org.springframework.web.struts.ContextLoaderPlugIn">
-		<set-property property="contextConfigLocation" value="/WEB-INF/applicationContext.xml"/>
+		<set-property property="contextConfigLocation" value="/WEB-INF/applicationContext.xml" />
 	</plug-in>
-	
+
 	<plug-in className="org.apache.struts.tiles.TilesPlugin">
 		<set-property property="definitions-config" value="/WEB-INF/tiles-defs.xml" />
 		<set-property property="moduleAware" value="true" />
 	</plug-in>
-	
-	
 
 </struts-config>
