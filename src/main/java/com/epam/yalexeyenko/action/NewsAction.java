@@ -16,11 +16,10 @@ import org.slf4j.LoggerFactory;
 import com.epam.yalexeyenko.form.NewsForm;
 import com.epam.yalexeyenko.model.News;
 import com.epam.yalexeyenko.service.NewsService;
-import com.epam.yalexeyenko.service.NewsServiceImpl;
 
 public class NewsAction extends DispatchAction {
 	private static final Logger log = LoggerFactory.getLogger(NewsAction.class);
-	private NewsService newsServiceImpl = new NewsServiceImpl();
+	private NewsService newsServiceImpl;
 
 	public NewsService getNewsServiceImpl() {
 		return newsServiceImpl;
