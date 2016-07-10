@@ -12,6 +12,7 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.DispatchAction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 import com.epam.yalexeyenko.form.NewsForm;
@@ -24,8 +25,10 @@ public class NewsAction extends DispatchAction {
 	private NewsService newsServiceImpl;
 	
 	public NewsAction() {
-        this.newsServiceImpl = new FileSystemXmlApplicationContext("src/main/webapp/WEB-INF/applicationContext.xml").getBean("newsServiceImpl", NewsServiceImpl.class);
-    }
+		log.debug("NewsAction()...");
+//        this.newsServiceImpl = new FileSystemXmlApplicationContext("/src/main/webapp/WEB-INF/applicationContext.xml").getBean("newsServiceImpl", NewsServiceImpl.class);
+        this.newsServiceImpl = (NewsService) new ClassPathXmlApplicationContext("applicationContext.xml").getBean("newsServiceImpl");
+	}
 
 	public NewsService getNewsServiceImpl() {
 		return newsServiceImpl;
@@ -80,7 +83,8 @@ public class NewsAction extends DispatchAction {
 			throw new ActionException("newsServiceImpl is null.");
 		}
 		NewsForm newsForm = (NewsForm) form;
-		newsForm.setNews(newsServiceImpl.find(Integer.valueOf(newsForm.getId())));
+		String id = newsForm.getId();
+		newsForm.setNews(newsServiceImpl.find(Integer.valueOf(id)));
 		return mapping.findForward("showViewNews");
 	}
 
