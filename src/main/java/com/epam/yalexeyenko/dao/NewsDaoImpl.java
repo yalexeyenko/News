@@ -17,6 +17,7 @@ import com.epam.yalexeyenko.model.News;
 public class NewsDaoImpl implements NewsDao {
 	private static final Logger log = LoggerFactory.getLogger(NewsDaoImpl.class);
 
+	@PersistenceContext
 	private EntityManager entityManager;
 
 	public EntityManager getEntityManager() {

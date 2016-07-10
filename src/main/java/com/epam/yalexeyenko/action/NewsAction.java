@@ -12,14 +12,20 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.DispatchAction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 import com.epam.yalexeyenko.form.NewsForm;
 import com.epam.yalexeyenko.model.News;
 import com.epam.yalexeyenko.service.NewsService;
+import com.epam.yalexeyenko.service.NewsServiceImpl;
 
 public class NewsAction extends DispatchAction {
 	private static final Logger log = LoggerFactory.getLogger(NewsAction.class);
 	private NewsService newsServiceImpl;
+	
+	public NewsAction() {
+        this.newsServiceImpl = new FileSystemXmlApplicationContext("src/main/webapp/WEB-INF/applicationContext.xml").getBean("newsServiceImpl", NewsServiceImpl.class);
+    }
 
 	public NewsService getNewsServiceImpl() {
 		return newsServiceImpl;

@@ -12,7 +12,14 @@ import com.epam.yalexeyenko.model.News;
 public class NewsServiceImpl implements NewsService {
 	private static final Logger log = LoggerFactory.getLogger(NewsServiceImpl.class);
 
-	private NewsDao newsDaoImpl;
+	private NewsDao newsDaoImpl;	
+
+	public NewsServiceImpl(NewsDao newsDaoImpl) {
+		this.newsDaoImpl = newsDaoImpl;
+	}
+	
+	public NewsServiceImpl() {
+	}
 
 	public NewsDao getNewsDaoImpl() {
 		return newsDaoImpl;

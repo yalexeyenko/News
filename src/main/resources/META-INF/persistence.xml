@@ -11,6 +11,13 @@
 		<mapping-file>/META-INF/queries.xml</mapping-file>  
 		
 		<class>com.epam.yalexeyenko.model.News</class>
+		
+		<properties>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.Oracle10gDialect"/>
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="true"/>
+            <property name="hbm2ddl.auto" value="update"/>
+        </properties>
 
 	</persistence-unit>
 </persistence>
