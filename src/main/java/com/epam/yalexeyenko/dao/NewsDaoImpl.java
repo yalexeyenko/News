@@ -27,12 +27,7 @@ public class NewsDaoImpl implements NewsDao {
 	@Override
 	public News insert(News news) {
 		log.debug("insert()...");
-		News createdNews;
-		EntityTransaction transaction = entityManager.getTransaction();		
-		transaction.begin();
-		createdNews = entityManager.merge(news);
-		transaction.commit();
-		return createdNews;
+		return entityManager.merge(news);
 	}
 
 	@Override
@@ -55,18 +50,12 @@ public class NewsDaoImpl implements NewsDao {
 
 	@Override
 	public void update(News news) {
-		EntityTransaction transaction = entityManager.getTransaction();		
-		transaction.begin();
 		entityManager.merge(news);
-		transaction.commit();
 	}
 
 	@Override
 	public void delete(int id) {
-		EntityTransaction transaction = entityManager.getTransaction();		
-		transaction.begin();
 		entityManager.remove(findById(id));
-		transaction.commit();
 	}
 
 }
