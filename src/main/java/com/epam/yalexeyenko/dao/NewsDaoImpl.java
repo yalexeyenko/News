@@ -3,20 +3,19 @@ package com.epam.yalexeyenko.dao;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.support.FileSystemXmlApplicationContext;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.epam.yalexeyenko.model.News;
 
 public class NewsDaoImpl implements NewsDao {
 	private static final Logger log = LoggerFactory.getLogger(NewsDaoImpl.class);
 
+	@PersistenceContext
 	private EntityManager entityManager;
 
 	public EntityManager getEntityManager() {
@@ -27,15 +26,11 @@ public class NewsDaoImpl implements NewsDao {
 		this.entityManager = entityManager;
 	}
 
+	@Transactional
 	@Override
 	public News insert(News news) {
 		log.debug("insert()...");
-		News createdNews;
-		EntityTransaction transaction = entityManager.getTransaction();
-		transaction.begin();
-		createdNews = entityManager.merge(news);
-		transaction.commit();
-		return createdNews;
+		return entityManager.merge(news);
 	}
 
 	@Override
@@ -56,20 +51,16 @@ public class NewsDaoImpl implements NewsDao {
 		return namedQuery.getResultList();
 	}
 
+	@Transactional
 	@Override
 	public void update(News news) {
-		EntityTransaction transaction = entityManager.getTransaction();
-		transaction.begin();
 		entityManager.merge(news);
-		transaction.commit();
 	}
 
+	@Transactional
 	@Override
 	public void delete(int id) {
-		EntityTransaction transaction = entityManager.getTransaction();
-		transaction.begin();
 		entityManager.remove(findById(id));
-		transaction.commit();
 	}
 
 }
