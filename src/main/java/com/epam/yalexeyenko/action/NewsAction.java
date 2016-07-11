@@ -12,6 +12,7 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.actions.DispatchAction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.epam.yalexeyenko.form.NewsForm;
 import com.epam.yalexeyenko.model.News;
@@ -19,7 +20,8 @@ import com.epam.yalexeyenko.service.NewsService;
 
 public class NewsAction extends DispatchAction {
 	private static final Logger log = LoggerFactory.getLogger(NewsAction.class);
-	private NewsService newsServiceImpl;
+	
+	private NewsService newsServiceImpl = (NewsService) new ClassPathXmlApplicationContext("applicationContext.xml").getBean("newsServiceImpl");
 
 	public NewsService getNewsServiceImpl() {
 		return newsServiceImpl;
