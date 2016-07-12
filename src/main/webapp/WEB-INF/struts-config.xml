@@ -35,7 +35,7 @@
 	<message-resources parameter="properties.messages" />
 
 	<plug-in className="org.springframework.web.struts.ContextLoaderPlugIn">
-		<set-property property="contextConfigLocation" value="/WEB-INF/applicationContext.xml" />
+		<set-property property="contextConfigLocation" value="classpath:applicationContext.xml" />
 	</plug-in>
 
 	<plug-in className="org.apache.struts.tiles.TilesPlugin">
