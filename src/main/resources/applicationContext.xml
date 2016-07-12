@@ -8,6 +8,8 @@
        http://www.springframework.org/schema/context    http://www.springframework.org/schema/context/spring-context-3.2.xsd
        http://www.springframework.org/schema/tx         http://www.springframework.org/schema/tx/spring-tx-3.2.xsd">
 
+<!-- 	Processes PersistenceUnit and PersistenceContext annotations, for injection of the corresponding JPA resources  -->
+<!-- 	EntityManagerFactory and EntityManager. Any such annotated fields or methods in any Spring-managed object will automatically be injected -->
 	<bean
 		class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
 
