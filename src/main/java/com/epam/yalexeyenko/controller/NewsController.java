@@ -27,37 +27,42 @@ import com.epam.yalexeyenko.service.NewsService;
 @RequestMapping("/news")
 public class NewsController {
 	private static final Logger log = LoggerFactory.getLogger(NewsController.class);
-	
+
 	private NewsService newsServiceImpl;
-	
-	public NewsController(){
-		newsServiceImpl = (NewsService) new ClassPathXmlApplicationContext("applicationContext.xml").getBean("newsServiceImpl");
+
+	public NewsController() {
+		newsServiceImpl = (NewsService) new ClassPathXmlApplicationContext("applicationContext.xml")
+				.getBean("newsServiceImpl");
 	}
 
-	@RequestMapping(value="listNews")
-	public ModelAndView listNews(ModelMap modelMap) {
-		log.debug("listNews()...");		
+	@RequestMapping(value = "listNews")
+	public ModelAndView listNews() {
+		log.debug("listNews()...");
 		List<News> newsList = newsServiceImpl.findAllSortByDate();
-		modelMap.addAttribute("newsList", newsList);
-		return new ModelAndView("listNews");
+		ModelAndView modelAndView = new ModelAndView("listNews");
+		modelAndView.addObject("newsList", newsList);
+		return modelAndView;
 	}
-	
-	@RequestMapping(value="showAddNews")
+
+	@RequestMapping(value = "showAddNews")
 	public ModelAndView showAddNews() {
 		log.debug("showAddNews()...");
 		Date date = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-		String newsCreateDate = sdf.format(date);
-		ModelAndView model = new ModelAndView("showAddNews");
-		model.addObject("newsCreateDate", newsCreateDate);
-		return model;
+		String currentDate = sdf.format(date);
+		ModelAndView modelAndView = new ModelAndView("showAddNews");
+		modelAndView.addObject("currentDate", currentDate);
+		return modelAndView;
 	}
-	
-	@RequestMapping(value="/addNews", method = RequestMethod.POST) 
+
+	@RequestMapping(value="addNews", method = RequestMethod.POST) 
 	public ModelAndView addNews(@ModelAttribute("news") News news) {
 		log.debug("addNews()...");
 		News createdNews;
 		createdNews = newsServiceImpl.create(news);
+		ModelAndView modelAndView = new ModelAndView("viewNews");
+		modelAndView.addObject("news", createdNews);
+		return modelAndView;
 	}
 
 	public ActionForward addNews(ActionMapping mapping, ActionForm form, HttpServletRequest request,
