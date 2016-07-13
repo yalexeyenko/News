@@ -19,7 +19,7 @@ import javax.persistence.TemporalType;
 
 public class News extends BaseEntity {
 	@Column(name = "TITLE")
-	private String newsTitle;
+	private String title;
 	@Temporal(TemporalType.DATE)
 	@Column(name = "NEWSDATE")
 	private Date date;
@@ -31,12 +31,12 @@ public class News extends BaseEntity {
 	public News() {
 	}
 
-	public String getNewsTitle() {
-		return newsTitle;
+	public String getTitle() {
+		return title;
 	}
 
-	public void setNewsTitle(String title) {
-		this.newsTitle = title;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 	public Date getDate() {

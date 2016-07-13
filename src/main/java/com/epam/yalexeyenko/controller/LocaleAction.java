@@ -1,4 +1,4 @@
-package com.epam.yalexeyenko.action;
+package com.epam.yalexeyenko.controller;
 
 import java.util.Locale;
 

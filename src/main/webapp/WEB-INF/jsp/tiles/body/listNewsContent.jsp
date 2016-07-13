@@ -1,42 +1,44 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
-<%@ taglib uri="http://struts.apache.org/tags-tiles" prefix="tiles"%>
-<%@ taglib uri="http://struts.apache.org/tags-bean" prefix="bean"%>
-<%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic"%>
-<%@ taglib uri="http://struts.apache.org/tags-html" prefix="html"%>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 
 <div class="listNewsContent">
-	<html:form action="/news?method=deleteNewsList">
-		<logic:iterate name="newsForm" property="newsList" id="news">
+	<form:form action="listNews" modelAttribute="idList">
+		<c:forEach items="${newsList}" var="newsItem">
 			<div class="news_item_block">
 				<div class="title_date">
 					<div class="title">
-						<span><bean:write name="news" property="newsTitle" /></span>
+						<span>${newsItem.title}</span>
 					</div>
 					<div class="date">
-						<span><bean:write name="news" property="date"
-								formatKey="format.date" /></span>
+						<span>${newsItem.date}</span>
 					</div>
 				</div>
 				<div class="news_brief">
-					<span><bean:write name="news" property="brief" /></span>
+					<span>${newsItem.brief}</span>
 				</div>
 				<div class="view_n_edit_ref">
-					<html:link action="/news?method=showViewNews">
-						<bean:message key="content.list.item.ref.view" />
-						<html:param name="id" value="${news.id}"></html:param>
-					</html:link>
-					<html:link action="/news?method=showEditNews">
-						<bean:message key="content.list.item.ref.edit" />
-						<html:param name="id" value="${news.id}"></html:param>
-					</html:link>
+					<spring:url value="showViewNews">
+						<spring:message code="content.list.item.ref.view"/>
+						<spring:param name="id" value="${newsItem.id}"/>
+					</spring:url>
+					<spring:url value="showEditNews">
+						<spring:message code="content.list.item.ref.edit"/>
+						<spring:param name="id" value="${newsItem.id}"/>
+					</spring:url>
+				
+
 					<html:multibox property="itemsToDelete" value="${news.id}" />
 				</div>
 			</div>
-		</logic:iterate>
+		</c:forEach>
 		<div class="multi_delete">
 			<html:submit>
 				<bean:message key="content.list.button.delete" />
 			</html:submit>
 		</div>
-	</html:form>
+	</form:form>
 </div>

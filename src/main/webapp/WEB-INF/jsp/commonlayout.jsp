@@ -1,24 +1,21 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
-<%@ taglib uri="http://struts.apache.org/tags-tiles" prefix="tiles"%>
-<%@ taglib uri="http://struts.apache.org/tags-bean" prefix="bean"%>
-<%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/style.css" type="text/css">
+<link rel="stylesheet" href="resources/css/style.css" type="text/css">
 
 <html>
 <head>
-<title><tiles:getAsString name="title" /></title>
+<title><spring:message code="<tiles:getAsString name='title'/>"/></title>
 </head>
 <body>
 	<div class="wrapper">
-		<tiles:insert attribute="header" />
+		<tiles:insertAttribute name="header" />
 		<div class="content">
-			<tiles:insert attribute="leftMenu" />
-			<tiles:insert attribute="content" />
+			<tiles:insertAttribute name="leftMenu" />
+			<tiles:insertAttribute name="content" />
 		</div>
 	</div>
-	<tiles:insert attribute="footer" />
-
+	<tiles:insertAttribute name="footer" />
 </body>
 </html>
