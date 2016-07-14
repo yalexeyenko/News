@@ -1,42 +1,36 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
-<%@ taglib uri="http://struts.apache.org/tags-tiles" prefix="tiles"%>
-<%@ taglib uri="http://struts.apache.org/tags-bean" prefix="bean"%>
-<%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic"%>
-<%@ taglib uri="http://struts.apache.org/tags-html" prefix="html"%>
-
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 
 <div class="addContent">
 	<div class="add_news_form">
-		<html:form action="/news?method=addNews">
+		<form:form action="addNews" modelAttribute="news">
 			<div id="input_wrap_title">
-				<span><bean:message key="content.add.title" /></span>
-				<html:text name="newsForm" property="newsTitle" value="" />
+				<span><spring:message code="content.add.title" /></span>
+				<form:input path="title" />
 			</div>
 			<div id="input_wrap_date">
-				<span><bean:message key="content.add.date" /></span>
-				<html:text name="newsForm" property="date"
-					value="${newsForm.date}" />
+				<span><spring:message code="content.add.date" /></span>
+				<form:input path="news.date" />
 			</div>
 			<div id="input_wrap_brief">
-				<span><bean:message key="content.add.brief" /></span>
-				<html:textarea name="newsForm" property="brief" value=""/>
+				<span><spring:message code="content.add.brief" /></span>
+				<form:textarea path="brief" />
 			</div>
 			<div id="input_wrap_content">
-				<span><bean:message key="content.add.content" /></span>
-				<html:textarea name="newsForm" property="content" value="" />
+				<span><spring:message code="content.add.content" /></span>
+				<form:textarea path="content" />
 			</div>
 			<div id="button_wrap">
-				<html:submit>
-					<bean:message key="content.add.button.save" />
-				</html:submit>
-				<html:link action="/news?method=listNews">
-					<button type="button">
-						<bean:message key="content.add.button.cancel" />
-					</button>
-				</html:link>
+				<form:button>
+					<spring:message code="content.add.button.save" />
+				</form:button>
+				<spring:url value="cancell">
+					<form:button>
+						<spring:message code="content.add.button.cancel" />
+					</form:button>
+				</spring:url>
 			</div>
-		</html:form>
+		</form:form>
 	</div>
 </div>

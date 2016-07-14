@@ -6,7 +6,7 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 
 <div class="listNewsContent">
-	<form:form action="listNews" modelAttribute="idList">
+	<form:form action="deleteNewsList" commandName="newsCheckbox">
 		<c:forEach items="${newsList}" var="newsItem">
 			<div class="news_item_block">
 				<div class="title_date">
@@ -29,16 +29,12 @@
 						<spring:message code="content.list.item.ref.edit"/>
 						<spring:param name="id" value="${newsItem.id}"/>
 					</spring:url>
-				
-
-					<html:multibox property="itemsToDelete" value="${news.id}" />
+					<form:checkbox path="idList" value="${newsItem.id} }" />
 				</div>
 			</div>
 		</c:forEach>
 		<div class="multi_delete">
-			<html:submit>
-				<bean:message key="content.list.button.delete" />
-			</html:submit>
+			<form:button><spring:message code="content.list.button.delete"/></form:button>
 		</div>
 	</form:form>
 </div>

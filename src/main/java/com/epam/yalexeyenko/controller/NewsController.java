@@ -1,30 +1,25 @@
 package com.epam.yalexeyenko.controller;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.epam.yalexeyenko.form.NewsForm;
 import com.epam.yalexeyenko.model.News;
 import com.epam.yalexeyenko.service.NewsService;
+import com.epam.yalexeyenko.util.NewsCheckbox;
 
 @Controller
-@RequestMapping("/news")
+@RequestMapping("/")
 public class NewsController {
 	private static final Logger log = LoggerFactory.getLogger(NewsController.class);
 
@@ -48,109 +43,76 @@ public class NewsController {
 	public ModelAndView showAddNews() {
 		log.debug("showAddNews()...");
 		Date date = new Date();
-		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-		String currentDate = sdf.format(date);
+		News news = new News();
+		news.setDate(date);
 		ModelAndView modelAndView = new ModelAndView("showAddNews");
-		modelAndView.addObject("currentDate", currentDate);
+		modelAndView.addObject("news", news);
 		return modelAndView;
 	}
 
-	@RequestMapping(value="addNews", method = RequestMethod.POST) 
+	@RequestMapping(value = "addNews", method = RequestMethod.POST)
 	public ModelAndView addNews(@ModelAttribute("news") News news) {
 		log.debug("addNews()...");
 		News createdNews;
 		createdNews = newsServiceImpl.create(news);
-		ModelAndView modelAndView = new ModelAndView("viewNews");
+		ModelAndView modelAndView = new ModelAndView("showViewNews");
 		modelAndView.addObject("news", createdNews);
 		return modelAndView;
 	}
 
-	public ActionForward addNews(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
-		log.debug("addNews()...");
-		if (newsServiceImpl == null) {
-			throw new NewsControllerException("newsServiceImpl is null.");
-		}
-		NewsForm newsForm = (NewsForm) form;
-		News news = new News();
-		news.setNewsTitle(newsForm.getNewsTitle());
-		news.setDate(new SimpleDateFormat("MM/dd/yyyy").parse(newsForm.getDate()));
-		news.setBrief(newsForm.getBrief());
-		news.setContent(newsForm.getContent());
-		news = newsServiceImpl.create(news);
-		return mapping.findForward("addNews");
-	}
-
-	public ActionForward showViewNews(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
+	@RequestMapping(value = "showViewNews", method = RequestMethod.GET)
+	public ModelAndView showViewNews(@RequestParam("id") Integer id) {
 		log.debug("showViewNews()...");
-		if (newsServiceImpl == null) {
-			throw new NewsControllerException("newsServiceImpl is null.");
-		}
-		NewsForm newsForm = (NewsForm) form;
-		newsForm.setNews(newsServiceImpl.find(Integer.valueOf(newsForm.getId())));
-		return mapping.findForward("showViewNews");
+		ModelAndView modelAndView = new ModelAndView("showViewNews");
+		News viewedNews = newsServiceImpl.find(id);
+		modelAndView.addObject("news", viewedNews);
+		return modelAndView;
 	}
 
-	public ActionForward deleteNewsList(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
+	@RequestMapping(value = "deleteNewsList", method = RequestMethod.POST)
+	public ModelAndView deleteNewsList(@ModelAttribute("newsCheckbox") NewsCheckbox newsCheckbox) {
 		log.debug("deleteNews()...");
-		if (newsServiceImpl == null) {
-			throw new NewsControllerException("newsServiceImpl is null.");
-		}
-		NewsForm newsForm = (NewsForm) form;
-		String[] itemsToDelete = newsForm.getItemsToDelete();
-		if (itemsToDelete != null) {
-			for (int i = 0; i < itemsToDelete.length; i++) {
-				newsServiceImpl.delete(Integer.parseInt(itemsToDelete[i]));
+		List<Integer> idList = newsCheckbox.getIdList();
+		if (!idList.isEmpty()) {
+			for (Integer id : idList) {
+				newsServiceImpl.delete(id);
 			}
-			newsForm.setItemsToDelete(null);
 		}
-		return mapping.findForward("deleteNews");
+		ModelAndView modelAndView = new ModelAndView("listNews");
+		modelAndView.addObject("newsList", newsServiceImpl.findAllSortByDate());
+		return modelAndView;
 	}
 
-	public ActionForward deleteNews(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
+	@RequestMapping(value = "deleteNews", method = RequestMethod.POST)
+	public ModelAndView deleteNews(@RequestParam("id") Integer id) {
 		log.debug("deleteNews()...");
-		if (newsServiceImpl == null) {
-			throw new NewsControllerException("newsServiceImpl is null.");
-		}
-		NewsForm newsForm = (NewsForm) form;
-		newsServiceImpl.delete(Integer.valueOf(newsForm.getId()));
-		return mapping.findForward("deleteNews");
+		newsServiceImpl.delete(id);
+		ModelAndView modelAndView = new ModelAndView("listNews");
+		modelAndView.addObject("newsList", newsServiceImpl.findAllSortByDate());
+		return modelAndView;
 	}
 
-	public ActionForward showEditNews(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
+	@RequestMapping(value = "showEditNews", method = RequestMethod.GET)
+	public ModelAndView showEditNews(@RequestParam("id") Integer id) {
 		log.debug("showEditNews()...");
-		if (newsServiceImpl == null) {
-			throw new NewsControllerException("newsServiceImpl is null.");
-		}
-		NewsForm newsForm = (NewsForm) form;
-		News news = newsServiceImpl.find(Integer.valueOf(newsForm.getId()));
-		newsForm.setNews(news);
-		String id = String.valueOf(news.getId());
-		newsForm.setId(id);
-		newsForm.setDate(new SimpleDateFormat("MM/dd/yyyy").format(news.getDate()));
-		return mapping.findForward("showEditNews");
+		ModelAndView modelAndView = new ModelAndView("viewNews");
+		News editedNews = newsServiceImpl.find(id);
+		modelAndView.addObject("news", editedNews);
+		return modelAndView;
 	}
 
-	public ActionForward editNews(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
+	@RequestMapping(value = "editNews", method = RequestMethod.POST)
+	public ModelAndView editNews(@ModelAttribute("news") News news, @RequestParam("id") Integer id) {
 		log.debug("editNews()...");
-		if (newsServiceImpl == null) {
-			throw new NewsControllerException("newsServiceImpl is null.");
-		}
-		NewsForm newsForm = (NewsForm) form;
-		News news = new News();
-		log.debug("id={}", newsForm.getId());
-		news.setId(Integer.parseInt(newsForm.getId()));
-		news.setNewsTitle(newsForm.getNewsTitle());
-		news.setDate(new SimpleDateFormat("MM/dd/yyyy").parse(newsForm.getDate()));
-		news.setBrief(newsForm.getBrief());
-		news.setContent(newsForm.getContent());
-		newsForm.setNews(news);
+		news.setId(id);
 		newsServiceImpl.update(news);
-		return mapping.findForward("showViewNews");
+		ModelAndView modelAndView = new ModelAndView("viewNews");
+		modelAndView.addObject("news", news);
+		return modelAndView;
+	}
+	
+	@RequestMapping(value = "cancel", method = RequestMethod.GET)
+	public String cancel() {
+		return "redirect:listNews";
 	}
 }
