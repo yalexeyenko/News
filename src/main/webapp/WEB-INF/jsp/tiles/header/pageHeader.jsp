@@ -6,10 +6,10 @@
 		<spring:message code="header.title" />
 	</h1>
 	<div id="change_locale">
-		<spring:url value="english">
+		<spring:url value="?locale=en">
 			<span><spring:message code="header.lang.english" /></span>
 		</spring:url>
-		<spring:url value="russian">
+		<spring:url value="?locale=ru">
 			<span><spring:message code="header.lang.russian" /></span>
 		</spring:url>
 
