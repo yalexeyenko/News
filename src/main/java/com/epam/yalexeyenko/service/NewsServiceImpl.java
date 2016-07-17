@@ -4,49 +4,53 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import com.epam.yalexeyenko.dao.NewsDao;
 import com.epam.yalexeyenko.model.News;
+import com.epam.yalexeyenko.repository.NewsRepository;
 
+@Service
 public class NewsServiceImpl implements NewsService {
 	private static final Logger log = LoggerFactory.getLogger(NewsServiceImpl.class);
 
-	private NewsDao newsDaoImpl;
+	@Autowired
+	private NewsRepository newsRepository;
 
-	public NewsDao getNewsDaoImpl() {
-		return newsDaoImpl;
+	public NewsRepository getNewsRepository() {
+		return newsRepository;
 	}
 
-	public void setNewsDaoImpl(NewsDao newsDaoImpl) {
-		this.newsDaoImpl = newsDaoImpl;
+	public void setNewsRepository(NewsRepository newsRepository) {
+		this.newsRepository = newsRepository;
 	}
-
+	
 	@Override
 	public News create(News news) {
-		return newsDaoImpl.insert(news);
+		return newsRepository.saveAndFlush(news);
 	}
 
 	@Override
 	public News find(int id) {
-		return newsDaoImpl.findById(id);
+		return newsRepository.findOne(id);
 	}
-	
+
 	public List<News> findAll() {
-		return newsDaoImpl.findAll();
+		return newsRepository.findAll();
 	}
-	
+
 	@Override
 	public List<News> findAllSortByDate() {
-		return newsDaoImpl.findAllSortByDate();
+		return newsRepository.findAllSortByDate();
 	}
-	
+
 	@Override
 	public void update(News news) {
-		newsDaoImpl.update(news);
+		newsRepository.saveAndFlush(news);
 	}
-	
+
 	@Override
 	public void delete(int id) {
-		newsDaoImpl.delete(id);
+		newsRepository.delete(id);
 	}
 }

@@ -1,6 +1,5 @@
 package com.epam.yalexeyenko.controller;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -15,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.epam.yalexeyenko.model.News;
+import com.epam.yalexeyenko.model.NewsCheckbox;
 import com.epam.yalexeyenko.service.NewsService;
-import com.epam.yalexeyenko.util.NewsCheckbox;
 
 @Controller
 @RequestMapping("/")

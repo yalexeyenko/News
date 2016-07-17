@@ -14,9 +14,8 @@ import javax.persistence.TemporalType;
 @Table(name = "NEWSBLOCK")
 @NamedQueries({
 	@NamedQuery(name = "News.findAll", query = "SELECT n FROM NEWSBLOCK n"),
-	@NamedQuery(name = "News.findAllOrderedByDate", query = "SELECT n FROM NEWSBLOCK n ORDER BY n.date DESC")
+	@NamedQuery(name = "News.findAllOrderByDate", query = "SELECT n FROM NEWSBLOCK n ORDER BY n.date DESC")
 })
-
 public class News extends BaseEntity {
 	@Column(name = "TITLE")
 	private String title;

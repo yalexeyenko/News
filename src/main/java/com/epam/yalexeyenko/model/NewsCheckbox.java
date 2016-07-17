@@ -1,4 +1,4 @@
-package com.epam.yalexeyenko.util;
+package com.epam.yalexeyenko.model;
 
 import java.util.List;
 
