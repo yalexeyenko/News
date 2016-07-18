@@ -12,6 +12,7 @@ import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
@@ -24,11 +25,16 @@ import org.springframework.web.servlet.view.tiles3.TilesViewResolver;
 @ComponentScan("com.epam.yalexeyenko")
 public class AppConfiguration extends WebMvcConfigurerAdapter {
 
+	@Override
+	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+		registry.addResourceHandler("/resources/**").addResourceLocations("/resources/**");
+	}
+	
 	/* i18n */
 	@Bean
 	public MessageSource messageSource() {
 		ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
-		messageSource.setBasename("/i18n/messages");
+		messageSource.setBasename("classpath:i18n/messages");
 		messageSource.setDefaultEncoding("UTF-8");
 		return messageSource;
 	}
@@ -42,30 +48,32 @@ public class AppConfiguration extends WebMvcConfigurerAdapter {
 		return resolver;
 	}
 
-	@Bean
-	public void addInterceptor(InterceptorRegistry registry) {
+	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
 		LocaleChangeInterceptor interceptor = new LocaleChangeInterceptor();
 		interceptor.setParamName("locale");
 		registry.addInterceptor(interceptor);
 	}
 
 	@Override
-	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
+	public void addViewControllers(ViewControllerRegistry registry) {
+		registry.addViewController("/").setViewName("index");
 	}
 
 	/* Apache tiles */
 	@Bean
-    TilesViewResolver viewResolver(){
-        TilesViewResolver viewResolver = new TilesViewResolver();
-        return viewResolver;
-    }
+	TilesViewResolver viewResolver() {
+		TilesViewResolver viewResolver = new TilesViewResolver();
+		return viewResolver;
+	}
 
-    @Bean
-    TilesConfigurer tilesConfigurer(){
-        TilesConfigurer tilesConfigurer = new TilesConfigurer();
-        tilesConfigurer.setDefinitions("WEB-INF/tiles-defs.xml");
-        tilesConfigurer.setPreparerFactoryClass(org.springframework.web.servlet.view.tiles3.SpringBeanPreparerFactory.class);
-        return tilesConfigurer;    
-    }
+	@Bean
+	TilesConfigurer tilesConfigurer() {
+		TilesConfigurer tilesConfigurer = new TilesConfigurer();
+		tilesConfigurer.setDefinitions("WEB-INF/tiles-defs.xml");
+		tilesConfigurer
+				.setPreparerFactoryClass(org.springframework.web.servlet.view.tiles3.SpringBeanPreparerFactory.class);
+		return tilesConfigurer;
+	}
+
 }
