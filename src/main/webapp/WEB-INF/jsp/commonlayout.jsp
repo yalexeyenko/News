@@ -2,11 +2,15 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 
-<link rel="stylesheet" href="resources/css/style.css" type="text/css">
+<link rel="stylesheet" href="/resouces/css/style.css" type="text/css">
+<link rel="stylesheet" href="/css/style.css" type="text/css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/css/style.css" type="text/css">
 
 <html>
 <head>
-<title><spring:message code="<tiles:getAsString name='title'/>"/></title>
+<title>News <%-- 	<spring:message code="<tiles:getAsString name='title'/> --%>
+</title>
 </head>
 <body>
 	<div class="wrapper">
