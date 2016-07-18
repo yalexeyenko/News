@@ -5,16 +5,20 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.epam.yalexeyenko.model.News;
 import com.epam.yalexeyenko.repository.NewsRepository;
 
-@Service
+@Repository
+@Transactional
 public class NewsServiceImpl implements NewsService {
 	private static final Logger log = LoggerFactory.getLogger(NewsServiceImpl.class);
 
 	@Autowired
+	@Qualifier("newsRepository")
 	private NewsRepository newsRepository;
 
 	public NewsRepository getNewsRepository() {
@@ -35,7 +39,7 @@ public class NewsServiceImpl implements NewsService {
 		return newsRepository.findOne(id);
 	}
 
-	public List<News> findAll() {
+	public List<News> findAll() {		
 		return newsRepository.findAll();
 	}
 
