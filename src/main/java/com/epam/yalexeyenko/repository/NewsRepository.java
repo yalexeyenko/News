@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.epam.yalexeyenko.model.News;
 
-@Repository
+@Repository("newsRepository")
 public interface NewsRepository extends JpaRepository<News, Integer> {
 	@Query("SELECT n FROM NEWSBLOCK n ORDER BY n.date DESC")
 	public List<News> findAllSortByDate();
