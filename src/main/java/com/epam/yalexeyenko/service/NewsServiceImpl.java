@@ -6,14 +6,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.epam.yalexeyenko.model.News;
 import com.epam.yalexeyenko.repository.NewsRepository;
 
-@Repository
+@Repository("newsServiceImpl")
 @Transactional
+@Lazy
 public class NewsServiceImpl implements NewsService {
 	private static final Logger log = LoggerFactory.getLogger(NewsServiceImpl.class);
 
@@ -40,12 +42,18 @@ public class NewsServiceImpl implements NewsService {
 	}
 
 	public List<News> findAll() {		
-		return newsRepository.findAll();
+		log.debug("findAll()...");
+		List<News> newsList = newsRepository.findAll();
+		log.debug("newsList: {}", newsList);
+		return newsList;
 	}
 
 	@Override
 	public List<News> findAllSortByDate() {
-		return newsRepository.findAllSortByDate();
+		log.debug("findAllSortByDate()...");
+		List<News> newsList = newsRepository.findAllSortByDate();
+		log.debug("newsList: {}", newsList);
+		return newsList;
 	}
 
 	@Override
