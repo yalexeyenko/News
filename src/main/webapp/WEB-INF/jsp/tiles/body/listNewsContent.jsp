@@ -6,7 +6,7 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 
 <div class="listNewsContent">
-	<form:form action="deleteNewsList" commandName="newsCheckbox">
+	<form:form action="deleteNewsList" modelAttribute="newsCheckbox">
 		<c:forEach items="${newsList}" var="newsItem">
 			<div class="news_item_block">
 				<div class="title_date">
@@ -21,14 +21,14 @@
 					<span>${newsItem.brief}</span>
 				</div>
 				<div class="view_n_edit_ref">
-					<spring:url value="showViewNews">
+					<a href="showViewNews">
 						<spring:message code="content.list.item.ref.view"/>
 						<spring:param name="id" value="${newsItem.id}"/>
-					</spring:url>
-					<spring:url value="showEditNews">
+					</a>
+					<a href="showEditNews">
 						<spring:message code="content.list.item.ref.edit"/>
 						<spring:param name="id" value="${newsItem.id}"/>
-					</spring:url>
+					</a>
 					<form:checkbox path="idList" value="${newsItem.id} }" />
 				</div>
 			</div>
