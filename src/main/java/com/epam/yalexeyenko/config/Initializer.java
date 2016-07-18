@@ -6,6 +6,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
 
 import org.springframework.web.context.ContextLoaderListener;
+import org.springframework.web.context.request.RequestContextListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.DispatcherServlet;
@@ -15,19 +16,18 @@ public class Initializer extends AbstractAnnotationConfigDispatcherServletInitia
 
 	@Override
 	public void onStartup(ServletContext servletContext) throws ServletException {
-//		AnnotationConfigWebApplicationContext appContext = new AnnotationConfigWebApplicationContext();
-//		appContext.register(AppConfiguration.class);
-//		appContext.setServletContext(servletContext);
-//		ServletRegistration.Dynamic dispatcher = servletContext.addServlet("dispatcher",
-//				new DispatcherServlet(appContext));
-//		dispatcher.setLoadOnStartup(1);
-//		dispatcher.addMapping("/");
+		super.onStartup(servletContext);
+		this.registerRequestContextListener(servletContext);
 
 		FilterRegistration.Dynamic encodingFilter = servletContext.addFilter("encoding-filter",
 				new CharacterEncodingFilter());
 		encodingFilter.setInitParameter("encoding", "UTF-8");
 		encodingFilter.setInitParameter("forceEncoding", "true");
 		encodingFilter.addMappingForUrlPatterns(null, true, "/*");
+	}
+
+	private void registerRequestContextListener(ServletContext servletContext) {
+		servletContext.addListener(new RequestContextListener());
 	}
 
 	@Override
