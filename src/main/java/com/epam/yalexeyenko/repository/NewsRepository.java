@@ -10,6 +10,6 @@ import com.epam.yalexeyenko.model.News;
 
 @Repository("newsRepository")
 public interface NewsRepository extends JpaRepository<News, Integer> {
-	@Query("SELECT n FROM NEWSBLOCK n ORDER BY n.date DESC")
+	@Query("SELECT n FROM BLOCKNEWS n ORDER BY n.date DESC")
 	public List<News> findAllSortByDate();
 }
