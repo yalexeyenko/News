@@ -36,15 +36,14 @@ public class NewsController {
 		return modelMap;
 	}
 
-	@RequestMapping(value = "showAddNews")
-	public ModelAndView showAddNews() {
+	@RequestMapping(value = "showAddNews", method = RequestMethod.GET)
+	public ModelMap showAddNews(ModelMap modelMap) {
 		log.debug("showAddNews()...");
 		Date date = new Date();
 		News news = new News();
 		news.setDate(date);
-		ModelAndView modelAndView = new ModelAndView("showAddNews");
-		modelAndView.addObject("news", news);
-		return modelAndView;
+		modelMap.addAttribute("news", news);
+		return modelMap;
 	}
 
 	@RequestMapping(value = "addNews", method = RequestMethod.POST)
