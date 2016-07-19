@@ -17,7 +17,7 @@
 
 	<definition name="index" template="/WEB-INF/index.jsp" />
 
-	<definition name="showAddNews" template="commonDefinition">
+	<definition name="showAddNews" extends="commonDefinition">
 		<put-attribute name="title" type="string" value="Add news" />
 		<put-attribute name="content"
 			value="/WEB-INF/jsp/tiles/body/addNewsContent.jsp" />
