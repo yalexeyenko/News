@@ -2,10 +2,8 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 
-<link rel="stylesheet" href="/resouces/css/style.css" type="text/css">
-<link rel="stylesheet" href="/css/style.css" type="text/css">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/style.css" type="text/css">
+<spring:url value="/css/style.css" var="style" />
+<link href="${style}" rel="stylesheet" />
 
 <html>
 <head>
