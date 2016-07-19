@@ -21,13 +21,11 @@
 					<span>${newsItem.brief}</span>
 				</div>
 				<div class="view_n_edit_ref">
-					<a href="showViewNews">
+					<a href="showViewNews?id=${newsItem.id}">
 						<spring:message code="content.list.item.ref.view"/>
-						<spring:param name="id" value="${newsItem.id}"/>
 					</a>
-					<a href="showEditNews">
+					<a href="showEditNews?id=${newsItem.id}">
 						<spring:message code="content.list.item.ref.edit"/>
-						<spring:param name="id" value="${newsItem.id}"/>
 					</a>
 					<form:checkbox path="idList" value="${newsItem.id} }" />
 				</div>
