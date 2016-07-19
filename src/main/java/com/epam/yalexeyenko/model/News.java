@@ -9,8 +9,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-@Entity(name = "NEWSBLOCK")
-@Table(name = "NEWSBLOCK")
+@Entity(name = "BLOCKNEWS")
+@Table(name = "BLOCKNEWS")
 public class News extends BaseEntity implements Serializable {
 	@Column(name = "TITLE")
 	private String title;
