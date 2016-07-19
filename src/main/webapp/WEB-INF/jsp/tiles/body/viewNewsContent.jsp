@@ -20,14 +20,12 @@
 			<span id="block">${news.content}</span>
 		</div>
 		<div id="edit_n_delete_ref">
-			<spring:url value="showEditNews">
+			<a href="showEditNews?id=${news.id} }">
 				<spring:message code="content.view.button.edit" />
-				<spring:param name="id" value="${news.id}" />
-			</spring:url>
-			<spring:url value="deleteNews">
+			</a>
+			<a href="deleteNews?id=${news.id} }">
 				<spring:message code="content.view.button.delete" />
-				<spring:param name="id" value="${news.id}" />
-			</spring:url>
+			</a>
 		</div>
 	</div>
 </div>
