@@ -15,7 +15,6 @@ import com.epam.yalexeyenko.repository.NewsRepository;
 
 @Repository("newsServiceImpl")
 @Transactional
-@Lazy
 public class NewsServiceImpl implements NewsService {
 	private static final Logger log = LoggerFactory.getLogger(NewsServiceImpl.class);
 
