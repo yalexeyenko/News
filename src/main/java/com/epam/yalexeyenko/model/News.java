@@ -1,5 +1,6 @@
 package com.epam.yalexeyenko.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -10,7 +11,7 @@ import javax.persistence.TemporalType;
 
 @Entity(name = "NEWSBLOCK")
 @Table(name = "NEWSBLOCK")
-public class News extends BaseEntity {
+public class News extends BaseEntity implements Serializable {
 	@Column(name = "TITLE")
 	private String title;
 	@Temporal(TemporalType.DATE)
