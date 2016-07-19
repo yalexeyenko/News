@@ -14,7 +14,6 @@ import javax.persistence.TemporalType;
 public class News extends BaseEntity implements Serializable {
 	@Column(name = "TITLE")
 	private String title;
-	@Temporal(TemporalType.DATE)
 	@Column(name = "NEWSDATE")
 	private Date date;
 	@Column(name = "BRIEF")
