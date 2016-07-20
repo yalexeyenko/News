@@ -29,44 +29,39 @@ public class NewsController {
 	private NewsService newsServiceImpl;
 	
 	@RequestMapping(value = "listNews")
-	public ModelMap listNews(ModelMap modelMap) {
+	public String listNews(ModelMap modelMap) {
 		log.debug("listNews()...");
 		modelMap.addAttribute("newsList", newsServiceImpl.findAll());
 		modelMap.addAttribute("newsCheckbox", new NewsCheckbox());
-		return modelMap;
+		return "listNews";
 	}
 
 	@RequestMapping(value = "showAddNews", method = RequestMethod.GET)
-	public ModelMap showAddNews(ModelMap modelMap) {
+	public String showAddNews(ModelMap modelMap) {
 		log.debug("showAddNews()...");
 		Date date = new Date();
 		News news = new News();
 		news.setDate(date);
 		modelMap.addAttribute("news", news);
-		return modelMap;
+		return "showAddNews";
 	}
 
 	@RequestMapping(value = "addNews", method = RequestMethod.POST)
-	public ModelAndView addNews(@ModelAttribute("news") News news) {
+	public String addNews(@ModelAttribute("news") News news, ModelMap modelMap) {
 		log.debug("addNews()...");
-		News createdNews;
-		createdNews = newsServiceImpl.create(news);
-		ModelAndView modelAndView = new ModelAndView("showViewNews");
-		modelAndView.addObject("news", createdNews);
-		return modelAndView;
+		modelMap.addAttribute("news", newsServiceImpl.create(news));
+		return "showViewNews";
 	}
 
 	@RequestMapping(value = "showViewNews", method = RequestMethod.GET)
-	public ModelAndView showViewNews(@RequestParam("id") Integer id) {
+	public String showViewNews(@RequestParam("id") Integer id, ModelMap modelMap) {
 		log.debug("showViewNews()...");
-		ModelAndView modelAndView = new ModelAndView("showViewNews");
-		News viewedNews = newsServiceImpl.find(id);
-		modelAndView.addObject("news", viewedNews);
-		return modelAndView;
+		modelMap.addAttribute("news", newsServiceImpl.find(id));
+		return "showViewNews";
 	}
 
 	@RequestMapping(value = "deleteNewsList", method = RequestMethod.POST)
-	public ModelAndView deleteNewsList(@ModelAttribute("newsCheckbox") NewsCheckbox newsCheckbox) {
+	public String deleteNewsList(@ModelAttribute("newsCheckbox") NewsCheckbox newsCheckbox, ModelMap modelMap) {
 		log.debug("deleteNews()...");
 		List<Integer> idList = newsCheckbox.getIdList();
 		if (!idList.isEmpty()) {
@@ -74,37 +69,32 @@ public class NewsController {
 				newsServiceImpl.delete(id);
 			}
 		}
-		ModelAndView modelAndView = new ModelAndView("listNews");
-		modelAndView.addObject("newsList", newsServiceImpl.findAllSortByDate());
-		return modelAndView;
+		modelMap.addAttribute("newsList", newsServiceImpl.findAll());
+		return "listNews";
 	}
 
 	@RequestMapping(value = "deleteNews", method = RequestMethod.POST)
-	public ModelAndView deleteNews(@RequestParam("id") Integer id) {
+	public String deleteNews(@RequestParam("id") Integer id, ModelMap modelMap) {
 		log.debug("deleteNews()...");
 		newsServiceImpl.delete(id);
-		ModelAndView modelAndView = new ModelAndView("listNews");
-		modelAndView.addObject("newsList", newsServiceImpl.findAllSortByDate());
-		return modelAndView;
+		modelMap.addAttribute("newsList", newsServiceImpl.findAll());
+		return "listNews";
 	}
 
 	@RequestMapping(value = "showEditNews", method = RequestMethod.GET)
-	public ModelAndView showEditNews(@RequestParam("id") Integer id) {
+	public String showEditNews(@RequestParam("id") Integer id, ModelMap modelMap) {
 		log.debug("showEditNews()...");
-		ModelAndView modelAndView = new ModelAndView("viewNews");
-		News editedNews = newsServiceImpl.find(id);
-		modelAndView.addObject("news", editedNews);
-		return modelAndView;
+		modelMap.addAttribute("news", newsServiceImpl.find(id));
+		return "showEditNews";
 	}
 
 	@RequestMapping(value = "editNews", method = RequestMethod.POST)
-	public ModelAndView editNews(@ModelAttribute("news") News news, @RequestParam("id") Integer id) {
+	public String editNews(@ModelAttribute("news") News news, @RequestParam("id") Integer id, ModelMap modelMap) {
 		log.debug("editNews()...");
 		news.setId(id);
 		newsServiceImpl.update(news);
-		ModelAndView modelAndView = new ModelAndView("viewNews");
-		modelAndView.addObject("news", news);
-		return modelAndView;
+		modelMap.addAttribute("news", news);
+		return "showViewNews";
 	}
 	
 	@RequestMapping(value = "cancel", method = RequestMethod.GET)
