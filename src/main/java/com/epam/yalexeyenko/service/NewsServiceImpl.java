@@ -16,7 +16,7 @@ import com.epam.yalexeyenko.repository.NewsRepository;
 @Transactional
 public class NewsServiceImpl implements NewsService {
 	private static final Logger log = LoggerFactory.getLogger(NewsServiceImpl.class);
-
+	
 	@Autowired
 	@Qualifier("newsRepository")
 	private NewsRepository newsRepository;
@@ -28,7 +28,7 @@ public class NewsServiceImpl implements NewsService {
 	public void setNewsRepository(NewsRepository newsRepository) {
 		this.newsRepository = newsRepository;
 	}
-	
+
 	@Override
 	public News create(News news) {
 		return newsRepository.saveAndFlush(news);
@@ -39,8 +39,8 @@ public class NewsServiceImpl implements NewsService {
 		return newsRepository.findOne(id);
 	}
 
-	public List<News> findAll() {		
-		log.debug("findAll()...");
+	public List<News> findAll() {
+		log.debug("findAll()...4");
 		List<News> newsList = newsRepository.findAll();
 		log.debug("newsList: {}", newsList);
 		log.debug("newsList.size(): {}", newsList.size());
