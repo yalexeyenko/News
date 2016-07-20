@@ -4,26 +4,27 @@
 
 <div class="editContent">
 	<div class="edit_news_form">
-		<form:form action="addNews" modelAttribute="news">
+		<form:form action="editNews" modelAttribute="news">
 			<div id="input_wrap_title">
 				<span><spring:message code="content.add.title" /></span>
-				<form:input path="news.title" />
+				<form:input path="title" />
 			</div>
 			<div id="input_wrap_date">
 				<span><spring:message code="content.add.date" /></span>
-				<form:input path="news.date" />
+				<form:input path="date" />
 			</div>
 			<div id="input_wrap_brief">
 				<span><spring:message code="content.add.brief" /></span>
-				<form:textarea path="news.brief" />
+				<form:textarea path="brief" />
 			</div>
 			<div id="input_wrap_content">
 				<span><spring:message code="content.add.content" /></span>
-				<form:textarea path="news.content" />
+				<form:textarea path="content" />
 			</div>
 			<div id="button_wrap">
 				<form:button>
 					<spring:message code="content.add.button.save" />
+					<input type="hidden" name="id" value="${news.id}" />
 				</form:button>
 				<spring:url value="cancell">
 					<form:button>
