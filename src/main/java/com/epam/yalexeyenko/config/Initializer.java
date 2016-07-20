@@ -14,7 +14,6 @@ public class Initializer extends AbstractAnnotationConfigDispatcherServletInitia
 	public void onStartup(ServletContext servletContext) throws ServletException {
 		super.onStartup(servletContext);
 		this.registerRequestContextListener(servletContext);
-
 		FilterRegistration.Dynamic encodingFilter = servletContext.addFilter("encoding-filter",
 				new CharacterEncodingFilter());
 		encodingFilter.setInitParameter("encoding", "UTF-8");
