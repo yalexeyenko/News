@@ -1,7 +1,5 @@
 package com.epam.yalexeyenko.model;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,7 +8,7 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.SequenceGenerator;
 
 @MappedSuperclass
-public class BaseEntity implements Serializable {
+public class BaseEntity {
 	@Id
 	@Column(name = "ID")
 	@SequenceGenerator(name = "id_Sequence", sequenceName = "NEWSBLOCK_SEQ")
