@@ -20,10 +20,10 @@
 			<span id="block">${news.content}</span>
 		</div>
 		<div id="edit_n_delete_ref">
-			<a href="showEditNews?id=${news.id} }">
+			<a href="showEditNews?id=${news.id}" >
 				<spring:message code="content.view.button.edit" />
 			</a>
-			<a href="deleteNews?id=${news.id} }">
+			<a href="deleteNews?id=${news.id}" >
 				<spring:message code="content.view.button.delete" />
 			</a>
 		</div>
