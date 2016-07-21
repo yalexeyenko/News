@@ -62,22 +62,24 @@ public class NewsController {
 
 	@RequestMapping(value = "deleteNewsList", method = RequestMethod.POST)
 	public String deleteNewsList(@ModelAttribute("newsCheckbox") NewsCheckbox newsCheckbox, ModelMap modelMap) {
-		log.debug("deleteNews()...");
+		log.debug("deleteNews()8...");
 		List<Integer> idList = newsCheckbox.getIdList();
-		if (!idList.isEmpty()) {
+		if (idList != null) {
 			for (Integer id : idList) {
 				newsServiceImpl.delete(id);
 			}
 		}
 		modelMap.addAttribute("newsList", newsServiceImpl.findAll());
+		modelMap.addAttribute("newsCheckbox", newsCheckbox);
 		return "listNews";
 	}
 
-	@RequestMapping(value = "deleteNews", method = RequestMethod.POST)
-	public String deleteNews(@RequestParam("id") Integer id, ModelMap modelMap) {
+	@RequestMapping(value = "deleteNews", method = RequestMethod.GET)
+	public String deleteNews(@RequestParam("id") Integer id, @ModelAttribute("newsCheckbox") NewsCheckbox newsCheckbox, ModelMap modelMap) {
 		log.debug("deleteNews()...");
 		newsServiceImpl.delete(id);
 		modelMap.addAttribute("newsList", newsServiceImpl.findAll());
+		modelMap.addAttribute("newsCheckbox", newsCheckbox);
 		return "listNews";
 	}
 
