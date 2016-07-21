@@ -1,5 +1,6 @@
 package com.epam.yalexeyenko.controller;
 
+import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -7,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -39,8 +41,11 @@ public class NewsController {
 	public String showAddNews(ModelMap modelMap) {
 		log.debug("showAddNews()...");
 		Date date = new Date();
+		DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM, LocaleContextHolder.getLocale());
+		String formattedDate = df.format(date);
 		News news = new News();
 		news.setDate(date);
+		modelMap.addAttribute("formattedDate", formattedDate);
 		modelMap.addAttribute("news", news);
 		return "showAddNews";
 	}
