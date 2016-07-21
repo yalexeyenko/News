@@ -2,6 +2,10 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
+
+
 <div class="editContent">
 	<div class="edit_news_form">
 		<form:form action="editNews" modelAttribute="news">
@@ -11,7 +15,13 @@
 			</div>
 			<div id="input_wrap_date">
 				<span id="tit"><spring:message code="content.add.date" />:</span>
-				<form:input path="date" />
+
+
+				<spring:message code="format.date" var="date-pattern" scope="page" />
+				<fmt:formatDate value="${news.date}" pattern="${date-pattern}"
+					var="currentDate" />
+
+				<form:input path="date" value="${currentDate}" />
 			</div>
 			<div id="input_wrap_brief">
 				<span id="tit"><spring:message code="content.add.brief" />:</span>
