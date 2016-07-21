@@ -27,7 +27,7 @@
 					<a href="showEditNews?id=${newsItem.id}">
 						<spring:message code="content.list.item.ref.edit"/>
 					</a>
-					<form:checkbox path="idList" value="${newsItem.id} }" />
+					<form:checkbox path="idList" value="${newsItem.id}" />
 				</div>
 			</div>
 		</c:forEach>
