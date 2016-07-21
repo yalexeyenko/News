@@ -179,6 +179,17 @@ body {
 	padding: 2px;
 }
 
+.but_ref {
+	-webkit-appearance: button;
+	-moz-appearance: button;
+	appearance: button;
+	text-decoration: none;
+	font-size: 12px;
+	padding: 4.5px;
+	color: black;
+	cursor: default;
+}
+
 /*Edit page content*/
 .edit_news_form form {
 	padding-top: 40px;
@@ -193,7 +204,8 @@ body {
 	margin-bottom: 15px;
 }
 
-#input_wrap_title, #input_wrap_date, #input_wrap_brief, #input_wrap_content span:FIRST-CHILD {
+#input_wrap_title, #input_wrap_date, #input_wrap_brief,
+	#input_wrap_content span:FIRST-CHILD {
 	font-weight: bold;
 }
 
