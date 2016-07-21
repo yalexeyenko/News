@@ -99,7 +99,9 @@ public class NewsController {
 	}
 	
 	@RequestMapping(value = "cancel", method = RequestMethod.GET)
-	public String cancel() {
-		return "redirect:listNews";
+	public String cancel(@ModelAttribute("newsCheckbox") NewsCheckbox newsCheckbox, ModelMap modelMap) {
+		modelMap.addAttribute("newsList", newsServiceImpl.findAll());
+		modelMap.addAttribute("newsCheckbox", newsCheckbox);
+		return "listNews";
 	}
 }
