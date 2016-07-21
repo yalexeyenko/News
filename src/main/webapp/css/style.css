@@ -193,6 +193,10 @@ body {
 	margin-bottom: 15px;
 }
 
+#input_wrap_title, #input_wrap_date, #input_wrap_brief, #input_wrap_content span:FIRST-CHILD {
+	font-weight: bold;
+}
+
 /*View page content*/
 .view_news {
 	padding-top: 40px;

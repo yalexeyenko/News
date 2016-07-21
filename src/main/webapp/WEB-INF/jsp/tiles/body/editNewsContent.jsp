@@ -6,19 +6,19 @@
 	<div class="edit_news_form">
 		<form:form action="editNews" modelAttribute="news">
 			<div id="input_wrap_title">
-				<span><spring:message code="content.add.title" /></span>
+				<span id="tit"><spring:message code="content.add.title" />:</span>
 				<form:input path="title" />
 			</div>
 			<div id="input_wrap_date">
-				<span><spring:message code="content.add.date" /></span>
+				<span id="tit"><spring:message code="content.add.date" />:</span>
 				<form:input path="date" />
 			</div>
 			<div id="input_wrap_brief">
-				<span><spring:message code="content.add.brief" /></span>
+				<span id="tit"><spring:message code="content.add.brief" />:</span>
 				<form:textarea path="brief" />
 			</div>
 			<div id="input_wrap_content">
-				<span><spring:message code="content.add.content" /></span>
+				<span id="tit"><spring:message code="content.add.content" />:</span>
 				<form:textarea path="content" />
 			</div>
 			<div id="button_wrap">
