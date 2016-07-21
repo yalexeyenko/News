@@ -11,7 +11,7 @@
 			</div>
 			<div id="input_wrap_date">
 				<span><spring:message code="content.add.date" /></span>
-				<form:input path="date" />
+				<form:input path="date" value="${formattedDate}" />
 			</div>
 			<div id="input_wrap_brief">
 				<span><spring:message code="content.add.brief" /></span>
