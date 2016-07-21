@@ -11,7 +11,7 @@ import javax.persistence.SequenceGenerator;
 public class BaseEntity {
 	@Id
 	@Column(name = "ID")
-	@SequenceGenerator(name = "id_Sequence", sequenceName = "NEWSBLOCK_SEQ")
+	@SequenceGenerator(name = "id_Sequence", sequenceName = "BLOCKNEWS_SEQ")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id_Sequence")
 	private Integer id;
 	
