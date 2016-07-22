@@ -34,7 +34,7 @@ public class AppConfiguration extends WebMvcConfigurerAdapter {
 	@Bean
 	public MessageSource messageSource() {
 		ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
-		messageSource.setBasename("classpath:i18n/messages");
+		messageSource.setBasenames("classpath:i18n/messages", "classpath:errors/ValidationMessages");
 		messageSource.setDefaultEncoding("UTF-8");
 		return messageSource;
 	}
