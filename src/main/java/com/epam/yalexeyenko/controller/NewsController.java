@@ -29,7 +29,7 @@ public class NewsController {
 	@Autowired
 	@Qualifier("newsServiceImpl")
 	private NewsService newsServiceImpl;
-	
+
 	@RequestMapping(value = "listNews")
 	public String listNews(ModelMap modelMap) {
 		log.debug("listNews()...");
@@ -80,7 +80,8 @@ public class NewsController {
 	}
 
 	@RequestMapping(value = "deleteNews", method = RequestMethod.GET)
-	public String deleteNews(@RequestParam("id") Integer id, @ModelAttribute("newsCheckbox") NewsCheckbox newsCheckbox, ModelMap modelMap) {
+	public String deleteNews(@RequestParam("id") Integer id, @ModelAttribute("newsCheckbox") NewsCheckbox newsCheckbox,
+			ModelMap modelMap) {
 		log.debug("deleteNews()...");
 		newsServiceImpl.delete(id);
 		modelMap.addAttribute("newsList", newsServiceImpl.findAll());
@@ -96,14 +97,18 @@ public class NewsController {
 	}
 
 	@RequestMapping(value = "editNews", method = RequestMethod.POST)
-	public String editNews(@Valid @ModelAttribute("news") News news, @RequestParam("id") Integer id, ModelMap modelMap) {
+	public String editNews(@RequestParam("id") Integer id, @ModelAttribute("news") @Valid News news,
+			BindingResult result, ModelMap modelMap) {
 		log.debug("editNews()...");
+		if (result.hasErrors()) {
+			return "showEditNews";
+		}
 		news.setId(id);
 		newsServiceImpl.update(news);
 		modelMap.addAttribute("news", news);
 		return "showViewNews";
 	}
-	
+
 	@RequestMapping(value = "cancel", method = RequestMethod.GET)
 	public String cancel(@ModelAttribute("newsCheckbox") NewsCheckbox newsCheckbox, ModelMap modelMap) {
 		modelMap.addAttribute("newsList", newsServiceImpl.findAllSortByDate());
