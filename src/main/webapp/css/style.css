@@ -190,6 +190,41 @@ body {
 	cursor: default;
 }
 
+#content_errors span {
+	font-size: 12px;
+	color: red;
+	margin-top: 78px;
+	margin-left: 910px;
+	width: 220px;
+}
+
+#brief_errors span {
+	margin-left: 910px;
+	position: absolute;
+	width: 220;
+	font-size: 12;
+	color: red;
+	margin-top: -18px;
+}
+
+#date_errors span {
+	margin-left: 357px;
+	position: absolute;
+	width: 220;
+	font-size: 12;
+	color: red;
+	margin-top: -14px;
+}
+
+#title_errors span {
+	margin-left: 910;
+	position: absolute;
+	width: 220;
+	font-size: 12;
+	color: red;
+	margin-top: -21px;
+}
+
 /*Edit page content*/
 .edit_news_form form {
 	padding-top: 40px;
