@@ -10,20 +10,24 @@
 			<div id="input_wrap_title">
 				<span id="tit"><spring:message code="content.add.title" />:</span>
 				<form:input path="title" />
+				<div id="title_errors"><form:errors path="title" /></div>
 			</div>
 			<div id="input_wrap_date">
 				<span id="tit"><spring:message code="content.add.date" />:</span>
 				<fmt:formatDate value="${news.date}" pattern="MM/dd/yyyy"
 					var="formattedDate" />
 				<form:input path="date" value="${formattedDate}" />
+				<div id="date_errors"><form:errors path="date" /></div>
 			</div>
 			<div id="input_wrap_brief">
 				<span id="tit"><spring:message code="content.add.brief" />:</span>
 				<form:textarea path="brief" />
+				<div id="brief_errors"><form:errors path="brief" /></div>
 			</div>
 			<div id="input_wrap_content">
 				<span id="tit"><spring:message code="content.add.content" />:</span>
 				<form:textarea path="content" />
+				<div id="content_errors"><form:errors path="content" /></div>
 			</div>
 			<div id="button_wrap">
 				<form:button>
