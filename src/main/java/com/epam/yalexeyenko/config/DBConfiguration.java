@@ -35,7 +35,6 @@ public class DBConfiguration {
 	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
 		LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
 		emf.setDataSource(dataSource());
-//		emf.setPersistenceProviderClass(HibernatePersistenceProvider.class);
 		JpaVendorAdapter jpaVendorAdapter = new HibernateJpaVendorAdapter();
 		emf.setJpaVendorAdapter(jpaVendorAdapter);
 		emf.setJpaProperties(additionalProperties());
