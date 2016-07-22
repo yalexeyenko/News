@@ -11,10 +11,10 @@ import javax.persistence.SequenceGenerator;
 public class BaseEntity {
 	@Id
 	@Column(name = "ID")
-	@SequenceGenerator(name = "id_Sequence", sequenceName = "BLOCKNEWS_SEQ")
+	@SequenceGenerator(name = "id_Sequence", sequenceName = "BLOCKNEWS_SEQ", allocationSize = 1)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id_Sequence")
 	private Integer id;
-	
+
 	public BaseEntity() {
 	}
 
@@ -55,10 +55,5 @@ public class BaseEntity {
 	public String toString() {
 		return "id=" + id;
 	}
-	
-	
-	
-	
-	
-	
+
 }
