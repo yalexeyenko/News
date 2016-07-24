@@ -1,11 +1,11 @@
 package com.epam.yalexeyenko.service;
 
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,22 +38,10 @@ public class NewsServiceImpl implements NewsService {
 	public News find(int id) {
 		return newsRepository.findOne(id);
 	}
-
-	public List<News> findAll() {
-		log.debug("findAll()...4");
-		List<News> newsList = newsRepository.findAll();
-		log.debug("newsList: {}", newsList);
-		log.debug("newsList.size(): {}", newsList.size());
-		return newsList;
-	}
-
+	
 	@Override
-	public List<News> findAllSortByDate() {
-		log.debug("findAllSortByDate()...");
-		List<News> newsList = newsRepository.findAllSortByDate();
-		log.debug("newsList: {}", newsList);
-		log.debug("newsList.size(): {}", newsList.size());
-		return newsList;
+	public Page<News> findAll(Pageable pageRequest) {
+		return newsRepository.findAll(pageRequest);
 	}
 
 	@Override
