@@ -225,6 +225,10 @@ body {
 	margin-top: -21px;
 }
 
+.listNewsContent #paging {
+	text-align: center;
+}
+
 /*Edit page content*/
 .edit_news_form form {
 	padding-top: 40px;
