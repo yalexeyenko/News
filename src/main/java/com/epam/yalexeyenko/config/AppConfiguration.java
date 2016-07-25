@@ -16,6 +16,7 @@ import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
+import org.springframework.web.servlet.view.tiles3.SpringBeanPreparerFactory;
 import org.springframework.web.servlet.view.tiles3.TilesConfigurer;
 import org.springframework.web.servlet.view.tiles3.TilesViewResolver;
 
@@ -72,7 +73,7 @@ public class AppConfiguration extends WebMvcConfigurerAdapter {
 		TilesConfigurer tilesConfigurer = new TilesConfigurer();
 		tilesConfigurer.setDefinitions("WEB-INF/tiles-defs.xml");
 		tilesConfigurer
-				.setPreparerFactoryClass(org.springframework.web.servlet.view.tiles3.SpringBeanPreparerFactory.class);
+				.setPreparerFactoryClass(SpringBeanPreparerFactory.class);
 		return tilesConfigurer;
 	}
 
