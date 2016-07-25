@@ -1,13 +1,17 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <spring:url value="/css/style.css" var="style" />
 <link href="${style}" rel="stylesheet" />
 
 <html>
 <head>
-<title>News <%-- 	<spring:message code="<tiles:getAsString name='title'/> --%>
+<title>
+	<c:set var="title"><tiles:getAsString name="title"/></c:set>
+	<spring:message code="${title}"/>
 </title>
 </head>
 <body>
