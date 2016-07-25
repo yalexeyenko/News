@@ -1,6 +1,6 @@
 package com.epam.yalexeyenko.controller;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -44,9 +44,8 @@ public class NewsController {
 	@RequestMapping(value = "showAddNews", method = RequestMethod.GET)
 	public String showAddNews(ModelMap modelMap) {
 		log.debug("showAddNews()...");
-		Date date = new Date();
 		News news = new News();
-		news.setDate(date);
+		news.setDate(LocalDate.now());
 		modelMap.addAttribute("news", news);
 		return "showAddNews";
 	}

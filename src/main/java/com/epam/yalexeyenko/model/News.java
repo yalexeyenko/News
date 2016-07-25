@@ -1,12 +1,10 @@
 package com.epam.yalexeyenko.model;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -23,9 +21,8 @@ public class News extends BaseEntity {
 	
 	@DateTimeFormat(pattern = "MM/dd/yyyy")
 	@NotNull(message = "NotNull.news.date")
-	@Temporal(TemporalType.DATE)
 	@Column(name = "NEWSDATE")
-	private Date date;
+	private LocalDate date;
 	
 	@NotBlank(message = "NotBlank.news.brief")
 	@Size(min = 3, max = 1000, message = "Size.news.brief")
@@ -48,11 +45,11 @@ public class News extends BaseEntity {
 		this.title = title;
 	}
 
-	public Date getDate() {
+	public LocalDate getDate() {
 		return date;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(LocalDate date) {
 		this.date = date;
 	}
 
