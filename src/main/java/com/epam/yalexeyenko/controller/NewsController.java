@@ -33,7 +33,6 @@ public class NewsController {
 	private static final int PAGESIZE = 4;
 
 	@Autowired
-	@Qualifier("newsServiceImpl")
 	private NewsService newsServiceImpl;
 
 	@RequestMapping(value = "listNews")

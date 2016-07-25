@@ -18,7 +18,6 @@ public class NewsServiceImpl implements NewsService {
 	private static final Logger log = LoggerFactory.getLogger(NewsServiceImpl.class);
 	
 	@Autowired
-	@Qualifier("newsRepository")
 	private NewsRepository newsRepository;
 
 	public NewsRepository getNewsRepository() {
