@@ -23,11 +23,11 @@
 			value="/WEB-INF/jsp/tiles/body/addNewsContent.jsp" />
 	</definition>
 
-	<definition name="addNews" extends="commonDefinition">
-		<put-attribute name="title" type="string" value="Add news" />
-		<put-attribute name="content"
-			value="/WEB-INF/jsp/tiles/body/addNewsContent.jsp" />
-	</definition>
+<!-- 	<definition name="addNews" extends="commonDefinition"> -->
+<!-- 		<put-attribute name="title" type="string" value="Add news" /> -->
+<!-- 		<put-attribute name="content" -->
+<!-- 			value="/WEB-INF/jsp/tiles/body/addNewsContent.jsp" /> -->
+<!-- 	</definition> -->
 
 	<definition name="showViewNews" extends="commonDefinition">
 		<put-attribute name="title" type="string" value="View news" />
@@ -35,17 +35,17 @@
 			value="/WEB-INF/jsp/tiles/body/viewNewsContent.jsp" />
 	</definition>
 
-	<definition name="viewNews" extends="commonDefinition">
-		<put-attribute name="title" type="string" value="View news" />
-		<put-attribute name="content"
-			value="/WEB-INF/jsp/tiles/body/viewNewsContent.jsp" />
-	</definition>
+<!-- 	<definition name="viewNews" extends="commonDefinition"> -->
+<!-- 		<put-attribute name="title" type="string" value="View news" /> -->
+<!-- 		<put-attribute name="content" -->
+<!-- 			value="/WEB-INF/jsp/tiles/body/viewNewsContent.jsp" /> -->
+<!-- 	</definition> -->
 
-	<definition name="editNews" extends="commonDefinition">
-		<put-attribute name="title" type="string" value="Edit news" />
-		<put-attribute name="content"
-			value="/WEB-INF/jsp/tiles/body/editNewsContent.jsp" />
-	</definition>
+<!-- 	<definition name="editNews" extends="commonDefinition"> -->
+<!-- 		<put-attribute name="title" type="string" value="Edit news" /> -->
+<!-- 		<put-attribute name="content" -->
+<!-- 			value="/WEB-INF/jsp/tiles/body/editNewsContent.jsp" /> -->
+<!-- 	</definition> -->
 
 	<definition name="showEditNews" extends="commonDefinition">
 		<put-attribute name="title" type="string" value="Edit news" />
