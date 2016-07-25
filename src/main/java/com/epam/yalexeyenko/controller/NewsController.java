@@ -30,7 +30,7 @@ import com.epam.yalexeyenko.service.NewsService;
 public class NewsController {
 	private static final Logger log = LoggerFactory.getLogger(NewsController.class);
 
-	private static final int PAGESIZE = 3;
+	private static final int PAGESIZE = 4;
 
 	@Autowired
 	@Qualifier("newsServiceImpl")
@@ -121,7 +121,7 @@ public class NewsController {
 	}
 
 	private void createPageRequest(Integer pageNumber, ModelMap modelMap, NewsCheckbox newsCheckBox) {
-		Pageable pageRequest = new PageRequest(pageNumber, PAGESIZE, new Sort(Sort.Direction.DESC, "date"));
+		Pageable pageRequest = new PageRequest(pageNumber, PAGESIZE);
 		Page<News> page = newsServiceImpl.findAll(pageRequest);
 		modelMap.addAttribute("page", page);
 		modelMap.addAttribute("newsCheckbox", newsCheckBox);
