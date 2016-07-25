@@ -13,7 +13,7 @@ import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.format.annotation.DateTimeFormat;
 
-@Entity(name = "BLOCKNEWS")
+@Entity
 @Table(name = "BLOCKNEWS")
 public class News extends BaseEntity {
 	@NotBlank(message = "NotBlank.news.title")
