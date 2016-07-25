@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.epam.yalexeyenko.model.News;
-import com.epam.yalexeyenko.model.NewsCheckbox;
+import com.epam.yalexeyenko.model.ListOfCheckboxes;
 import com.epam.yalexeyenko.service.NewsService;
 
 @Controller
@@ -39,7 +39,7 @@ public class NewsController {
 	@RequestMapping(value = "listNews")
 	public String listNews(@RequestParam(value = "pageNumber", defaultValue = "0") Integer pageNumber, ModelMap modelMap) {
 		log.debug("listNews()...");
-		createPageRequest(pageNumber, modelMap, new NewsCheckbox());
+		createPageRequest(pageNumber, modelMap, new ListOfCheckboxes());
 		return "listNews";
 	}
 
@@ -71,25 +71,25 @@ public class NewsController {
 	}
 
 	@RequestMapping(value = "deleteNewsList", method = RequestMethod.POST)
-	public String deleteNewsList(@ModelAttribute("newsCheckbox") NewsCheckbox newsCheckbox,
+	public String deleteNewsList(@ModelAttribute("listOfCheckboxes") ListOfCheckboxes listOfCheckboxes,
 			@RequestParam(value = "pageNumber", defaultValue = "0") Integer pageNumber, ModelMap modelMap) {
 		log.debug("deleteNews()8...");
-		List<Integer> idList = newsCheckbox.getIdList();
+		List<Integer> idList = listOfCheckboxes.getIdList();
 		if (idList != null) {
 			for (Integer id : idList) {
 				newsServiceImpl.delete(id);
 			}
 		}
-		createPageRequest(pageNumber, modelMap, newsCheckbox);
+		createPageRequest(pageNumber, modelMap, listOfCheckboxes);
 		return "listNews";
 	}
 
 	@RequestMapping(value = "deleteNews", method = RequestMethod.GET)
-	public String deleteNews(@RequestParam("id") Integer id, @ModelAttribute("newsCheckbox") NewsCheckbox newsCheckbox,
+	public String deleteNews(@RequestParam("id") Integer id, @ModelAttribute("listOfCheckboxes") ListOfCheckboxes listOfCheckboxes,
 			@RequestParam(value = "pageNumber", defaultValue = "0") Integer pageNumber, ModelMap modelMap) {
 		log.debug("deleteNews()...");
 		newsServiceImpl.delete(id);
-		createPageRequest(pageNumber, modelMap, newsCheckbox);
+		createPageRequest(pageNumber, modelMap, listOfCheckboxes);
 		return "listNews";
 	}
 
@@ -114,16 +114,16 @@ public class NewsController {
 	}
 
 	@RequestMapping(value = "cancel", method = RequestMethod.GET)
-	public String cancel(@ModelAttribute("newsCheckbox") NewsCheckbox newsCheckbox,
+	public String cancel(@ModelAttribute("listOfCheckboxes") ListOfCheckboxes listOfCheckboxes,
 			@RequestParam(value = "pageNumber", defaultValue = "0") Integer pageNumber, ModelMap modelMap) {
-		createPageRequest(pageNumber, modelMap, newsCheckbox);
+		createPageRequest(pageNumber, modelMap, listOfCheckboxes);
 		return "listNews";
 	}
 
-	private void createPageRequest(Integer pageNumber, ModelMap modelMap, NewsCheckbox newsCheckBox) {
+	private void createPageRequest(Integer pageNumber, ModelMap modelMap, ListOfCheckboxes listOfCheckboxes) {
 		Pageable pageRequest = new PageRequest(pageNumber, PAGESIZE, Sort.Direction.DESC, "date");
 		Page<News> page = newsServiceImpl.findAll(pageRequest);
 		modelMap.addAttribute("page", page);
-		modelMap.addAttribute("newsCheckbox", newsCheckBox);
+		modelMap.addAttribute("listOfCheckboxes", listOfCheckboxes);
 	}
 }
