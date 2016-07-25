@@ -1,6 +1,6 @@
 package com.epam.yalexeyenko.controller;
 
-import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -20,16 +20,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.epam.yalexeyenko.model.ListOfCheckboxes;
 import com.epam.yalexeyenko.model.News;
 import com.epam.yalexeyenko.service.NewsService;
+
+import util.ListOfCheckboxes;
 
 @Controller
 @RequestMapping("/")
 public class NewsController {
 	private static final Logger log = LoggerFactory.getLogger(NewsController.class);
 
-	private static final int PAGESIZE = 4;
+	private static final int PAGESIZE = 3;
 
 	@Autowired
 	private NewsService newsServiceImpl;
@@ -45,7 +46,7 @@ public class NewsController {
 	public String showAddNews(ModelMap modelMap) {
 		log.debug("showAddNews()...");
 		News news = new News();
-		news.setDate(LocalDate.now());
+		news.setDate(new Date());
 		modelMap.addAttribute("news", news);
 		return "showAddNews";
 	}
