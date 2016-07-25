@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 import com.epam.yalexeyenko.model.News;
 
 @Repository
-public interface NewsRepository extends JpaRepository<News, Integer> {
+public interface NewsRepository extends JpaRepository<News, Long> {
 	Page<News> findAll(Pageable pageable);
 }

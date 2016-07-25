@@ -7,8 +7,8 @@ import com.epam.yalexeyenko.model.BaseEntity;
 
 public interface Service<T extends BaseEntity> {
 	T create(T t);
-	T find(int id);
+	T find(Long id);
 	Page<T> findAll(Pageable pageRequest);
 	void update(T t);
-	void delete(int id);
+	void delete(Long id);
 }

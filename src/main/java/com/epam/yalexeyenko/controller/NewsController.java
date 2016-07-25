@@ -63,7 +63,7 @@ public class NewsController {
 	}
 
 	@RequestMapping(value = "showViewNews", method = RequestMethod.GET)
-	public String showViewNews(@RequestParam("id") Integer id, ModelMap modelMap) {
+	public String showViewNews(@RequestParam("id") Long id, ModelMap modelMap) {
 		log.debug("showViewNews()...");
 		modelMap.addAttribute("news", newsServiceImpl.find(id));
 		return "showViewNews";
@@ -73,9 +73,9 @@ public class NewsController {
 	public String deleteNewsList(@ModelAttribute("listOfCheckboxes") ListOfCheckboxes listOfCheckboxes,
 			@RequestParam(value = "pageNumber", defaultValue = "0") Integer pageNumber, ModelMap modelMap) {
 		log.debug("deleteNews()8...");
-		List<Integer> idList = listOfCheckboxes.getIdList();
+		List<Long> idList = listOfCheckboxes.getIdList();
 		if (idList != null) {
-			for (Integer id : idList) {
+			for (Long id : idList) {
 				newsServiceImpl.delete(id);
 			}
 		}
@@ -84,7 +84,7 @@ public class NewsController {
 	}
 
 	@RequestMapping(value = "deleteNews", method = RequestMethod.GET)
-	public String deleteNews(@RequestParam("id") Integer id, @ModelAttribute("listOfCheckboxes") ListOfCheckboxes listOfCheckboxes,
+	public String deleteNews(@RequestParam("id") Long id, @ModelAttribute("listOfCheckboxes") ListOfCheckboxes listOfCheckboxes,
 			@RequestParam(value = "pageNumber", defaultValue = "0") Integer pageNumber, ModelMap modelMap) {
 		log.debug("deleteNews()...");
 		newsServiceImpl.delete(id);
@@ -93,14 +93,14 @@ public class NewsController {
 	}
 
 	@RequestMapping(value = "showEditNews", method = RequestMethod.GET)
-	public String showEditNews(@RequestParam("id") Integer id, ModelMap modelMap) {
+	public String showEditNews(@RequestParam("id") Long id, ModelMap modelMap) {
 		log.debug("showEditNews()...");
 		modelMap.addAttribute("news", newsServiceImpl.find(id));
 		return "showEditNews";
 	}
 
 	@RequestMapping(value = "editNews", method = RequestMethod.POST)
-	public String editNews(@RequestParam("id") Integer id, @ModelAttribute("news") @Valid News news,
+	public String editNews(@RequestParam("id") Long id, @ModelAttribute("news") @Valid News news,
 			BindingResult result, ModelMap modelMap) {
 		log.debug("editNews()...");
 		if (result.hasErrors()) {

@@ -3,16 +3,16 @@ package com.epam.yalexeyenko.model;
 import java.util.List;
 
 public class ListOfCheckboxes {
-	private List<Integer> idList;
+	private List<Long> idList;
 
 	public ListOfCheckboxes() {
 	}
 
-	public List<Integer> getIdList() {
+	public List<Long> getIdList() {
 		return idList;
 	}
 
-	public void setIdList(List<Integer> idList) {
+	public void setIdList(List<Long> idList) {
 		this.idList = idList;
 	}
 	
