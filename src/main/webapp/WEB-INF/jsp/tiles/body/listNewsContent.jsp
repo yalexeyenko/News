@@ -7,7 +7,7 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 
 <div class="listNewsContent">
-	<form:form action="deleteNewsList" modelAttribute="newsCheckbox">
+	<form:form action="deleteNewsList" modelAttribute="listOfCheckboxes">
 		<c:forEach items="${page.content}" var="newsItem">
 			<div class="news_item_block">
 				<div class="title_date">
