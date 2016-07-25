@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.epam.yalexeyenko.model.News;
 import com.epam.yalexeyenko.repository.NewsRepository;
 
-@Repository("newsServiceImpl")
+@Repository
 @Transactional
 public class NewsServiceImpl implements NewsService {
 	private static final Logger log = LoggerFactory.getLogger(NewsServiceImpl.class);

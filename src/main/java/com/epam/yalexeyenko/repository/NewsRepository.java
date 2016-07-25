@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import com.epam.yalexeyenko.model.News;
 
-@Repository("newsRepository")
+@Repository
 public interface NewsRepository extends JpaRepository<News, Integer> {
 	Page<News> findAll(Pageable pageable);
 }
