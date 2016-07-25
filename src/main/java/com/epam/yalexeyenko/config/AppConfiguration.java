@@ -22,7 +22,6 @@ import org.springframework.web.servlet.view.tiles3.TilesViewResolver;
 
 @EnableWebMvc
 @Configuration
-@Import(DBConfiguration.class)
 @ComponentScan("com.epam.yalexeyenko")
 public class AppConfiguration extends WebMvcConfigurerAdapter {
 
