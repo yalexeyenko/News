@@ -121,7 +121,7 @@ public class NewsController {
 	}
 
 	private void createPageRequest(Integer pageNumber, ModelMap modelMap, NewsCheckbox newsCheckBox) {
-		Pageable pageRequest = new PageRequest(pageNumber, PAGESIZE);
+		Pageable pageRequest = new PageRequest(pageNumber, PAGESIZE, Sort.Direction.DESC, "date");
 		Page<News> page = newsServiceImpl.findAll(pageRequest);
 		modelMap.addAttribute("page", page);
 		modelMap.addAttribute("newsCheckbox", newsCheckBox);
