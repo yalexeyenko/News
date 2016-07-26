@@ -6,7 +6,7 @@
 
 <div class="addContent">
 	<div class="add_news_form">
-		<form:form action="addNews" modelAttribute="news">
+		<form:form action="addNews" modelAttribute="newsDTO">
 			<div id="input_wrap_title">
 				<span><spring:message code="content.add.title" /></span>
 				<form:input path="title" />
@@ -14,9 +14,7 @@
 			</div>
 			<div id="input_wrap_date">
 				<span><spring:message code="content.add.date" /></span>
-				<fmt:formatDate value="${news.date}" pattern="MM/dd/yyyy"
-					var="formattedDate" />
-				<form:input path="date" value="${formattedDate}" />
+				<form:input path="date" />
 				<div id="date_errors"><form:errors path="date" /></div>
 			</div>
 			<div id="input_wrap_brief">

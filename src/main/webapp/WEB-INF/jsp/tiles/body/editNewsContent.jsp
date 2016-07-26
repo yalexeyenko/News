@@ -6,7 +6,7 @@
 
 <div class="editContent">
 	<div class="edit_news_form">
-		<form:form action="editNews" modelAttribute="news">
+		<form:form action="editNews" modelAttribute="newsDTO">
 			<div id="input_wrap_title">
 				<span id="tit"><spring:message code="content.add.title" />:</span>
 				<form:input path="title" />
@@ -14,9 +14,7 @@
 			</div>
 			<div id="input_wrap_date">
 				<span id="tit"><spring:message code="content.add.date" />:</span>
-				<fmt:formatDate value="${news.date}" pattern="MM/dd/yyyy"
-					var="formattedDate" />
-				<form:input path="date" value="${formattedDate}" />
+				<form:input path="date" />
 				<div id="date_errors"><form:errors path="date" /></div>
 			</div>
 			<div id="input_wrap_brief">
@@ -32,7 +30,7 @@
 			<div id="button_wrap">
 				<form:button>
 					<spring:message code="content.add.button.save" />
-					<input type="hidden" name="id" value="${news.id}" />
+					<input type="hidden" name="id" value="${newsDTO.id}" />
 				</form:button>
 				<a class="but_ref" href="listNews"> <spring:message
 						code="content.add.button.cancel" />

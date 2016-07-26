@@ -15,8 +15,7 @@
 						<span>${newsItem.title}</span>
 					</div>
 					<div class="date">
-						<span><fmt:formatDate pattern="MM/dd/yyyy"
-								value="${newsItem.date}" /></span>
+						<span>${newsItem.date}</span>
 					</div>
 				</div>
 				<div class="news_brief">
