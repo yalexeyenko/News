@@ -1,5 +1,8 @@
 package com.epam.yalexeyenko.controller;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 
@@ -20,10 +23,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.epam.yalexeyenko.model.News;
 import com.epam.yalexeyenko.service.NewsService;
 
-import util.ListOfCheckboxes;
+import dto.ListOfCheckboxes;
+import dto.NewsDTO;
 
 @Controller
 @RequestMapping("/")
@@ -45,33 +48,33 @@ public class NewsController {
 	@RequestMapping(value = "showAddNews", method = RequestMethod.GET)
 	public String showAddNews(ModelMap modelMap) {
 		log.debug("showAddNews()...");
-		News news = new News();
-		news.setDate(new Date());
-		modelMap.addAttribute("news", news);
+		NewsDTO newsDTO = new NewsDTO();
+		newsDTO.setDate(LocalDate.now().format(DateTimeFormatter.ofPattern("MM/dd/yyyy")));
+		modelMap.addAttribute("newsDTO", newsDTO);
 		return "showAddNews";
 	}
 
 	@RequestMapping(value = "addNews", method = RequestMethod.POST)
-	public String addNews(@ModelAttribute("news") @Valid News news, BindingResult result, ModelMap modelMap) {
+	public String addNews(@ModelAttribute("newsDTO") @Valid NewsDTO newsDTO, BindingResult result, ModelMap modelMap) {
 		log.debug("addNews()...");
 		if (result.hasErrors()) {
 			return "showAddNews";
 		}
-		modelMap.addAttribute("news", newsServiceImpl.create(news));
+		modelMap.addAttribute("newsDTO", newsServiceImpl.create(newsDTO));
 		return "showViewNews";
 	}
 
 	@RequestMapping(value = "showViewNews", method = RequestMethod.GET)
 	public String showViewNews(@RequestParam("id") Long id, ModelMap modelMap) {
 		log.debug("showViewNews()...");
-		modelMap.addAttribute("news", newsServiceImpl.find(id));
+		modelMap.addAttribute("newsDTO", newsServiceImpl.find(id));
 		return "showViewNews";
 	}
 
 	@RequestMapping(value = "deleteNewsList", method = RequestMethod.POST)
 	public String deleteNewsList(@ModelAttribute("listOfCheckboxes") ListOfCheckboxes listOfCheckboxes,
 			@RequestParam(value = "pageNumber", defaultValue = "0") Integer pageNumber, ModelMap modelMap) {
-		log.debug("deleteNews()8...");
+		log.debug("deleteNews()...");
 		List<Long> idList = listOfCheckboxes.getIdList();
 		if (idList != null) {
 			for (Long id : idList) {
@@ -94,20 +97,20 @@ public class NewsController {
 	@RequestMapping(value = "showEditNews", method = RequestMethod.GET)
 	public String showEditNews(@RequestParam("id") Long id, ModelMap modelMap) {
 		log.debug("showEditNews()...");
-		modelMap.addAttribute("news", newsServiceImpl.find(id));
+		modelMap.addAttribute("newsDTO", newsServiceImpl.find(id));
 		return "showEditNews";
 	}
 
 	@RequestMapping(value = "editNews", method = RequestMethod.POST)
-	public String editNews(@RequestParam("id") Long id, @ModelAttribute("news") @Valid News news,
+	public String editNews(@RequestParam("id") Long id, @ModelAttribute("newsDTO") @Valid NewsDTO newsDTO,
 			BindingResult result, ModelMap modelMap) {
 		log.debug("editNews()...");
 		if (result.hasErrors()) {
 			return "showEditNews";
 		}
-		news.setId(id);
-		newsServiceImpl.update(news);
-		modelMap.addAttribute("news", news);
+		newsDTO.setId(id);
+		newsServiceImpl.update(newsDTO);
+		modelMap.addAttribute("newsDTO", newsDTO);
 		return "showViewNews";
 	}
 
@@ -120,7 +123,7 @@ public class NewsController {
 
 	private void createPageRequest(Integer pageNumber, ModelMap modelMap, ListOfCheckboxes listOfCheckboxes) {
 		Pageable pageRequest = new PageRequest(pageNumber, PAGESIZE, Sort.Direction.DESC, "date");
-		Page<News> page = newsServiceImpl.findAll(pageRequest);
+		Page<NewsDTO> page = newsServiceImpl.findAll(pageRequest);
 		modelMap.addAttribute("page", page);
 		modelMap.addAttribute("listOfCheckboxes", listOfCheckboxes);
 	}
