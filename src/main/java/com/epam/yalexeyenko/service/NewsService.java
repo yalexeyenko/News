@@ -1,6 +1,14 @@
 package com.epam.yalexeyenko.service;
 
-import com.epam.yalexeyenko.model.News;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
-public interface NewsService extends Service<News> {
+import dto.NewsDTO;
+
+public interface NewsService {
+	NewsDTO create(NewsDTO newdDTO);
+	NewsDTO find(Long id);
+	Page<NewsDTO> findAll(Pageable pageRequest);
+	void update(NewsDTO newdDTO);
+	void delete(Long id);
 }
