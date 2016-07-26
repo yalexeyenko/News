@@ -1,36 +1,28 @@
 package com.epam.yalexeyenko.model;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
-import org.hibernate.validator.constraints.NotBlank;
-import org.springframework.format.annotation.DateTimeFormat;
+import com.epam.yalexeyenko.converter.LocalDateAttributeConverter;
 
 @Entity
 @Table(name = "BLOCKNEWS")
 public class News extends BaseEntity {
-	@NotBlank(message = "NotBlank.news.title")
-	@Size(min = 3, max = 100, message = "Size.news.title")
+	
 	@Column(name = "TITLE")
 	private String title;
 	
-	@DateTimeFormat(pattern = "MM/dd/yyyy")
-	@NotNull(message = "NotNull.news.date")
 	@Column(name = "NEWSDATE")
-	private Date date;
+	@Convert(converter = LocalDateAttributeConverter.class)
+	private LocalDate date;
 	
-	@NotBlank(message = "NotBlank.news.brief")
-	@Size(min = 3, max = 1000, message = "Size.news.brief")
 	@Column(name = "BRIEF")
 	private String brief;
 	
-	@NotBlank(message = "NotBlank.news.content")
-	@Size(min = 3, max = 2000, message = "Size.news.content")
 	@Column(name = "NEWSCONTENT")
 	private String content;
 
@@ -45,11 +37,11 @@ public class News extends BaseEntity {
 		this.title = title;
 	}
 
-	public Date getDate() {
+	public LocalDate getDate() {
 		return date;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(LocalDate date) {
 		this.date = date;
 	}
 
