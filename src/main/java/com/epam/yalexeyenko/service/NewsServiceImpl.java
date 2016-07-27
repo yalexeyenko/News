@@ -1,9 +1,8 @@
 package com.epam.yalexeyenko.service;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -19,8 +18,6 @@ import dto.NewsDTO;
 @Service
 @Transactional
 public class NewsServiceImpl implements NewsService {
-	private static final Logger log = LoggerFactory.getLogger(NewsServiceImpl.class);
-	
 	@Autowired
 	private NewsRepository newsRepository;
 	
@@ -54,12 +51,16 @@ public class NewsServiceImpl implements NewsService {
 
 	@Override
 	public void update(NewsDTO newsDTO) {
-		News news = newsConverter.newsDTOToNews(newsDTO);
-		newsRepository.saveAndFlush(news);
+		newsRepository.saveAndFlush(newsConverter.newsDTOToNews(newsDTO));
 	}
 
 	@Override
 	public void delete(Long id) {
 		newsRepository.delete(id);
+	}
+
+	@Override
+	public List<NewsDTO> findAll() {
+		return newsConverter.newsToDTO(newsRepository.findAll());
 	}
 }
