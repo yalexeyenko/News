@@ -7,12 +7,12 @@
 	<definition name="commonDefinition" template="/WEB-INF/jsp/commonlayout.jsp">
 		<put-attribute name="title" type="" value="" />
 		<put-attribute name="header"
-			value="/WEB-INF/jsp/tiles/header/pageHeader.jsp" />
+			value="/WEB-INF/jsp/tiles/header/header.jsp" />
 		<put-attribute name="leftMenu"
-			value="/WEB-INF/jsp/tiles/body/pageLeftMenu.jsp" />
+			value="/WEB-INF/jsp/tiles/body/left_menu.jsp" />
 		<put-attribute name="content" value="" />
 		<put-attribute name="footer"
-			value="/WEB-INF/jsp/tiles/footer/pageFooter.jsp" />
+			value="/WEB-INF/jsp/tiles/footer/footer.jsp" />
 	</definition>
 
 	<definition name="index" template="/WEB-INF/index.jsp" />
@@ -20,25 +20,25 @@
 	<definition name="showAddNews" extends="commonDefinition">
 		<put-attribute name="title" type="string" value="addNewsTitle" />
 		<put-attribute name="content"
-			value="/WEB-INF/jsp/tiles/body/addNewsContent.jsp" />
+			value="/WEB-INF/jsp/tiles/body/add.jsp" />
 	</definition>
 
 	<definition name="showViewNews" extends="commonDefinition">
 		<put-attribute name="title" type="string" value="viewNewsTitle" />
 		<put-attribute name="content"
-			value="/WEB-INF/jsp/tiles/body/viewNewsContent.jsp" />
+			value="/WEB-INF/jsp/tiles/body/view.jsp" />
 	</definition>
 
 	<definition name="showEditNews" extends="commonDefinition">
 		<put-attribute name="title" type="string" value="editNewsTitle" />
 		<put-attribute name="content"
-			value="/WEB-INF/jsp/tiles/body/editNewsContent.jsp" />
+			value="/WEB-INF/jsp/tiles/body/edit.jsp" />
 	</definition>
 
 	<definition name="listNews" extends="commonDefinition">
 		<put-attribute name="title" type="string" value="listNewsTitle" />
 		<put-attribute name="content"
-			value="/WEB-INF/jsp/tiles/body/listNewsContent.jsp" />
+			value="/WEB-INF/jsp/tiles/body/list.jsp" />
 	</definition>
 
 </tiles-definitions>
