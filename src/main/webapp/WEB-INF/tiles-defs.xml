@@ -19,26 +19,27 @@
 
 	<definition name="showAddNews" extends="commonDefinition">
 		<put-attribute name="title" type="string" value="addNewsTitle" />
-		<put-attribute name="content"
-			value="/WEB-INF/jsp/tiles/body/add.jsp" />
+		<put-attribute name="content" value="/WEB-INF/jsp/tiles/body/add.jsp" />
 	</definition>
 
 	<definition name="showViewNews" extends="commonDefinition">
 		<put-attribute name="title" type="string" value="viewNewsTitle" />
-		<put-attribute name="content"
-			value="/WEB-INF/jsp/tiles/body/view.jsp" />
+		<put-attribute name="content" value="/WEB-INF/jsp/tiles/body/view.jsp" />
 	</definition>
 
 	<definition name="showEditNews" extends="commonDefinition">
 		<put-attribute name="title" type="string" value="editNewsTitle" />
-		<put-attribute name="content"
-			value="/WEB-INF/jsp/tiles/body/edit.jsp" />
+		<put-attribute name="content" value="/WEB-INF/jsp/tiles/body/edit.jsp" />
 	</definition>
 
 	<definition name="listNews" extends="commonDefinition">
 		<put-attribute name="title" type="string" value="listNewsTitle" />
-		<put-attribute name="content"
-			value="/WEB-INF/jsp/tiles/body/list.jsp" />
+		<put-attribute name="content" value="/WEB-INF/jsp/tiles/body/list.jsp" />
+	</definition>
+
+	<definition name="showRegistrationForm" extends="commonDefinition">
+		<put-attribute name="title" type="string" value="registrationTitle" />
+		<put-attribute name="content" value="/WEB-INF/jsp/tiles/body/register.jsp" />
 	</definition>
 
 </tiles-definitions>
