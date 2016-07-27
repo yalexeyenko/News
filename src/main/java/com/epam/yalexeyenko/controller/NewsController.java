@@ -1,9 +1,7 @@
 package com.epam.yalexeyenko.controller;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -23,10 +21,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.epam.yalexeyenko.model.User;
 import com.epam.yalexeyenko.service.NewsService;
+import com.epam.yalexeyenko.service.UserService;
 
 import dto.ListOfCheckboxes;
 import dto.NewsDTO;
+import dto.UserDTO;
 
 @Controller
 @RequestMapping("/")
@@ -38,8 +39,12 @@ public class NewsController {
 	@Autowired
 	private NewsService newsServiceImpl;
 
+	@Autowired
+	private UserService userServiceImpl;
+
 	@RequestMapping(value = "listNews")
-	public String listNews(@RequestParam(value = "pageNumber", defaultValue = "0") Integer pageNumber, ModelMap modelMap) {
+	public String listNews(@RequestParam(value = "pageNumber", defaultValue = "0") Integer pageNumber,
+			ModelMap modelMap) {
 		log.debug("listNews()...");
 		createPageRequest(pageNumber, modelMap, new ListOfCheckboxes());
 		return "listNews";
@@ -86,7 +91,8 @@ public class NewsController {
 	}
 
 	@RequestMapping(value = "deleteNews", method = RequestMethod.GET)
-	public String deleteNews(@RequestParam("id") Long id, @ModelAttribute("listOfCheckboxes") ListOfCheckboxes listOfCheckboxes,
+	public String deleteNews(@RequestParam("id") Long id,
+			@ModelAttribute("listOfCheckboxes") ListOfCheckboxes listOfCheckboxes,
 			@RequestParam(value = "pageNumber", defaultValue = "0") Integer pageNumber, ModelMap modelMap) {
 		log.debug("deleteNews()...");
 		newsServiceImpl.delete(id);
@@ -119,6 +125,33 @@ public class NewsController {
 			@RequestParam(value = "pageNumber", defaultValue = "0") Integer pageNumber, ModelMap modelMap) {
 		createPageRequest(pageNumber, modelMap, listOfCheckboxes);
 		return "listNews";
+	}
+
+	@RequestMapping(value = "showRegistrationForm", method = RequestMethod.GET)
+	public String showRegistrationFrom(ModelMap modelMap) {
+		UserDTO userDTO = new UserDTO();
+		modelMap.addAttribute("userDTO", userDTO);
+		return "showRegistrationForm";
+	}
+
+	@RequestMapping(value = "register", method = RequestMethod.POST)
+	public String register(@ModelAttribute("userDTO") @Valid UserDTO userDTO, BindingResult result, ModelMap modelMap) {
+		log.debug("register()...");
+		UserDTO registeredUserDTO = null;
+		if (!result.hasErrors()) {
+			registeredUserDTO = userServiceImpl.create(userDTO);
+		}
+		if (registeredUserDTO == null) {
+			result.rejectValue("email", "message.reg.error");
+		}
+		if (result.hasErrors()) {
+			modelMap.addAttribute("userDTO", userDTO);
+			return "showRegistrationForm";
+		} else {
+			modelMap.addAttribute("userDTO", userDTO);
+			return "successRegistration";
+		}
+
 	}
 
 	private void createPageRequest(Integer pageNumber, ModelMap modelMap, ListOfCheckboxes listOfCheckboxes) {
