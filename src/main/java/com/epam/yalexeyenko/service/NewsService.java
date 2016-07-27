@@ -5,10 +5,6 @@ import org.springframework.data.domain.Pageable;
 
 import dto.NewsDTO;
 
-public interface NewsService {
-	NewsDTO create(NewsDTO newdDTO);
-	NewsDTO find(Long id);
+public interface NewsService extends Service<NewsDTO> {
 	Page<NewsDTO> findAll(Pageable pageRequest);
-	void update(NewsDTO newdDTO);
-	void delete(Long id);
 }
