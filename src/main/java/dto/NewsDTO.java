@@ -4,10 +4,8 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.stereotype.Repository;
 
-public class NewsDTO {
+public class NewsDTO implements Dto {
 	private Long id;
 	
 	@NotBlank(message = "NotBlank.newsDTO.title")
