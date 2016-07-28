@@ -1,9 +1,10 @@
-package dto;
+package com.epam.yalexeyenko.dto;
 
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+import com.epam.yalexeyenko.model.Role;
 import com.epam.yalexeyenko.validation.PasswordMatches;
 import com.epam.yalexeyenko.validation.ValidEmail;
 
@@ -28,6 +29,8 @@ public class UserDTO implements Dto {
 	@NotEmpty(message = "NotEmpty.userDTO.password")
 	private String password;
 	private String matchingPassword;
+	
+	private Role role;
 
 	public Long getId() {
 		return id;
@@ -75,6 +78,14 @@ public class UserDTO implements Dto {
 
 	public void setMatchingPassword(String matchingPassword) {
 		this.matchingPassword = matchingPassword;
+	}
+
+	public Role getRole() {
+		return role;
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
 	}
 
 }
