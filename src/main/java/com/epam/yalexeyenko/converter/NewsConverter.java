@@ -6,9 +6,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
+import com.epam.yalexeyenko.dto.NewsDTO;
 import com.epam.yalexeyenko.model.News;
-
-import dto.NewsDTO;
 
 @Repository
 public class NewsConverter {

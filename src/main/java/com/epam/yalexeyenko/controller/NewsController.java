@@ -21,13 +21,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.epam.yalexeyenko.dto.ListOfCheckboxes;
+import com.epam.yalexeyenko.dto.NewsDTO;
+import com.epam.yalexeyenko.dto.UserDTO;
 import com.epam.yalexeyenko.model.User;
 import com.epam.yalexeyenko.service.NewsService;
 import com.epam.yalexeyenko.service.UserService;
-
-import dto.ListOfCheckboxes;
-import dto.NewsDTO;
-import dto.UserDTO;
 
 @Controller
 @RequestMapping("/")
@@ -128,7 +127,7 @@ public class NewsController {
 	}
 
 	@RequestMapping(value = "showRegistrationForm", method = RequestMethod.GET)
-	public String showRegistrationFrom(ModelMap modelMap) {
+	public String showRegistrationForm(ModelMap modelMap) {
 		UserDTO userDTO = new UserDTO();
 		modelMap.addAttribute("userDTO", userDTO);
 		return "showRegistrationForm";

@@ -10,10 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.epam.yalexeyenko.converter.NewsConverter;
+import com.epam.yalexeyenko.dto.NewsDTO;
 import com.epam.yalexeyenko.model.News;
 import com.epam.yalexeyenko.repository.NewsRepository;
-
-import dto.NewsDTO;
 
 @Service
 @Transactional
