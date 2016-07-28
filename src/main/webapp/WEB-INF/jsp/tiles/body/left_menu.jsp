@@ -7,7 +7,7 @@
 	</h4>
 	<div class="left_menu_items_block">
 		<ul>
-			<li><a href="listNews">
+			<li><a href="home">
 					<spring:message code="left.menu.ref.news.list" />
 				</a></li>
 			<li><a href="showAddNews">

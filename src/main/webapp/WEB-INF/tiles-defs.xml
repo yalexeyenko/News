@@ -32,9 +32,9 @@
 		<put-attribute name="content" value="/WEB-INF/jsp/tiles/body/edit.jsp" />
 	</definition>
 
-	<definition name="listNews" extends="commonDefinition">
-		<put-attribute name="title" type="string" value="listNewsTitle" />
-		<put-attribute name="content" value="/WEB-INF/jsp/tiles/body/list.jsp" />
+	<definition name="home" extends="commonDefinition">
+		<put-attribute name="title" type="string" value="homeTitle" />
+		<put-attribute name="content" value="/WEB-INF/jsp/tiles/body/home.jsp" />
 	</definition>
 
 	<definition name="showRegistrationForm" extends="commonDefinition">

@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.epam.yalexeyenko.dto.ListOfCheckboxes;
 import com.epam.yalexeyenko.dto.NewsDTO;
 import com.epam.yalexeyenko.dto.UserDTO;
-import com.epam.yalexeyenko.model.User;
 import com.epam.yalexeyenko.service.NewsService;
 import com.epam.yalexeyenko.service.UserService;
 
@@ -41,12 +40,12 @@ public class NewsController {
 	@Autowired
 	private UserService userServiceImpl;
 
-	@RequestMapping(value = "listNews")
-	public String listNews(@RequestParam(value = "pageNumber", defaultValue = "0") Integer pageNumber,
+	@RequestMapping(value = "home")
+	public String home(@RequestParam(value = "pageNumber", defaultValue = "0") Integer pageNumber,
 			ModelMap modelMap) {
 		log.debug("listNews()...");
 		createPageRequest(pageNumber, modelMap, new ListOfCheckboxes());
-		return "listNews";
+		return "home";
 	}
 
 	@RequestMapping(value = "showAddNews", method = RequestMethod.GET)
@@ -86,7 +85,7 @@ public class NewsController {
 			}
 		}
 		createPageRequest(pageNumber, modelMap, listOfCheckboxes);
-		return "listNews";
+		return "home";
 	}
 
 	@RequestMapping(value = "deleteNews", method = RequestMethod.GET)
@@ -96,7 +95,7 @@ public class NewsController {
 		log.debug("deleteNews()...");
 		newsServiceImpl.delete(id);
 		createPageRequest(pageNumber, modelMap, listOfCheckboxes);
-		return "listNews";
+		return "home";
 	}
 
 	@RequestMapping(value = "showEditNews", method = RequestMethod.GET)
@@ -123,7 +122,7 @@ public class NewsController {
 	public String cancel(@ModelAttribute("listOfCheckboxes") ListOfCheckboxes listOfCheckboxes,
 			@RequestParam(value = "pageNumber", defaultValue = "0") Integer pageNumber, ModelMap modelMap) {
 		createPageRequest(pageNumber, modelMap, listOfCheckboxes);
-		return "listNews";
+		return "home";
 	}
 
 	@RequestMapping(value = "showRegistrationForm", method = RequestMethod.GET)
