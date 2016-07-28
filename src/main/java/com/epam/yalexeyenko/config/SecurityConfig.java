@@ -24,15 +24,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http
 			.authorizeRequests()
-				.antMatchers("/resources/**").anonymous()
+				.antMatchers("/css/**", "/css/").permitAll()
+				.antMatchers("/", "/home").permitAll()
 				.anyRequest().authenticated()
 				.and()
 			.formLogin()
 				.loginPage("/login").permitAll()
-				.defaultSuccessUrl("/index")
+				.defaultSuccessUrl("/home")
 				.and()
 			.logout()
-				.logoutSuccessUrl("/login");
+				.permitAll();
 	}
 
 }
