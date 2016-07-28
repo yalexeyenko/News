@@ -2,7 +2,7 @@ package com.epam.yalexeyenko.service;
 
 import java.util.List;
 
-import dto.Dto;
+import com.epam.yalexeyenko.dto.Dto;
 
 public interface Service<T extends Dto> {
 	T create(T t);
