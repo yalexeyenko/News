@@ -7,10 +7,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.epam.yalexeyenko.converter.UserConverter;
+import com.epam.yalexeyenko.dto.UserDTO;
 import com.epam.yalexeyenko.model.User;
 import com.epam.yalexeyenko.repository.UserRepository;
-
-import dto.UserDTO;
 
 @Service
 @Transactional
