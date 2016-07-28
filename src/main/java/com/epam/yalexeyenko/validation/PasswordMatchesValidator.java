@@ -3,7 +3,7 @@ package com.epam.yalexeyenko.validation;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import dto.UserDTO;
+import com.epam.yalexeyenko.dto.UserDTO;
 
 public class PasswordMatchesValidator implements ConstraintValidator<PasswordMatches, Object> {
 
