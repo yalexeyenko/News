@@ -1,6 +1,6 @@
 package com.epam.yalexeyenko.service;
 
-import dto.UserDTO;
+import com.epam.yalexeyenko.dto.UserDTO;
 
 public interface UserService extends Service<UserDTO> {
 }
