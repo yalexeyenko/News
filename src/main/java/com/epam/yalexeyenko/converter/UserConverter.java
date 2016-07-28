@@ -5,9 +5,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
+import com.epam.yalexeyenko.dto.UserDTO;
 import com.epam.yalexeyenko.model.User;
-
-import dto.UserDTO;
 
 @Repository
 public class UserConverter {
