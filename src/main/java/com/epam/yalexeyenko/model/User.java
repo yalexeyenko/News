@@ -19,6 +19,8 @@ public class User extends BaseEntity {
 	@Column(name = "PASSWORD")
 	private String password;
 	private String matchingPassword;
+	
+	private Role role;
 
 	public String getFirstName() {
 		return firstName;
@@ -60,10 +62,11 @@ public class User extends BaseEntity {
 		this.matchingPassword = matchingPassword;
 	}
 	
-	public enum Role {
-		ADMIN,
-		USER,
-		GUEST
+	public Role getRole() {
+		return role;
 	}
 
+	public void setRole(Role role) {
+		this.role = role;
+	}
 }
