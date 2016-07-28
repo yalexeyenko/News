@@ -41,5 +41,10 @@
 		<put-attribute name="title" type="string" value="registrationTitle" />
 		<put-attribute name="content" value="/WEB-INF/jsp/tiles/body/register.jsp" />
 	</definition>
+	
+	<definition name="login" extends="commonDefinition">
+		<put-attribute name="title" type="string" value="loginTitle" />
+		<put-attribute name="content" value="/WEB-INF/jsp/tiles/body/login.jsp" />
+	</definition>
 
 </tiles-definitions>
