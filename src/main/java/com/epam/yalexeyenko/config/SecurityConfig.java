@@ -7,30 +7,40 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
+	UrlAuthenticationSuccessHandler urlAuthenticationSuccessHandler;
+	
+	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-		auth
-			.inMemoryAuthentication()
-			.withUser("user")
-			.password("password")
-			.roles("USER");
+		auth .inMemoryAuthentication().withUser("user").password("user").roles("USER");
+		auth .inMemoryAuthentication().withUser("admin").password("admin").roles("ADMIN");
 	}
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http
 			.authorizeRequests()
-				.antMatchers("/css/**", "/css/").permitAll()
-				.antMatchers("/", "/home").permitAll()
+				.antMatchers("/css/**", "/home", "/signup", "/login").permitAll()
+				
+				.antMatchers("/admin/**").access("hasRole('ADMIN')")
+				.antMatchers("/cabinet/**").access("hasRole('USER')")
+				.antMatchers("/home/**").access("hasRole('ANONYMOUS')")
+				
 				.anyRequest().authenticated()
 				.and()
 			.formLogin()
-				.loginPage("/login").permitAll()
-				.defaultSuccessUrl("/home")
+				.loginPage("/login").successHandler(urlAuthenticationSuccessHandler)
+				.usernameParameter("username").passwordParameter("password")
+				.failureUrl("/login?error=true")
+				.and()
+			.csrf()
+				.and()
+			.exceptionHandling().accessDeniedPage("/access_denied")
 				.and()
 			.logout()
 				.permitAll();
