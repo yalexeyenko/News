@@ -36,15 +36,33 @@
 		<put-attribute name="title" type="string" value="homeTitle" />
 		<put-attribute name="content" value="/WEB-INF/jsp/tiles/body/home.jsp" />
 	</definition>
-
-	<definition name="showRegistrationForm" extends="commonDefinition">
-		<put-attribute name="title" type="string" value="registrationTitle" />
-		<put-attribute name="content" value="/WEB-INF/jsp/tiles/body/register.jsp" />
-	</definition>
 	
 	<definition name="login" extends="commonDefinition">
 		<put-attribute name="title" type="string" value="loginTitle" />
+		<put-attribute name="leftMenu"
+			value="" />
 		<put-attribute name="content" value="/WEB-INF/jsp/tiles/body/login.jsp" />
+	</definition>
+	
+	<definition name="signup" extends="commonDefinition">
+		<put-attribute name="title" type="string" value="signupTitle" />
+		<put-attribute name="leftMenu"
+			value="" />
+		<put-attribute name="content" value="/WEB-INF/jsp/tiles/body/signup.jsp" />
+	</definition>
+	
+	<definition name="cabinet" extends="commonDefinition">
+		<put-attribute name="title" type="string" value="cabinetTitle" />
+		<put-attribute name="leftMenu"
+			value="" />
+		<put-attribute name="content" value="/WEB-INF/jsp/tiles/body/cabinet.jsp" />
+	</definition>
+	
+	<definition name="admin" extends="commonDefinition">
+		<put-attribute name="title" type="string" value="adminTitle" />
+		<put-attribute name="leftMenu"
+			value="" />
+		<put-attribute name="content" value="/WEB-INF/jsp/tiles/body/admin.jsp" />
 	</definition>
 
 </tiles-definitions>
