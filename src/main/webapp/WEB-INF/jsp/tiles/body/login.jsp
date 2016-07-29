@@ -17,8 +17,8 @@
 			<input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"/>
 			<button type="submit">Log in</button>
 		</form>
-		<div id="register_ref">
-			<a href="showRegistrationForm">Register</a>
+		<div id="signup_ref">
+			<a href="signup">Register</a>
 		</div>
 	</div>
 </div>
