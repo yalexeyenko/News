@@ -5,6 +5,10 @@
 	<h1>
 		<spring:message code="header.title" />
 	</h1>
+	<div id="login_ref">
+		<a href="login">Log in</a>
+		<a href="signup">Sign up</a>
+	</div>
 	<div id="change_locale">
 		<a href="?locale=en" >
 			<span><spring:message code="header.lang.english" /></span>
