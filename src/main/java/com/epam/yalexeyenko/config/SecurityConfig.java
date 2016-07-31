@@ -24,19 +24,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http
-			.authorizeRequests()
-				.antMatchers("/css/**", "/home", "/signup", "/login").permitAll()
-				
+			.authorizeRequests()				
 				.antMatchers("/admin/**").access("hasRole('ADMIN')")
 				.antMatchers("/cabinet/**").access("hasRole('USER')")
 				.antMatchers("/home/**").access("hasRole('ANONYMOUS')")
-				
-				.anyRequest().authenticated()
 				.and()
 			.formLogin()
-				.loginPage("/login").successHandler(urlAuthenticationSuccessHandler)
-				.usernameParameter("username").passwordParameter("password")
+				.loginPage("/login")
+				.successHandler(urlAuthenticationSuccessHandler)
+				.usernameParameter("username")
+				.passwordParameter("password")
 				.failureUrl("/login?error=true")
+				.and()
+			.logout()
+				.logoutUrl("/logout")
+//				.logoutSuccessHandler(logoutSuccessHandler)
+				.invalidateHttpSession(true)
+//				.addLogoutHandler(logoutHandler)
+//				.deleteCookies(cookieNamesToClear)
 				.and()
 			.csrf()
 				.and()
@@ -45,5 +50,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.logout()
 				.permitAll();
 	}
-
 }
