@@ -53,6 +53,8 @@
 	
 	<definition name="cabinet" extends="commonDefinition">
 		<put-attribute name="title" type="string" value="cabinetTitle" />
+		<put-attribute name="header"
+			value="/WEB-INF/jsp/tiles/header/user_header.jsp" />
 		<put-attribute name="leftMenu"
 			value="" />
 		<put-attribute name="content" value="/WEB-INF/jsp/tiles/body/cabinet.jsp" />
@@ -60,6 +62,8 @@
 	
 	<definition name="admin" extends="commonDefinition">
 		<put-attribute name="title" type="string" value="adminTitle" />
+		<put-attribute name="header"
+			value="/WEB-INF/jsp/tiles/header/user_header.jsp" />
 		<put-attribute name="leftMenu"
 			value="" />
 		<put-attribute name="content" value="/WEB-INF/jsp/tiles/body/admin.jsp" />
