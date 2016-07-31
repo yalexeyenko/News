@@ -14,11 +14,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
 	UrlAuthenticationSuccessHandler urlAuthenticationSuccessHandler;
+//	@Autowired
+//	private MyUserDetailService myUserDetailService;
+//	
+//	@Override
+//	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+//		auth.userDetailsService(myUserDetailService)
+//	}
 	
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-		auth .inMemoryAuthentication().withUser("user").password("user").roles("USER");
-		auth .inMemoryAuthentication().withUser("admin").password("admin").roles("ADMIN");
+		auth.inMemoryAuthentication().withUser("user").password("user").roles("USER");
+		auth.inMemoryAuthentication().withUser("admin").password("admin").roles("ADMIN");
 	}
 	
 	@Override
@@ -38,6 +45,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.and()
 			.logout()
 				.logoutUrl("/logout")
+				.logoutSuccessUrl("/home")
 //				.logoutSuccessHandler(logoutSuccessHandler)
 				.invalidateHttpSession(true)
 //				.addLogoutHandler(logoutHandler)
