@@ -4,11 +4,10 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-import com.epam.yalexeyenko.model.Role;
 import com.epam.yalexeyenko.validation.PasswordMatches;
 import com.epam.yalexeyenko.validation.ValidEmail;
 
-@PasswordMatches
+@PasswordMatches(message = "PasswordMatches.userDTO")
 public class UserDTO implements Dto {
 	private Long id;
 
@@ -24,14 +23,14 @@ public class UserDTO implements Dto {
 	@NotNull(message = "NotNull.userDTO.email")
 	@NotEmpty(message = "NotEmpty.userDTO.email")
 	private String email;
+	
+	private boolean enabled;
 
 	@NotNull(message = "NotNull.userDTO.password")
 	@NotEmpty(message = "NotEmpty.userDTO.password")
 	private String password;
 	private String matchingPassword;
 	
-	private Role role;
-
 	public Long getId() {
 		return id;
 	}
@@ -80,12 +79,11 @@ public class UserDTO implements Dto {
 		this.matchingPassword = matchingPassword;
 	}
 
-	public Role getRole() {
-		return role;
+	public boolean isEnabled() {
+		return enabled;
 	}
 
-	public void setRole(Role role) {
-		this.role = role;
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
 	}
-
 }
