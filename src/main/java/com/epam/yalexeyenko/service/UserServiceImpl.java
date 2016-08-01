@@ -1,21 +1,31 @@
 package com.epam.yalexeyenko.service;
 
+import java.util.Arrays;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.epam.yalexeyenko.controller.NewsController;
 import com.epam.yalexeyenko.converter.UserConverter;
 import com.epam.yalexeyenko.dto.UserDTO;
 import com.epam.yalexeyenko.model.User;
+import com.epam.yalexeyenko.repository.RoleRepository;
 import com.epam.yalexeyenko.repository.UserRepository;
 
 @Service
 @Transactional
 public class UserServiceImpl implements UserService {
+	private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
+	
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private RoleRepository roleRepository;
 	
 	@Autowired
 	private UserConverter userConverter;
@@ -26,6 +36,8 @@ public class UserServiceImpl implements UserService {
 			return null;
 		}
 		User user = userConverter.DTOToUser(userDTO);
+		user.setRoles(Arrays.asList(roleRepository.findByName("ROLE_USER")));
+		log.debug("user.getRoles().size(): {}", user.getRoles().size());//!!!!!
 		return userConverter.userToDTO(userRepository.saveAndFlush(user));
 	}	
 
@@ -76,6 +88,14 @@ public class UserServiceImpl implements UserService {
 			return true;
 		}
 		return false;
+	}
+
+	public RoleRepository getRoleRepository() {
+		return roleRepository;
+	}
+
+	public void setRoleRepository(RoleRepository roleRepository) {
+		this.roleRepository = roleRepository;
 	}
 
 }
