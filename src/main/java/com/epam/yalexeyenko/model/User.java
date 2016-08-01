@@ -1,11 +1,17 @@
 package com.epam.yalexeyenko.model;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "USER")
+@Table(name = "USERS")
 public class User extends BaseEntity {
 	@Column(name = "FIRSTNAME")
 	private String firstName;
@@ -13,14 +19,23 @@ public class User extends BaseEntity {
 	@Column(name = "LASTNAME")
 	private String lastName;
 
-	@Column(name = "EMAIL")
+	@Column(name = "EMAIL", unique = true)
 	private String email;
+
+	@Column(name = "enabled")
+	private boolean enabled;
 
 	@Column(name = "PASSWORD")
 	private String password;
-	private String matchingPassword;
+
+	@ManyToMany(targetEntity = Role.class, cascade = { CascadeType.ALL })
+	@JoinTable(name = "USER_ROLE", joinColumns = { @JoinColumn(name = "USER_ID", referencedColumnName = "ID") }, inverseJoinColumns = {
+			@JoinColumn(name = "ROLE_ID", referencedColumnName = "ID") })
+	private List<Role> roles;
 	
-	private Role role;
+	public User() {
+		this.enabled = true;
+	}
 
 	public String getFirstName() {
 		return firstName;
@@ -54,19 +69,19 @@ public class User extends BaseEntity {
 		this.password = password;
 	}
 
-	public String getMatchingPassword() {
-		return matchingPassword;
+	public boolean isEnabled() {
+		return enabled;
 	}
 
-	public void setMatchingPassword(String matchingPassword) {
-		this.matchingPassword = matchingPassword;
-	}
-	
-	public Role getRole() {
-		return role;
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
 	}
 
-	public void setRole(Role role) {
-		this.role = role;
+	public List<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(List<Role> roles) {
+		this.roles = roles;
 	}
 }
