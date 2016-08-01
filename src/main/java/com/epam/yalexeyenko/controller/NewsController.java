@@ -144,32 +144,32 @@ public class NewsController {
 //		return "login";
 //	}
 
-//	@RequestMapping(value = "showRegistrationForm", method = RequestMethod.GET)
-//	public String showRegistrationForm(ModelMap modelMap) {
-//		UserDTO userDTO = new UserDTO();
-//		modelMap.addAttribute("userDTO", userDTO);
-//		return "showRegistrationForm";
-//	}
-//
-//	@RequestMapping(value = "register", method = RequestMethod.POST)
-//	public String register(@ModelAttribute("userDTO") @Valid UserDTO userDTO, BindingResult result, ModelMap modelMap) {
-//		log.debug("register()...");
-//		UserDTO registeredUserDTO = null;
-//		if (!result.hasErrors()) {
-//			registeredUserDTO = userServiceImpl.create(userDTO);
-//		}
-//		if (registeredUserDTO == null) {
-//			result.rejectValue("email", "message.reg.error");
-//		}
-//		if (result.hasErrors()) {
-//			modelMap.addAttribute("userDTO", userDTO);
-//			return "showRegistrationForm";
-//		} else {
-//			modelMap.addAttribute("userDTO", userDTO);
-//			return "successRegistration";
-//		}
-//
-//	}
+	@RequestMapping(value = "signup", method = RequestMethod.GET)
+	public String showSignUpForm(ModelMap modelMap) {
+		UserDTO userDTO = new UserDTO();
+		modelMap.addAttribute("userDTO", userDTO);
+		return "signup";
+	}
+
+	@RequestMapping(value = "register", method = RequestMethod.POST)
+	public String register(@ModelAttribute("userDTO") @Valid UserDTO userDTO, BindingResult result, ModelMap modelMap) {
+		log.debug("register()...");
+		UserDTO registeredUserDTO = new UserDTO();
+		if (!result.hasErrors()) {
+			registeredUserDTO = userServiceImpl.create(userDTO);
+		}
+		if (registeredUserDTO == null) {
+			result.rejectValue("email", "message.reg.error");
+		}
+		if (result.hasErrors()) {
+			modelMap.addAttribute("userDTO", userDTO);
+			return "signup";
+		} else {
+			modelMap.addAttribute("userDTO", userDTO);
+			return "signup";
+		}
+
+	}
 
 	private void createPageRequest(Integer pageNumber, ModelMap modelMap, ListOfCheckboxes listOfCheckboxes) {
 		Pageable pageRequest = new PageRequest(pageNumber, PAGESIZE, Sort.Direction.DESC, "date");
