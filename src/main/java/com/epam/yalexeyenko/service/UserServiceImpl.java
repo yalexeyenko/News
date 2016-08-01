@@ -33,6 +33,11 @@ public class UserServiceImpl implements UserService {
 	public UserDTO find(Long id) {
 		return userConverter.userToDTO(userRepository.findOne(id));
 	}
+	
+	@Override
+	public UserDTO findByEmail(String email) {
+		return userConverter.userToDTO(userRepository.findByEmail(email));
+	}
 
 	@Override
 	public List<UserDTO> findAll() {
@@ -57,6 +62,14 @@ public class UserServiceImpl implements UserService {
 		this.userRepository = userRepository;
 	}
 	
+	public UserConverter getUserConverter() {
+		return userConverter;
+	}
+
+	public void setUserConverter(UserConverter userConverter) {
+		this.userConverter = userConverter;
+	}
+
 	private boolean emailExist(String email) {
 		User user = userRepository.findByEmail(email);
 		if (user != null) {
