@@ -30,6 +30,14 @@ public class NewsServiceImpl implements NewsService {
 	public void setNewsRepository(NewsRepository newsRepository) {
 		this.newsRepository = newsRepository;
 	}
+	
+	public NewsConverter getNewsConverter() {
+		return newsConverter;
+	}
+
+	public void setNewsConverter(NewsConverter newsConverter) {
+		this.newsConverter = newsConverter;
+	}
 
 	@Override
 	public NewsDTO create(NewsDTO newsDTO) {
