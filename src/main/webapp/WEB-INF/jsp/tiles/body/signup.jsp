@@ -5,30 +5,36 @@
 <div class="signup">
 	<div id="signup_form">
 		<h3>Sign up</h3>
-		<form action="signup" method="POST" enctype="UTF-8">
+		<form:form action="register" modelAttribute="userDTO" method="POST" enctype="UTF-8">
 			<div class="reg_field_wrap">
 				<label>First name: </label>
-				<input type="text" name="firstName" id="firstName" />
+				<form:input path="firstName" value="" />
+				<form:errors path="firstName" element="div" />
 			</div>
 			<div class="reg_field_wrap">
 				<label>Last name: </label>
-				<input type="text" name="lastName" id="lastName" />
+				<form:input path="lastName" value="" />
+				<form:errors path="lastName" element="div"  />
 			</div>
 			<div class="reg_field_wrap">
 				<label>email: </label>
-				<input type="text" name="email" id="email" />
+				<form:input path="email" value="" />
+				<form:errors path="email" element="div" />
 			</div>
 			<div class="reg_field_wrap">
 				<label>Password: </label>
-				<input id="password" name="password" type="password" />
+				<form:input path="password" value="" type="password" />
+				<form:errors path="password" element="div" />
 			</div>
 			<div class="reg_field_wrap">
 				<label>Repeat password: </label>
-				<input id="matchingPassword" name="matchingPassword" type="password" />
+				<form:input path="matchingPassword" value="" type="password" />
+				<form:errors element="div" />
 			</div>
-			<input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"/>
+			<input type="hidden" name="${_csrf.parameterName}"
+				value="${_csrf.token}" />
 			<button type="submit">Sign up</button>
-		</form>
+		</form:form>
 		<div id="login_ref">
 			<a href="login">Log in</a>
 		</div>
