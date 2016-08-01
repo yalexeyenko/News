@@ -166,7 +166,7 @@ public class NewsController {
 			return "signup";
 		} else {
 			modelMap.addAttribute("userDTO", userDTO);
-			return "signup";
+			return "login";
 		}
 
 	}
