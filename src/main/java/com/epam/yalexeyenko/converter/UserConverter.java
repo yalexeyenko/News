@@ -3,6 +3,8 @@ package com.epam.yalexeyenko.converter;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import com.epam.yalexeyenko.dto.UserDTO;
@@ -10,6 +12,9 @@ import com.epam.yalexeyenko.model.User;
 
 @Repository
 public class UserConverter {
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	
 	public UserDTO userToDTO(User user) {
 		UserDTO userDTO = new UserDTO();
 		userDTO.setId(user.getId());
@@ -26,7 +31,7 @@ public class UserConverter {
 		user.setFirstName(userDTO.getFirstName());
 		user.setLastName(userDTO.getLastName());
 		user.setEmail(userDTO.getEmail());
-		user.setPassword(userDTO.getPassword());
+		user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
 		return user;
 	}
 	
@@ -44,5 +49,13 @@ public class UserConverter {
 			userList.add(DTOToUser(userDTO));
 		}
 		return userList;
+	}
+
+	public PasswordEncoder getPasswordEncoder() {
+		return passwordEncoder;
+	}
+
+	public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
+		this.passwordEncoder = passwordEncoder;
 	}
 }
