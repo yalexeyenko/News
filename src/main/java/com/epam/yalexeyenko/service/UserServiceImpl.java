@@ -37,7 +37,6 @@ public class UserServiceImpl implements UserService {
 		}
 		User user = userConverter.DTOToUser(userDTO);
 		user.setRoles(Arrays.asList(roleRepository.findByName("ROLE_USER")));
-		log.debug("user.getRoles().size(): {}", user.getRoles().size());//!!!!!
 		return userConverter.userToDTO(userRepository.saveAndFlush(user));
 	}	
 
