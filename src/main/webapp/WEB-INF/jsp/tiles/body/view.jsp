@@ -11,7 +11,7 @@
 		</div>
 		<div id="view_wrap_date">
 			<span class="tit"><spring:message code="content.view.date" />:</span>
-			<span id="block">${newsDTO.date}"</span>
+			<span id="block">${newsDTO.date}</span>
 		</div>
 		<div id="view_wrap_brief">
 			<span class="tit"><spring:message code="content.view.brief" />:</span>
