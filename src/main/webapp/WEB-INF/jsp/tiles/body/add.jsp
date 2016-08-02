@@ -33,7 +33,7 @@
 				<form:button>
 					<spring:message code="content.add.button.save" />
 				</form:button>
-				<a class="but_ref" href="listNews"> <spring:message
+				<a class="but_ref" href="cabinet"> <spring:message
 						code="content.add.button.cancel" />
 				</a>
 			</div>
