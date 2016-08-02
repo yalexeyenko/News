@@ -14,6 +14,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -59,12 +61,13 @@ public class NewsController {
 	}
 
 	@RequestMapping(value = "addNews", method = RequestMethod.POST)
-	public String addNews(@ModelAttribute("newsDTO") @Valid NewsDTO newsDTO, BindingResult result, ModelMap modelMap, HttpServletRequest request) {
+	public String addNews(@ModelAttribute("newsDTO") @Valid NewsDTO newsDTO, BindingResult result, ModelMap modelMap) {
 		log.debug("addNews()...");
 		if (result.hasErrors()) {
 			return "showAddNews";
 		}
-		modelMap.addAttribute("newsDTO", newsServiceImpl.create(newsDTO, request.getUserPrincipal().getName()));
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		modelMap.addAttribute("newsDTO", newsServiceImpl.create(newsDTO, auth.getName()));
 		return "showViewNews";
 	}
 
@@ -86,7 +89,7 @@ public class NewsController {
 			}
 		}
 		createPageRequest(pageNumber, modelMap, listOfCheckboxes);
-		return "home";
+		return "cabinet";
 	}
 
 	@RequestMapping(value = "deleteNews", method = RequestMethod.GET)
@@ -96,7 +99,7 @@ public class NewsController {
 		log.debug("deleteNews()...");
 		newsServiceImpl.delete(id);
 		createPageRequest(pageNumber, modelMap, listOfCheckboxes);
-		return "home";
+		return "cabinet";
 	}
 
 	@RequestMapping(value = "showEditNews", method = RequestMethod.GET)
@@ -114,7 +117,8 @@ public class NewsController {
 			return "showEditNews";
 		}
 		newsDTO.setId(id);
-		newsServiceImpl.update(newsDTO);
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		newsServiceImpl.update(newsDTO, auth.getName());
 		modelMap.addAttribute("newsDTO", newsDTO);
 		return "showViewNews";
 	}
@@ -123,14 +127,14 @@ public class NewsController {
 	public String cancel(@ModelAttribute("listOfCheckboxes") ListOfCheckboxes listOfCheckboxes,
 			@RequestParam(value = "pageNumber", defaultValue = "0") Integer pageNumber, ModelMap modelMap) {
 		createPageRequest(pageNumber, modelMap, listOfCheckboxes);
-		return "home";
+		return "cabinet";
 	}
 	
 	@RequestMapping(value = "cabinet")
 	public String cabinet(@RequestParam(value = "pageNumber", defaultValue = "0") Integer pageNumber,
 			ModelMap modelMap, HttpServletRequest request) {
 		log.debug("cabinet()...");
-		createUserPageRequest(pageNumber, modelMap, new ListOfCheckboxes(), request);
+		createUserPageRequest(pageNumber, modelMap, new ListOfCheckboxes());
 		return "cabinet";
 	}
 	
@@ -182,13 +186,13 @@ public class NewsController {
 		log.debug("page.getContent().get(0).getTitle(): {}", page.getContent().get(0).getTitle());
 	}
 	
-	private void createUserPageRequest(Integer pageNumber, ModelMap modelMap, ListOfCheckboxes listOfCheckboxes, HttpServletRequest request) {
+	private void createUserPageRequest(Integer pageNumber, ModelMap modelMap, ListOfCheckboxes listOfCheckboxes) {
 		Pageable pageRequest = new PageRequest(pageNumber, PAGESIZE, Sort.Direction.DESC, "date");
-		String email = request.getUserPrincipal().getName();
-		Page<NewsDTO> page = newsServiceImpl.findAllByUser(pageRequest, email);
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Page<NewsDTO> page = newsServiceImpl.findAllByUser(pageRequest, auth.getName());
 		modelMap.addAttribute("page", page);
 		modelMap.addAttribute("listOfCheckboxes", listOfCheckboxes);
-		log.debug("email: {}", email);
+		log.debug("email: {}", auth.getName());
 		log.debug("page.getContent().size(): {}", page.getContent().size());
 	}
 }
