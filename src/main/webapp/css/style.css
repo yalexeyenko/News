@@ -42,6 +42,12 @@ body {
 	font-size: 16px;
 }
 
+.header #login_logout_ref {
+	float: right;
+    margin-top: -28px;
+    margin-right: 21px;
+}
+
 /*Left menu*/
 .header #change_locale span {
 	margin-right: 10px;
@@ -109,7 +115,7 @@ body {
 	text-decoration: underline;
 }
 
-.listNewsContent {
+.listNewsContent, .cabinet {
 	padding-top: 40px;
 }
 
@@ -225,7 +231,7 @@ body {
 	margin-top: -21px;
 }
 
-.listNewsContent #paging {
+.listNewsContent #paging, .cabinet #paging {
 	text-align: center;
 }
 
