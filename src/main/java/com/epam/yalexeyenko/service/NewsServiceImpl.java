@@ -81,8 +81,10 @@ public class NewsServiceImpl implements NewsService {
 	}
 
 	@Override
-	public void update(NewsDTO newsDTO) {
-		newsRepository.saveAndFlush(newsConverter.newsDTOToNews(newsDTO));
+	public void update(NewsDTO newsDTO, String email) {
+		News news = newsConverter.newsDTOToNews(newsDTO);
+		news.setUser(userRepository.findByEmail(email));
+		newsRepository.saveAndFlush(news);
 	}
 
 	@Override
@@ -98,5 +100,10 @@ public class NewsServiceImpl implements NewsService {
 	@Override
 	public NewsDTO create(NewsDTO t) {
 		throw new UnsupportedOperationException("Use create(NewsDTO newsDTO, String email) method to create news.");
+	}
+
+	@Override
+	public void update(NewsDTO t) {
+		throw new UnsupportedOperationException("Use update(NewsDTO newsDTO, String email) method to update news.");		
 	}
 }
