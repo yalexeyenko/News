@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -32,6 +33,9 @@ public class User extends BaseEntity {
 	@JoinTable(name = "USER_ROLE", joinColumns = { @JoinColumn(name = "USER_ID", referencedColumnName = "ID") }, inverseJoinColumns = {
 			@JoinColumn(name = "ROLE_ID", referencedColumnName = "ID") })
 	private List<Role> roles;
+	
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	private List<News> newsList;
 	
 	public User() {
 		this.enabled = true;
@@ -83,5 +87,13 @@ public class User extends BaseEntity {
 
 	public void setRoles(List<Role> roles) {
 		this.roles = roles;
+	}
+
+	public List<News> getNewsList() {
+		return newsList;
+	}
+
+	public void setNewsList(List<News> newsList) {
+		this.newsList = newsList;
 	}
 }
