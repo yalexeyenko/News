@@ -53,8 +53,6 @@
 	
 	<definition name="cabinet" extends="commonDefinition">
 		<put-attribute name="title" type="string" value="cabinetTitle" />
-		<put-attribute name="leftMenu"
-			value="" />
 		<put-attribute name="content" value="/WEB-INF/jsp/tiles/body/cabinet.jsp" />
 	</definition>
 	
