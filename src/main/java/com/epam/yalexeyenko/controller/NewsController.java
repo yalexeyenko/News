@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -58,12 +59,12 @@ public class NewsController {
 	}
 
 	@RequestMapping(value = "addNews", method = RequestMethod.POST)
-	public String addNews(@ModelAttribute("newsDTO") @Valid NewsDTO newsDTO, BindingResult result, ModelMap modelMap) {
+	public String addNews(@ModelAttribute("newsDTO") @Valid NewsDTO newsDTO, BindingResult result, ModelMap modelMap, HttpServletRequest request) {
 		log.debug("addNews()...");
 		if (result.hasErrors()) {
 			return "showAddNews";
 		}
-		modelMap.addAttribute("newsDTO", newsServiceImpl.create(newsDTO));
+		modelMap.addAttribute("newsDTO", newsServiceImpl.create(newsDTO, request.getUserPrincipal().getName()));
 		return "showViewNews";
 	}
 
@@ -126,8 +127,10 @@ public class NewsController {
 	}
 	
 	@RequestMapping(value = "cabinet")
-	public String cabinet() {
+	public String cabinet(@RequestParam(value = "pageNumber", defaultValue = "0") Integer pageNumber,
+			ModelMap modelMap, HttpServletRequest request) {
 		log.debug("cabinet()...");
+		createUserPageRequest(pageNumber, modelMap, new ListOfCheckboxes(), request);
 		return "cabinet";
 	}
 	
@@ -176,5 +179,16 @@ public class NewsController {
 		Page<NewsDTO> page = newsServiceImpl.findAll(pageRequest);
 		modelMap.addAttribute("page", page);
 		modelMap.addAttribute("listOfCheckboxes", listOfCheckboxes);
+		log.debug("page.getContent().get(0).getTitle(): {}", page.getContent().get(0).getTitle());
+	}
+	
+	private void createUserPageRequest(Integer pageNumber, ModelMap modelMap, ListOfCheckboxes listOfCheckboxes, HttpServletRequest request) {
+		Pageable pageRequest = new PageRequest(pageNumber, PAGESIZE, Sort.Direction.DESC, "date");
+		String email = request.getUserPrincipal().getName();
+		Page<NewsDTO> page = newsServiceImpl.findAllByUser(pageRequest, email);
+		modelMap.addAttribute("page", page);
+		modelMap.addAttribute("listOfCheckboxes", listOfCheckboxes);
+		log.debug("email: {}", email);
+		log.debug("page.getContent().size(): {}", page.getContent().size());
 	}
 }
