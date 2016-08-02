@@ -9,16 +9,22 @@
 	<h1>
 		<spring:message code="header.title" />
 	</h1>
-	<div id="login_ref">
+	<div id="login_logout_ref">
 		<security:authorize access="! isAuthenticated()">
-			<a href="login">Log in</a>
-			<a href="signup">Sign up</a>
+			<a href="login">
+				<spring:message code="login" />
+			</a>|
+			<a href="signup">
+				<spring:message code="signup" />
+			</a>
 		</security:authorize>
 		<security:authorize access="isAuthenticated()">
 			<form:form action="logout" method="POST">
 				<input type="hidden" name="${_csrf.parameterName}"
 					value="${_csrf.token}" />
-				<input type="submit" value="Log out" />
+				<button>
+					<spring:message code="logout" />
+				</button>
 			</form:form>
 		</security:authorize>
 
