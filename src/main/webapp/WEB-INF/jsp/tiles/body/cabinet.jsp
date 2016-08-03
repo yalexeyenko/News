@@ -13,6 +13,7 @@
 				<div class="title_date">
 					<div class="title">
 						<span>${newsItem.title}</span>
+						<label>(<spring:message code="${newsItem.status}"  />)</label>						
 					</div>
 					<div class="date">
 						<span>${newsItem.date}</span>
@@ -24,9 +25,12 @@
 				<div class="view_n_edit_ref">
 					<a href="showViewNews?id=${newsItem.id}"> <spring:message
 							code="content.list.item.ref.view" />
-					</a> <a href="showEditNews?id=${newsItem.id}"> <spring:message
-							code="content.list.item.ref.edit" />
 					</a>
+					<c:if test="${newsItem.status ne 'approved'}">
+						|<a href="showEditNews?id=${newsItem.id}"> <spring:message
+								code="content.list.item.ref.edit" />
+						</a>
+					</c:if>					
 					<form:checkbox path="idList" value="${newsItem.id}" />
 				</div>
 			</div>
