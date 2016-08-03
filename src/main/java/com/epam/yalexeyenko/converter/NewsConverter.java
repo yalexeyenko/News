@@ -4,13 +4,18 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.epam.yalexeyenko.dto.NewsDTO;
 import com.epam.yalexeyenko.model.News;
+import com.epam.yalexeyenko.repository.StatusRepository;
 
 @Repository
 public class NewsConverter {
+	@Autowired
+	private StatusRepository statusRepository;
+	
 	public NewsDTO newsToDTO(News news) {
 		NewsDTO newsDTO = new NewsDTO();
 		newsDTO.setId(news.getId());
@@ -18,6 +23,7 @@ public class NewsConverter {
 		newsDTO.setBrief(news.getBrief());
 		newsDTO.setDate(news.getDate().format(DateTimeFormatter.ofPattern("MM/dd/yyyy")));
 		newsDTO.setContent(news.getContent());
+		newsDTO.setStatus(news.getStatus().getName());
 		return newsDTO;
 	}
 	
@@ -28,6 +34,7 @@ public class NewsConverter {
 		news.setBrief(newsDTO.getBrief());
 		news.setDate(LocalDate.parse(newsDTO.getDate(), DateTimeFormatter.ofPattern("MM/dd/yyyy")));
 		news.setContent(newsDTO.getContent());
+		news.setStatus(statusRepository.findByName(newsDTO.getStatus()));
 		return news;
 	}
 	
