@@ -29,14 +29,10 @@ public class News extends BaseEntity {
 	@Column(name = "NEWSCONTENT")
 	private String content;
 	
-//	@ManyToOne(fetch = FetchType.LAZY)
-//	@JoinColumn(name = "ID", insertable=false, updatable=false)
 	@ManyToOne
 	@JoinColumn(name = "STATUS_ID")
 	private Status status;
 	
-//	@ManyToOne(fetch = FetchType.LAZY)
-//	@JoinColumn(name = "ID", insertable=false, updatable=false)
 	@ManyToOne()
 	@JoinColumn(name = "USER_ID")
 	private User user;
