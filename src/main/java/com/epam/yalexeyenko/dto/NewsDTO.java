@@ -23,6 +23,8 @@ public class NewsDTO implements Dto {
 	@NotBlank(message = "NotBlank.newsDTO.content")
 	@Size(min = 3, max = 2000, message = "Size.newsDTO.content")
 	private String content;
+	
+	private String status;
 
 	public String getTitle() {
 		return title;
@@ -62,5 +64,13 @@ public class NewsDTO implements Dto {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 }
