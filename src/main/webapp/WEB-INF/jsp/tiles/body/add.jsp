@@ -12,6 +12,13 @@
 				<form:input path="title" />
 				<div id="title_errors"><form:errors path="title" /></div>
 			</div>
+			<div id="input_wrap_status">
+				<span><spring:message code="news.status" /></span>
+				<form:select path="status">
+					<form:option selected="true" value="draft"><spring:message code="draft" /></form:option>
+					<form:option value="oncheck"><spring:message code="oncheck" /></form:option>
+				</form:select>
+			</div>
 			<div id="input_wrap_date">
 				<span><spring:message code="content.add.date" /></span>
 				<form:input path="date" />
