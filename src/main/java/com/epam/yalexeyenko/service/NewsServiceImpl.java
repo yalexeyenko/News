@@ -82,6 +82,13 @@ public class NewsServiceImpl implements NewsService {
 	}
 	
 	@Override
+	public Page<NewsDTO> findAllByStatus(Pageable pageRequest, String status) {
+		Page<News> pageNews = newsRepository.findByStatus(pageRequest, statusRepository.findByName(status));
+		log.debug("pageNews.getContent().size(): {}", pageNews.getContent().size());
+		return new PageImpl<NewsDTO>(newsConverter.newsToDTO(pageNews.getContent()), pageRequest, pageNews.getTotalElements());
+	}
+	
+	@Override
 	public Page<NewsDTO> findByDateBetween(Pageable pageRequest, LocalDate start, LocalDate end, String userEmail) {
 		Page<News> pageNews = newsRepository.findByDateBetweenAndUser(pageRequest, start, end, userRepository.findByEmail(userEmail));
 		log.debug("pageNews.getContent().size(): {}", pageNews.getContent().size());
