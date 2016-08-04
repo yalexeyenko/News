@@ -35,6 +35,17 @@
 								<spring:message code="draft" />
 							</form:option>
 						</c:when>
+						<c:when test="${newsDTO.status eq 'fix'}">
+							<form:option selected="true" value="fix">
+								<spring:message code="fix" />
+							</form:option>
+							<form:option value="draft">
+								<spring:message code="draft" />
+							</form:option>
+							<form:option value="oncheck">
+								<spring:message code="oncheck" />
+							</form:option>
+						</c:when>
 					</c:choose>
 				</form:select>
 			</div>
