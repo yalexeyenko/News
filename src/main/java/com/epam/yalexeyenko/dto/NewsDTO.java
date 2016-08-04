@@ -25,6 +25,8 @@ public class NewsDTO implements Dto {
 	private String content;
 	
 	private String status;
+	
+	private UserDTO userDTO;
 
 	public String getTitle() {
 		return title;
@@ -72,5 +74,13 @@ public class NewsDTO implements Dto {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public UserDTO getUserDTO() {
+		return userDTO;
+	}
+
+	public void setUserDTO(UserDTO userDTO) {
+		this.userDTO = userDTO;
 	}
 }
