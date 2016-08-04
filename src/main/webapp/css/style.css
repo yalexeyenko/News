@@ -105,6 +105,7 @@ body {
 }
 
 .title {
+	margin-top: 5px;
 	font-weight: bold;
 }
 
@@ -121,7 +122,11 @@ body {
 	text-decoration: underline;
 }
 
-.listNewsContent, .cabinet {
+.author {
+	color: green;
+}
+
+.listNewsContent, .cabinet, .admin {
 	padding-top: 40px;
 }
 
@@ -135,6 +140,10 @@ body {
 .news_item_block {
 	margin-bottom: 35px;
 	margin-left: 220px;
+}
+
+#no_news {
+	margin-left: 600;
 }
 
 /*Add page content*/
@@ -243,11 +252,11 @@ body {
 	margin-top: -21px;
 }
 
-.listNewsContent #paging, .cabinet #paging {
+.listNewsContent #paging, .cabinet #paging, .admin #paging {
 	position: absolute;
-    width: 50px;
-    margin-left: 663px;
-    bottom: 110px;
+	width: 50px;
+	margin-left: 663px;
+	bottom: 110px;
 }
 
 /*Edit page content*/
@@ -288,10 +297,10 @@ body {
 	width: 700px;
 }
 
-#view_wrap_status #block {
-	margin-right: 550px;
+#view_wrap_status #block, #view_wrap_date #block, #view_wrap_author #block {
+	margin-right: 500px;
 	float: right;
-	width: 150px;
+	width: 200px;
 }
 
 #view_wrap_date #block {
@@ -322,7 +331,7 @@ body {
 }
 
 #view_wrap_content .tit, #view_wrap_title .tit, #view_wrap_date .tit,
-	#view_wrap_brief .tit, #view_wrap_status .tit {
+	#view_wrap_brief .tit, #view_wrap_status .tit, #view_wrap_author .tit {
 	font-weight: bold;
 }
 
