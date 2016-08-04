@@ -7,12 +7,10 @@
 	</h4>
 	<div class="left_menu_items_block">
 		<ul>
-			<li><a href="home">
-					<spring:message code="left.menu.ref.news.list" />
-				</a></li>
-			<li><a href="showAddNews">
-					<spring:message code="left.menu.ref.add.news" />
-				</a></li>
+			<li><a href="home"> <spring:message
+						code="left.menu.ref.my.news" />
+			</a></li>
+			<li>
 		</ul>
 	</div>
 </div>
