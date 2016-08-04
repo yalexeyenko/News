@@ -14,6 +14,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -43,14 +45,15 @@ public class NewsController {
 	@Autowired
 	private UserService userServiceImpl;
 
+	@PreAuthorize("hasRole('ANONYMOUS')")
 	@RequestMapping(value = "home")
-	public String home(@RequestParam(value = "pageNumber", defaultValue = "0") Integer pageNumber,
-			ModelMap modelMap) {
+	public String home(@RequestParam(value = "pageNumber", defaultValue = "0") Integer pageNumber, ModelMap modelMap) {
 		log.debug("listNews()...");
-		createPageRequest(pageNumber, modelMap, new ListOfCheckboxes());
+		createPageRequest(pageNumber, modelMap);
 		return "home";
 	}
 
+	@PreAuthorize("hasRole('USER')")
 	@RequestMapping(value = "showAddNews", method = RequestMethod.GET)
 	public String showAddNews(ModelMap modelMap) {
 		log.debug("showAddNews()...");
@@ -60,6 +63,7 @@ public class NewsController {
 		return "showAddNews";
 	}
 
+	@PreAuthorize("hasRole('USER')")
 	@RequestMapping(value = "addNews", method = RequestMethod.POST)
 	public String addNews(@ModelAttribute("newsDTO") @Valid NewsDTO newsDTO, BindingResult result, ModelMap modelMap) {
 		log.debug("addNews()...");
@@ -71,6 +75,7 @@ public class NewsController {
 		return "showViewNews";
 	}
 
+	@PreAuthorize("hasRole('USER')")
 	@RequestMapping(value = "showViewNews", method = RequestMethod.GET)
 	public String showViewNews(@RequestParam("id") Long id, ModelMap modelMap) {
 		log.debug("showViewNews()...");
@@ -78,6 +83,15 @@ public class NewsController {
 		return "showViewNews";
 	}
 
+	@PreAuthorize("hasRole('ADMIN')")
+	@RequestMapping(value = "adminShowViewNews", method = RequestMethod.GET)
+	public String adminShowViewNews(@RequestParam("id") Long id, ModelMap modelMap) {
+		log.debug("adminShowViewNews()...");
+		modelMap.addAttribute("newsDTO", newsServiceImpl.find(id));
+		return "adminShowViewNews";
+	}
+
+	@PreAuthorize("hasRole('USER')")
 	@RequestMapping(value = "deleteNewsList", method = RequestMethod.POST)
 	public String deleteNewsList(@ModelAttribute("listOfCheckboxes") ListOfCheckboxes listOfCheckboxes,
 			@RequestParam(value = "pageNumber", defaultValue = "0") Integer pageNumber, ModelMap modelMap) {
@@ -88,20 +102,22 @@ public class NewsController {
 				newsServiceImpl.delete(id);
 			}
 		}
-		createPageRequest(pageNumber, modelMap, listOfCheckboxes);
+		createUserPageRequest(pageNumber, modelMap, listOfCheckboxes);
 		return "cabinet";
 	}
 
+	@PreAuthorize("hasRole('USER')")
 	@RequestMapping(value = "deleteNews", method = RequestMethod.GET)
 	public String deleteNews(@RequestParam("id") Long id,
 			@ModelAttribute("listOfCheckboxes") ListOfCheckboxes listOfCheckboxes,
 			@RequestParam(value = "pageNumber", defaultValue = "0") Integer pageNumber, ModelMap modelMap) {
 		log.debug("deleteNews()...");
 		newsServiceImpl.delete(id);
-		createPageRequest(pageNumber, modelMap, listOfCheckboxes);
+		createUserPageRequest(pageNumber, modelMap, listOfCheckboxes);
 		return "cabinet";
 	}
 
+	@PreAuthorize("hasRole('USER')")
 	@RequestMapping(value = "showEditNews", method = RequestMethod.GET)
 	public String showEditNews(@RequestParam("id") Long id, ModelMap modelMap) {
 		log.debug("showEditNews()...");
@@ -109,6 +125,7 @@ public class NewsController {
 		return "showEditNews";
 	}
 
+	@PreAuthorize("hasRole('USER')")
 	@RequestMapping(value = "editNews", method = RequestMethod.POST)
 	public String editNews(@RequestParam("id") Long id, @ModelAttribute("newsDTO") @Valid NewsDTO newsDTO,
 			BindingResult result, ModelMap modelMap) {
@@ -123,34 +140,53 @@ public class NewsController {
 		return "showViewNews";
 	}
 
+	@PreAuthorize("hasRole('ADMIN')")
+	@RequestMapping(value = "moderate", method = RequestMethod.POST)
+	public String moderate(@RequestParam(value = "pageNumber", defaultValue = "0") Integer pageNumber, @ModelAttribute("newsDTO") NewsDTO newsDTO,
+			@RequestParam("id") Long id, @RequestParam("email") String email, @RequestParam("status") String status, BindingResult result,
+			ModelMap modelMap) {
+		log.debug("moderate()...");
+		newsDTO = newsServiceImpl.find(id);
+		log.debug("status: {}", status);
+		newsDTO.setStatus(status);
+		newsServiceImpl.update(newsDTO, email);
+		createAdminPageRequest(pageNumber, modelMap);
+		return "admin";
+	}
+
+	@PreAuthorize("hasRole('USER')")
 	@RequestMapping(value = "cancel", method = RequestMethod.GET)
 	public String cancel(@ModelAttribute("listOfCheckboxes") ListOfCheckboxes listOfCheckboxes,
 			@RequestParam(value = "pageNumber", defaultValue = "0") Integer pageNumber, ModelMap modelMap) {
-		createPageRequest(pageNumber, modelMap, listOfCheckboxes);
+		createUserPageRequest(pageNumber, modelMap, listOfCheckboxes);
 		return "cabinet";
 	}
-	
+
+	@PreAuthorize("hasRole('USER')")
 	@RequestMapping(value = "cabinet")
 	public String cabinet(@RequestParam(value = "pageNumber", defaultValue = "0") Integer pageNumber,
-			ModelMap modelMap, HttpServletRequest request) {
+			ModelMap modelMap) {
 		log.debug("cabinet()...");
 		createUserPageRequest(pageNumber, modelMap, new ListOfCheckboxes());
 		return "cabinet";
 	}
-	
+
+	@PreAuthorize("hasRole('ADMIN')")
 	@RequestMapping(value = "admin")
-	public String admin() {
+	public String admin(@RequestParam(value = "pageNumber", defaultValue = "0") Integer pageNumber, ModelMap modelMap) {
 		log.debug("admin()...");
+		createAdminPageRequest(pageNumber, modelMap);
 		return "admin";
 	}
-	
-//	@RequestMapping(value = "login", method = RequestMethod.GET)
-//	public String showloginForm(ModelMap modelMap) {
-//		UserDTO userDTO = new UserDTO();
-//		modelMap.addAttribute("userDTO", userDTO);
-//		return "login";
-//	}
 
+	// @RequestMapping(value = "login", method = RequestMethod.GET)
+	// public String showloginForm(ModelMap modelMap) {
+	// UserDTO userDTO = new UserDTO();
+	// modelMap.addAttribute("userDTO", userDTO);
+	// return "login";
+	// }
+
+	@PreAuthorize("hasRole('ANONYMOUS')")
 	@RequestMapping(value = "signup", method = RequestMethod.GET)
 	public String showSignUpForm(ModelMap modelMap) {
 		UserDTO userDTO = new UserDTO();
@@ -158,6 +194,7 @@ public class NewsController {
 		return "signup";
 	}
 
+	@PreAuthorize("hasRole('ANONYMOUS')")
 	@RequestMapping(value = "register", method = RequestMethod.POST)
 	public String register(@ModelAttribute("userDTO") @Valid UserDTO userDTO, BindingResult result, ModelMap modelMap) {
 		log.debug("register()...");
@@ -178,21 +215,23 @@ public class NewsController {
 
 	}
 
-	private void createPageRequest(Integer pageNumber, ModelMap modelMap, ListOfCheckboxes listOfCheckboxes) {
+	private void createPageRequest(Integer pageNumber, ModelMap modelMap) {
 		Pageable pageRequest = new PageRequest(pageNumber, PAGESIZE, Sort.Direction.DESC, "date");
-		Page<NewsDTO> page = newsServiceImpl.findAll(pageRequest);
+		Page<NewsDTO> page = newsServiceImpl.findAllByStatus(pageRequest, "approved");
 		modelMap.addAttribute("page", page);
-		modelMap.addAttribute("listOfCheckboxes", listOfCheckboxes);
-		log.debug("page.getContent().get(0).getTitle(): {}", page.getContent().get(0).getTitle());
 	}
-	
+
 	private void createUserPageRequest(Integer pageNumber, ModelMap modelMap, ListOfCheckboxes listOfCheckboxes) {
 		Pageable pageRequest = new PageRequest(pageNumber, PAGESIZE, Sort.Direction.DESC, "date");
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		Page<NewsDTO> page = newsServiceImpl.findAllByUser(pageRequest, auth.getName());
 		modelMap.addAttribute("page", page);
 		modelMap.addAttribute("listOfCheckboxes", listOfCheckboxes);
-		log.debug("email: {}", auth.getName());
-		log.debug("page.getContent().size(): {}", page.getContent().size());
+	}
+
+	private void createAdminPageRequest(Integer pageNumber, ModelMap modelMap) {
+		Pageable pageRequest = new PageRequest(pageNumber, PAGESIZE, Sort.Direction.DESC, "date");
+		Page<NewsDTO> page = newsServiceImpl.findAllByStatus(pageRequest, "oncheck");
+		modelMap.addAttribute("page", page);
 	}
 }
