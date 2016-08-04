@@ -30,6 +30,13 @@
 			value="/WEB-INF/jsp/tiles/body/cabinet_left_menu.jsp" />
 		<put-attribute name="content" value="/WEB-INF/jsp/tiles/body/view.jsp" />
 	</definition>
+	
+	<definition name="adminShowViewNews" extends="commonDefinition">
+		<put-attribute name="title" type="string" value="viewNewsTitle" />
+		<put-attribute name="leftMenu"
+			value="/WEB-INF/jsp/tiles/body/admin_left_menu.jsp" />
+		<put-attribute name="content" value="/WEB-INF/jsp/tiles/body/admin_view.jsp" />
+	</definition>
 
 	<definition name="showEditNews" extends="commonDefinition">
 		<put-attribute name="title" type="string" value="editNewsTitle" />
@@ -40,6 +47,8 @@
 
 	<definition name="home" extends="commonDefinition">
 		<put-attribute name="title" type="string" value="homeTitle" />
+		<put-attribute name="leftMenu"
+			value="/WEB-INF/jsp/tiles/body/home_left_menu.jsp" />
 		<put-attribute name="content" value="/WEB-INF/jsp/tiles/body/home.jsp" />
 	</definition>
 	
@@ -67,7 +76,7 @@
 	<definition name="admin" extends="commonDefinition">
 		<put-attribute name="title" type="string" value="adminTitle" />
 		<put-attribute name="leftMenu"
-			value="" />
+			value="/WEB-INF/jsp/tiles/body/admin_left_menu.jsp" />
 		<put-attribute name="content" value="/WEB-INF/jsp/tiles/body/admin.jsp" />
 	</definition>
 
