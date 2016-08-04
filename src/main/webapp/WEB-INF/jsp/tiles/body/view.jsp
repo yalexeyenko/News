@@ -29,10 +29,10 @@
 			<c:if test="${newsDTO.status ne 'approved'}">
 				<a href="showEditNews?id=${newsDTO.id}"> <spring:message
 						code="content.view.button.edit" /></a>
+				<a href="deleteNews?id=${newsDTO.id}"> <spring:message
+						code="content.view.button.delete" />
+				</a>
 			</c:if>
-			<a href="deleteNews?id=${newsDTO.id}"> <spring:message
-					code="content.view.button.delete" />
-			</a>
 		</div>
 	</div>
 </div>
