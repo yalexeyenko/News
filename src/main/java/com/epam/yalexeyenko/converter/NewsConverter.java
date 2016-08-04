@@ -10,11 +10,15 @@ import org.springframework.stereotype.Repository;
 import com.epam.yalexeyenko.dto.NewsDTO;
 import com.epam.yalexeyenko.model.News;
 import com.epam.yalexeyenko.repository.StatusRepository;
+import com.epam.yalexeyenko.repository.UserRepository;
 
 @Repository
 public class NewsConverter {
 	@Autowired
 	private StatusRepository statusRepository;
+	
+	@Autowired
+	private UserConverter userConverter;
 	
 	public NewsDTO newsToDTO(News news) {
 		NewsDTO newsDTO = new NewsDTO();
@@ -24,6 +28,7 @@ public class NewsConverter {
 		newsDTO.setDate(news.getDate().format(DateTimeFormatter.ofPattern("MM/dd/yyyy")));
 		newsDTO.setContent(news.getContent());
 		newsDTO.setStatus(news.getStatus().getName());
+		newsDTO.setUserDTO(userConverter.userToDTO(news.getUser()));
 		return newsDTO;
 	}
 	
