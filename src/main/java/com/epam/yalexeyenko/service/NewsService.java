@@ -12,5 +12,6 @@ public interface NewsService extends Service<NewsDTO> {
 	NewsDTO create(NewsDTO newsDTO, String email);
 	void update(NewsDTO newsDTO, String email);
 	Page<NewsDTO> findAllByUser(Pageable pageRequest, String userEmail);
+	Page<NewsDTO> findAllByStatus(Pageable pageRequest, String status);
 	Page<NewsDTO> findByDateBetween(Pageable pageRequest, LocalDate start, LocalDate end, String userEmail);
 }
