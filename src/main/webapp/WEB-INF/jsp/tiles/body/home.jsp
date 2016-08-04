@@ -7,7 +7,7 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 
 <div class="listNewsContent">
-	<form:form action="deleteNewsList" modelAttribute="listOfCheckboxes">
+	<c:if test="${not empty page.content}">
 		<c:forEach items="${page.content}" var="newsItem">
 			<div class="news_item_block">
 				<div class="title_date">
@@ -24,26 +24,23 @@
 				<div class="view_n_edit_ref">
 					<a href="showViewNews?id=${newsItem.id}"> <spring:message
 							code="content.list.item.ref.view" />
-					</a> <a href="showEditNews?id=${newsItem.id}"> <spring:message
-							code="content.list.item.ref.edit" />
 					</a>
-					<form:checkbox path="idList" value="${newsItem.id}" />
 				</div>
 			</div>
 		</c:forEach>
-		<div class="multi_delete">
-			<form:button>
-				<spring:message code="content.list.button.delete" />
-			</form:button>
+		<div id="paging">
+			<c:if test="${page.number > 0}">
+				<a href="home?pageNumber=${page.number - 1}">&lt;</a>
+			</c:if>
+			<label>${page.number + 1}</label>
+			<c:if test="${page.totalPages > page.number + 1}">
+				<a href="home?pageNumber=${page.number + 1}">&gt;</a>
+			</c:if>
 		</div>
-	</form:form>
-	<div id="paging">
-		<c:if test="${page.number > 0}">
-			<a href="home?pageNumber=${page.number - 1}">&lt;</a>
-		</c:if>
-		<label>${page.number + 1}</label>
-		<c:if test="${page.totalPages > page.number + 1}">
-			<a href="home?pageNumber=${page.number + 1}">&gt;</a>
-		</c:if>		
-	</div>
+	</c:if>
+	<c:if test="${empty page.content}">
+		<div id="no_news">
+			<spring:message code="news.not.found" />
+		</div>
+	</c:if>
 </div>
