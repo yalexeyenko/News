@@ -1,7 +1,9 @@
 package com.epam.yalexeyenko.controller;
 
+import java.security.Principal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Collection;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,7 +18,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -29,10 +34,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.epam.yalexeyenko.dto.ListOfCheckboxes;
 import com.epam.yalexeyenko.dto.NewsDTO;
 import com.epam.yalexeyenko.dto.UserDTO;
+import com.epam.yalexeyenko.model.NewsHistoryItem;
+import com.epam.yalexeyenko.model.User;
+import com.epam.yalexeyenko.service.NewsHistoryItemServiceImpl;
 import com.epam.yalexeyenko.service.NewsService;
 import com.epam.yalexeyenko.service.UserService;
 
 @Controller
+@EnableWebSecurity
+@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
 @RequestMapping("/")
 public class NewsController {
 	private static final Logger log = LoggerFactory.getLogger(NewsController.class);
@@ -44,8 +54,22 @@ public class NewsController {
 
 	@Autowired
 	private UserService userServiceImpl;
+	
+	@Autowired
+	private NewsHistoryItemServiceImpl newsHistoryItemServiceImpl;
 
-	@PreAuthorize("hasRole('ANONYMOUS')")
+	@RequestMapping(value = "showMainPage")
+	public String showMainPage() {
+		log.debug("showMainPage()...");
+		if (hasRole("ADMIN")) {
+			return "redirect:admin";
+		} else if (hasRole("USER")) {
+			return "redirect:cabinet";
+		} else {
+			return "redirect:home";
+		}
+	}
+
 	@RequestMapping(value = "home")
 	public String home(@RequestParam(value = "pageNumber", defaultValue = "0") Integer pageNumber, ModelMap modelMap) {
 		log.debug("listNews()...");
@@ -53,7 +77,21 @@ public class NewsController {
 		return "home";
 	}
 
-	@PreAuthorize("hasRole('USER')")
+	@RequestMapping(value = "cabinet")
+	public String cabinet(@RequestParam(value = "pageNumber", defaultValue = "0") Integer pageNumber,
+			ModelMap modelMap) {
+		log.debug("cabinet()...");
+		createUserPageRequest(pageNumber, modelMap, new ListOfCheckboxes());
+		return "cabinet";
+	}
+
+	@RequestMapping(value = "admin")
+	public String admin(@RequestParam(value = "pageNumber", defaultValue = "0") Integer pageNumber, ModelMap modelMap) {
+		log.debug("admin()...");
+		createAdminPageRequest(pageNumber, modelMap);
+		return "admin";
+	}
+
 	@RequestMapping(value = "showAddNews", method = RequestMethod.GET)
 	public String showAddNews(ModelMap modelMap) {
 		log.debug("showAddNews()...");
@@ -63,7 +101,6 @@ public class NewsController {
 		return "showAddNews";
 	}
 
-	@PreAuthorize("hasRole('USER')")
 	@RequestMapping(value = "addNews", method = RequestMethod.POST)
 	public String addNews(@ModelAttribute("newsDTO") @Valid NewsDTO newsDTO, BindingResult result, ModelMap modelMap) {
 		log.debug("addNews()...");
@@ -75,7 +112,6 @@ public class NewsController {
 		return "showViewNews";
 	}
 
-	@PreAuthorize("hasRole('USER')")
 	@RequestMapping(value = "showViewNews", method = RequestMethod.GET)
 	public String showViewNews(@RequestParam("id") Long id, ModelMap modelMap) {
 		log.debug("showViewNews()...");
@@ -83,7 +119,6 @@ public class NewsController {
 		return "showViewNews";
 	}
 
-	@PreAuthorize("hasRole('ADMIN')")
 	@RequestMapping(value = "adminShowViewNews", method = RequestMethod.GET)
 	public String adminShowViewNews(@RequestParam("id") Long id, ModelMap modelMap) {
 		log.debug("adminShowViewNews()...");
@@ -91,7 +126,6 @@ public class NewsController {
 		return "adminShowViewNews";
 	}
 
-	@PreAuthorize("hasRole('USER')")
 	@RequestMapping(value = "deleteNewsList", method = RequestMethod.POST)
 	public String deleteNewsList(@ModelAttribute("listOfCheckboxes") ListOfCheckboxes listOfCheckboxes,
 			@RequestParam(value = "pageNumber", defaultValue = "0") Integer pageNumber, ModelMap modelMap) {
@@ -106,7 +140,6 @@ public class NewsController {
 		return "cabinet";
 	}
 
-	@PreAuthorize("hasRole('USER')")
 	@RequestMapping(value = "deleteNews", method = RequestMethod.GET)
 	public String deleteNews(@RequestParam("id") Long id,
 			@ModelAttribute("listOfCheckboxes") ListOfCheckboxes listOfCheckboxes,
@@ -117,7 +150,6 @@ public class NewsController {
 		return "cabinet";
 	}
 
-	@PreAuthorize("hasRole('USER')")
 	@RequestMapping(value = "showEditNews", method = RequestMethod.GET)
 	public String showEditNews(@RequestParam("id") Long id, ModelMap modelMap) {
 		log.debug("showEditNews()...");
@@ -125,7 +157,6 @@ public class NewsController {
 		return "showEditNews";
 	}
 
-	@PreAuthorize("hasRole('USER')")
 	@RequestMapping(value = "editNews", method = RequestMethod.POST)
 	public String editNews(@RequestParam("id") Long id, @ModelAttribute("newsDTO") @Valid NewsDTO newsDTO,
 			BindingResult result, ModelMap modelMap) {
@@ -140,43 +171,32 @@ public class NewsController {
 		return "showViewNews";
 	}
 
-	@PreAuthorize("hasRole('ADMIN')")
 	@RequestMapping(value = "moderate", method = RequestMethod.POST)
-	public String moderate(@RequestParam(value = "pageNumber", defaultValue = "0") Integer pageNumber, @ModelAttribute("newsDTO") NewsDTO newsDTO,
-			@RequestParam("id") Long id, @RequestParam("email") String email, @RequestParam("status") String status, BindingResult result,
+	public String moderate(@RequestParam(value = "pageNumber", defaultValue = "0") Integer pageNumber,
+			@ModelAttribute("newsDTO") NewsDTO newsDTO, @RequestParam("id") Long id,
+			@RequestParam("email") String email, @RequestParam("status") String status, BindingResult result,
 			ModelMap modelMap) {
 		log.debug("moderate()...");
 		newsDTO = newsServiceImpl.find(id);
 		log.debug("status: {}", status);
 		newsDTO.setStatus(status);
 		newsServiceImpl.update(newsDTO, email);
+		try {
+			NewsHistoryItem item = new NewsHistoryItem();
+			item.setNewsId(newsDTO.getId());
+			newsHistoryItemServiceImpl.create(item);
+		} catch (RuntimeException e) {
+			log.debug("Caught RuntimeException");
+		}
 		createAdminPageRequest(pageNumber, modelMap);
 		return "admin";
 	}
 
-	@PreAuthorize("hasRole('USER')")
 	@RequestMapping(value = "cancel", method = RequestMethod.GET)
 	public String cancel(@ModelAttribute("listOfCheckboxes") ListOfCheckboxes listOfCheckboxes,
 			@RequestParam(value = "pageNumber", defaultValue = "0") Integer pageNumber, ModelMap modelMap) {
 		createUserPageRequest(pageNumber, modelMap, listOfCheckboxes);
 		return "cabinet";
-	}
-
-	@PreAuthorize("hasRole('USER')")
-	@RequestMapping(value = "cabinet")
-	public String cabinet(@RequestParam(value = "pageNumber", defaultValue = "0") Integer pageNumber,
-			ModelMap modelMap) {
-		log.debug("cabinet()...");
-		createUserPageRequest(pageNumber, modelMap, new ListOfCheckboxes());
-		return "cabinet";
-	}
-
-	@PreAuthorize("hasRole('ADMIN')")
-	@RequestMapping(value = "admin")
-	public String admin(@RequestParam(value = "pageNumber", defaultValue = "0") Integer pageNumber, ModelMap modelMap) {
-		log.debug("admin()...");
-		createAdminPageRequest(pageNumber, modelMap);
-		return "admin";
 	}
 
 	// @RequestMapping(value = "login", method = RequestMethod.GET)
@@ -186,7 +206,6 @@ public class NewsController {
 	// return "login";
 	// }
 
-	@PreAuthorize("hasRole('ANONYMOUS')")
 	@RequestMapping(value = "signup", method = RequestMethod.GET)
 	public String showSignUpForm(ModelMap modelMap) {
 		UserDTO userDTO = new UserDTO();
@@ -194,7 +213,6 @@ public class NewsController {
 		return "signup";
 	}
 
-	@PreAuthorize("hasRole('ANONYMOUS')")
 	@RequestMapping(value = "register", method = RequestMethod.POST)
 	public String register(@ModelAttribute("userDTO") @Valid UserDTO userDTO, BindingResult result, ModelMap modelMap) {
 		log.debug("register()...");
@@ -214,6 +232,17 @@ public class NewsController {
 		}
 
 	}
+	
+	@RequestMapping(value = "403", method = RequestMethod.GET)
+	public String accessDenied(Principal user, ModelMap modelMap) {
+		if (user != null) {
+			UserDTO currentUser = userServiceImpl.findByEmail(user.getName());
+			modelMap.addAttribute("currentUser", currentUser.getFirstName() + " " + currentUser.getLastName());
+		} else {
+			modelMap.addAttribute("currentUser", "Anonymous user");
+		}
+		return "403";
+	}
 
 	private void createPageRequest(Integer pageNumber, ModelMap modelMap) {
 		Pageable pageRequest = new PageRequest(pageNumber, PAGESIZE, Sort.Direction.DESC, "date");
@@ -225,13 +254,26 @@ public class NewsController {
 		Pageable pageRequest = new PageRequest(pageNumber, PAGESIZE, Sort.Direction.DESC, "date");
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		Page<NewsDTO> page = newsServiceImpl.findAllByUser(pageRequest, auth.getName());
-		modelMap.addAttribute("page", page);
 		modelMap.addAttribute("listOfCheckboxes", listOfCheckboxes);
+		modelMap.addAttribute("page", page);
 	}
 
 	private void createAdminPageRequest(Integer pageNumber, ModelMap modelMap) {
 		Pageable pageRequest = new PageRequest(pageNumber, PAGESIZE, Sort.Direction.DESC, "date");
 		Page<NewsDTO> page = newsServiceImpl.findAllByStatus(pageRequest, "oncheck");
 		modelMap.addAttribute("page", page);
+	}
+
+	private boolean hasRole(String role) {
+		Collection<GrantedAuthority> authorities = (Collection<GrantedAuthority>) SecurityContextHolder.getContext()
+				.getAuthentication().getAuthorities();
+		boolean hasRole = false;
+		for (GrantedAuthority authority : authorities) {
+			hasRole = authority.getAuthority().endsWith(role);
+			if (hasRole) {
+				break;
+			}
+		}
+		return hasRole;
 	}
 }

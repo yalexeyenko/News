@@ -60,7 +60,8 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 		registry.addViewController("/home").setViewName("home");
 		registry.addViewController("/").setViewName("home");
 		registry.addViewController("/signup").setViewName("showSignup");
-		registry.addViewController("/login").setViewName("login");		
+		registry.addViewController("/login").setViewName("login");
+		registry.addViewController("/403").setViewName("403");	
 	}
 
 	/* Apache tiles */

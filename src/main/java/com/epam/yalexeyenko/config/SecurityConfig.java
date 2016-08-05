@@ -29,10 +29,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http
-			.authorizeRequests()				
-				.antMatchers("/admin/**").access("hasRole('ADMIN')")
-				.antMatchers("/cabinet/**").access("hasRole('USER')")
-				.antMatchers("/home/**").access("hasRole('ANONYMOUS')")
+			.authorizeRequests()	
+				.antMatchers("/admin").access("hasRole('ADMIN')")
+				.antMatchers("/cabinet").access("hasRole('USER')")
+				.antMatchers("/home").access("hasRole('ANONYMOUS')")
 				.and()
 			.formLogin()
 				.loginPage("/login")
@@ -51,7 +51,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.and()
 			.csrf()
 				.and()
-			.exceptionHandling().accessDeniedPage("/access_denied")
+			.exceptionHandling().accessDeniedPage("/403")
 				.and()
 			.logout()
 				.permitAll();
