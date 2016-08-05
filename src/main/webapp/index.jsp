@@ -7,6 +7,6 @@
 <title>News block</title>
 </head>
 <body>
-	<c:redirect url="home"/>
+	<c:redirect url="showMainPage"/>
 </body>
 </html>
