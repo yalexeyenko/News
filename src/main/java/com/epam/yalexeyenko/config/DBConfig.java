@@ -38,7 +38,7 @@ public class DBConfig {
 		JpaVendorAdapter jpaVendorAdapter = new HibernateJpaVendorAdapter();
 		emf.setJpaVendorAdapter(jpaVendorAdapter);
 		emf.setJpaProperties(additionalProperties());
-		emf.setPackagesToScan("com.epam.yalexeyenko.repository", "com.epam.yalexeyenko.model");
+		emf.setPackagesToScan("com.epam.yalexeyenko.repository", "com.epam.yalexeyenko.model", "com.epam.yalexeyenko.service");
 		return emf;
 	}
 
