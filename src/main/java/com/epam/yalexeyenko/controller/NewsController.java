@@ -149,7 +149,7 @@ public class NewsController {
 		createUserPageRequest(pageNumber, modelMap, listOfCheckboxes);
 		return "cabinet";
 	}
-
+	
 	@PreAuthorize(value = "hasAuthority('ROLE_USER')")
 	@RequestMapping(value = "showEditNews", method = RequestMethod.GET)
 	public String showEditNews(@RequestParam("id") Long id, ModelMap modelMap) {
@@ -203,7 +203,7 @@ public class NewsController {
 //		return "login";
 //	}
 
-//	@PreAuthorize("isAnonymous()")
+	@PreAuthorize("isAnonymous()")
 	@RequestMapping(value = "signup", method = RequestMethod.GET)
 	public String showSignUpForm(ModelMap modelMap) {
 		UserDTO userDTO = new UserDTO();
@@ -211,7 +211,7 @@ public class NewsController {
 		return "signup";
 	}
 
-//	@PreAuthorize("isAnonymous()")
+	@PreAuthorize("isAnonymous()")
 	@RequestMapping(value = "register", method = RequestMethod.POST)
 	public String register(@ModelAttribute("userDTO") @Valid UserDTO userDTO, BindingResult result, ModelMap modelMap) {
 		log.debug("register()...");
