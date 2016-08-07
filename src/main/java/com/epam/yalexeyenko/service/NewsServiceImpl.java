@@ -10,10 +10,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.epam.yalexeyenko.converter.NewsConverter;
 import com.epam.yalexeyenko.dto.NewsDTO;
+import com.epam.yalexeyenko.model.HistoryItem;
 import com.epam.yalexeyenko.model.News;
 import com.epam.yalexeyenko.repository.NewsRepository;
 import com.epam.yalexeyenko.repository.StatusRepository;
@@ -23,16 +25,19 @@ import com.epam.yalexeyenko.repository.UserRepository;
 @Transactional
 public class NewsServiceImpl implements NewsService {
 	private static final Logger log = LoggerFactory.getLogger(NewsServiceImpl.class);
-	
+
 	@Autowired
 	private NewsRepository newsRepository;
-	
+
 	@Autowired
 	private StatusRepository statusRepository;
-	
+
+	@Autowired
+	private HistoryItemService historyItemServiceImpl;
+
 	@Autowired
 	private UserRepository userRepository;
-	
+
 	@Autowired
 	private NewsConverter newsConverter;
 
@@ -43,7 +48,7 @@ public class NewsServiceImpl implements NewsService {
 	public void setNewsRepository(NewsRepository newsRepository) {
 		this.newsRepository = newsRepository;
 	}
-	
+
 	public NewsConverter getNewsConverter() {
 		return newsConverter;
 	}
@@ -53,6 +58,7 @@ public class NewsServiceImpl implements NewsService {
 	}
 
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED)
 	public NewsDTO create(NewsDTO newsDTO, String email) {
 		News news = newsConverter.newsDTOToNews(newsDTO);
 		log.debug("news.getStatus().getName(): {}", news.getStatus().getName());
@@ -61,36 +67,46 @@ public class NewsServiceImpl implements NewsService {
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public NewsDTO find(Long id) {
 		return newsConverter.newsToDTO(newsRepository.findOne(id));
 	}
-	
+
 	@Override
+	@Transactional(readOnly = true)
 	public Page<NewsDTO> findAll(Pageable pageRequest) {
 		Page<News> pageNews = newsRepository.findAll(pageRequest);
-		log.debug("pageNews.getContent().get(0).getUser().getEmail(): {}", pageNews.getContent().get(0).getUser().getEmail());
-		return new PageImpl<NewsDTO>(newsConverter.newsToDTO(pageNews.getContent()), pageRequest, pageNews.getTotalElements());
+		log.debug("pageNews.getContent().get(0).getUser().getEmail(): {}",
+				pageNews.getContent().get(0).getUser().getEmail());
+		return new PageImpl<NewsDTO>(newsConverter.newsToDTO(pageNews.getContent()), pageRequest,
+				pageNews.getTotalElements());
 	}
-	
+
 	@Override
+	@Transactional(readOnly = true)
 	public Page<NewsDTO> findAllByUser(Pageable pageRequest, String userEmail) {
 		Page<News> pageNews = newsRepository.findByUser(pageRequest, userRepository.findByEmail(userEmail));
 		log.debug("pageNews.getContent().size(): {}", pageNews.getContent().size());
-		return new PageImpl<NewsDTO>(newsConverter.newsToDTO(pageNews.getContent()), pageRequest, pageNews.getTotalElements());
+		return new PageImpl<NewsDTO>(newsConverter.newsToDTO(pageNews.getContent()), pageRequest,
+				pageNews.getTotalElements());
 	}
-	
+
 	@Override
+	@Transactional(readOnly = true)
 	public Page<NewsDTO> findAllByStatus(Pageable pageRequest, String status) {
 		Page<News> pageNews = newsRepository.findByStatus(pageRequest, statusRepository.findByName(status));
 		log.debug("pageNews.getContent().size(): {}", pageNews.getContent().size());
-		return new PageImpl<NewsDTO>(newsConverter.newsToDTO(pageNews.getContent()), pageRequest, pageNews.getTotalElements());
+		return new PageImpl<NewsDTO>(newsConverter.newsToDTO(pageNews.getContent()), pageRequest,
+				pageNews.getTotalElements());
 	}
-	
+
 	@Override
 	public Page<NewsDTO> findByDateBetween(Pageable pageRequest, LocalDate start, LocalDate end, String userEmail) {
-		Page<News> pageNews = newsRepository.findByDateBetweenAndUser(pageRequest, start, end, userRepository.findByEmail(userEmail));
+		Page<News> pageNews = newsRepository.findByDateBetweenAndUser(pageRequest, start, end,
+				userRepository.findByEmail(userEmail));
 		log.debug("pageNews.getContent().size(): {}", pageNews.getContent().size());
-		return new PageImpl<NewsDTO>(newsConverter.newsToDTO(pageNews.getContent()), pageRequest, pageNews.getTotalElements());
+		return new PageImpl<NewsDTO>(newsConverter.newsToDTO(pageNews.getContent()), pageRequest,
+				pageNews.getTotalElements());
 	}
 
 	@Override
@@ -98,18 +114,31 @@ public class NewsServiceImpl implements NewsService {
 		News news = newsConverter.newsDTOToNews(newsDTO);
 		news.setUser(userRepository.findByEmail(email));
 		newsRepository.saveAndFlush(news);
+		log.debug("news.getId(): {}", news.getId());
+		log.debug("newsDTO.getId(): {}", newsDTO.getId());
+		if (newsDTO.getStatus().equals("approved")) {
+			HistoryItem hm = new HistoryItem();
+			hm.setNewsId(news.getId());
+			try {
+				historyItemServiceImpl.create(hm);
+			} catch (RuntimeException e) {
+				log.debug("Caught RuntimeException in update()");
+			}
+		}
 	}
 
 	@Override
+	@Transactional(propagation = Propagation.REQUIRED)
 	public void delete(Long id) {
 		newsRepository.delete(id);
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<NewsDTO> findAll() {
 		return newsConverter.newsToDTO(newsRepository.findAll());
 	}
-	
+
 	@Override
 	public NewsDTO create(NewsDTO t) {
 		throw new UnsupportedOperationException("Use create(NewsDTO newsDTO, String email) method to create news.");
@@ -117,6 +146,14 @@ public class NewsServiceImpl implements NewsService {
 
 	@Override
 	public void update(NewsDTO t) {
-		throw new UnsupportedOperationException("Use update(NewsDTO newsDTO, String email) method to update news.");		
+		throw new UnsupportedOperationException("Use update(NewsDTO newsDTO, String email) method to update news.");
+	}
+
+	public HistoryItemService getHistoryItemServiceImpl() {
+		return historyItemServiceImpl;
+	}
+
+	public void setHistoryItemServiceImpl(HistoryItemService historyItemServiceImpl) {
+		this.historyItemServiceImpl = historyItemServiceImpl;
 	}
 }
