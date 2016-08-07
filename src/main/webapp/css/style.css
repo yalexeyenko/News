@@ -138,7 +138,7 @@ body {
 }
 
 .news_item_block {
-	margin-bottom: 35px;
+	margin-bottom: 15px;
 	margin-left: 220px;
 }
 
@@ -175,14 +175,14 @@ body {
 	margin-bottom: 10px;
 	float: right;
 	width: 700px;
-	height: 100px;
+	height: 75px;
 	resize: none;
 }
 
 #input_wrap_content textarea {
 	float: right;
 	width: 700px;
-	height: 200px;
+	height: 150px;
 	resize: none;
 }
 
@@ -198,7 +198,7 @@ body {
 }
 
 #button_wrap {
-	margin-top: 310;
+	margin-top: 250;
 	margin-left: 450;
 }
 
@@ -256,7 +256,7 @@ body {
 	position: absolute;
 	width: 50px;
 	margin-left: 663px;
-	bottom: 110px;
+	bottom: 65px;
 }
 
 /*Edit page content*/
@@ -336,8 +336,9 @@ body {
 }
 
 #edit_n_delete_ref {
-	margin-top: 294px;
-	text-align: right;
+	position: absolute;
+    margin-top: 230px;
+    margin-left: 400;
 }
 
 #edit_n_delete_ref a {
