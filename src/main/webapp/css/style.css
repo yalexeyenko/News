@@ -48,6 +48,12 @@ body {
 	margin-right: 21px;
 }
 
+#userEmail {
+	float: right;
+	margin-top: -56px;
+	margin-right: 20px;
+}
+
 /*Left menu*/
 .header #change_locale span {
 	margin-right: 10px;
@@ -259,6 +265,36 @@ body {
 	bottom: 65px;
 }
 
+/*table*/
+table {
+	font-family: verdana,arial,sans-serif;
+	font-size:11px;
+	color:#333333;
+	border-width: 1px;
+	border-color: #666666;
+	border-collapse: collapse;
+	width: 80%;
+    margin: 0 auto;
+}
+table th {
+	border-width: 1px;
+	padding: 8px;
+	border-style: solid;
+	border-color: #666666;
+	background-color: #DEDD3D;
+	border-style: solid;
+}
+table td {
+	border-width: 1px;
+	padding: 8px;
+	border-style: solid;
+	border-color: #666666;
+	background-color: #ffffff;
+}
+
+
+
+
 /*Edit page content*/
 .edit_news_form form {
 	padding-top: 40px;
@@ -297,7 +333,8 @@ body {
 	width: 700px;
 }
 
-#view_wrap_status #block, #view_wrap_date #block, #view_wrap_author #block {
+#view_wrap_status #block, #view_wrap_date #block, #view_wrap_author #block
+	{
 	margin-right: 500px;
 	float: right;
 	width: 200px;
@@ -337,8 +374,8 @@ body {
 
 #edit_n_delete_ref {
 	position: absolute;
-    margin-top: 230px;
-    margin-left: 400;
+	margin-top: 230px;
+	margin-left: 400;
 }
 
 #edit_n_delete_ref a {
