@@ -8,7 +8,10 @@
 	<div class="left_menu_items_block">
 		<ul>
 			<li><a href="admin"> <spring:message
-						code="left.menu.ref.my.news" />
+						code="left.menu.ref.home" />
+			</a></li>
+			<li><a href="showHistory"> <spring:message
+						code="left.menu.history" />
 			</a></li>
 			<li>
 		</ul>

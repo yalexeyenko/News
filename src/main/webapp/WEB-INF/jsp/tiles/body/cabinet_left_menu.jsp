@@ -8,7 +8,7 @@
 	<div class="left_menu_items_block">
 		<ul>
 			<li><a href="cabinet">
-					<spring:message code="left.menu.ref.my.news" />
+					<spring:message code="left.menu.ref.home" />
 				</a></li>
 			<li><a href="showAddNews">
 					<spring:message code="left.menu.ref.add.news" />
