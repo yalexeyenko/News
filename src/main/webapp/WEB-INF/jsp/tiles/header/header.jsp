@@ -9,6 +9,16 @@
 	<h1>
 		<spring:message code="header.title" />
 	</h1>
+	<security:authorize access="isAuthenticated()">
+		<div id=userEmail>
+			<span><security:authentication property="principal.username" /></span>
+		</div>
+	</security:authorize>
+	<security:authorize access="isAnonymous()">
+		<div id=userEmail>
+			<span><spring:message code="guest" /></span>
+		</div>
+	</security:authorize>
 	<div id="login_logout_ref">
 		<security:authorize access="! isAuthenticated()">
 			<a href="login">
@@ -25,7 +35,7 @@
 				<button>
 					<spring:message code="logout" />
 				</button>
-			</form:form>
+			</form:form>  
 		</security:authorize>
 
 	</div>
