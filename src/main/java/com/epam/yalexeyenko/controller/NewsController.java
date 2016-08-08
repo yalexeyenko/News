@@ -3,6 +3,7 @@ package com.epam.yalexeyenko.controller;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -12,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -32,6 +34,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.epam.yalexeyenko.dto.ListOfCheckboxes;
 import com.epam.yalexeyenko.dto.NewsDTO;
 import com.epam.yalexeyenko.dto.UserDTO;
+import com.epam.yalexeyenko.model.HistoryItem;
+import com.epam.yalexeyenko.model.News;
+import com.epam.yalexeyenko.service.HistoryItemService;
 import com.epam.yalexeyenko.service.NewsService;
 import com.epam.yalexeyenko.service.UserService;
 
@@ -47,8 +52,10 @@ public class NewsController {
 
 	@Autowired
 	private UserService userServiceImpl;
+	
+	@Autowired
+	private HistoryItemService historyItemServiceImpl;
 
-//	@PreAuthorize("isAnonymous()")
 	@RequestMapping(value = "showMainPage")
 	public String showMainPage() {
 		log.debug("showMainPage()...");
@@ -57,16 +64,16 @@ public class NewsController {
 		} else if (hasRole("USER")) {
 			return "redirect:cabinet";
 		} else {
-			return "redirect:home";
+			return "redirect:guest";
 		}
 	}
 
 //	@PreAuthorize("isAnonymous()")
-	@RequestMapping(value = "home")
-	public String home(@RequestParam(value = "pageNumber", defaultValue = "0") Integer pageNumber, ModelMap modelMap) {
+	@RequestMapping(value = "guest")
+	public String guest(@RequestParam(value = "pageNumber", defaultValue = "0") Integer pageNumber, ModelMap modelMap) {
 		log.debug("listNews()...");
 		createPageRequest(pageNumber, modelMap);
-		return "home";
+		return "guest";
 	}
 
 	@PreAuthorize(value = "hasAuthority('ROLE_USER')")
@@ -84,6 +91,14 @@ public class NewsController {
 		log.debug("admin()...");
 		createAdminPageRequest(pageNumber, modelMap);
 		return "admin";
+	}
+	
+	@PreAuthorize(value = "hasAuthority('ROLE_ADMIN')")
+	@RequestMapping(value = "showHistory")
+	public String showHistory(@RequestParam(value = "pageNumber", defaultValue = "0") Integer pageNumber, ModelMap modelMap) {
+		log.debug("showHistory()...");
+		createHistoryPageRequest(pageNumber, modelMap);
+		return "showHistory";
 	}
 
 	@PreAuthorize(value = "hasAuthority('ROLE_USER')")
@@ -114,6 +129,14 @@ public class NewsController {
 		log.debug("showViewNews()...");
 		modelMap.addAttribute("newsDTO", newsServiceImpl.find(id));
 		return "showViewNews";
+	}
+	
+	@PreAuthorize("isAnonymous()")
+	@RequestMapping(value = "showGuestViewNews", method = RequestMethod.GET)
+	public String showGuestViewNews(@RequestParam("id") Long id, ModelMap modelMap) {
+		log.debug("showGuestViewNews()...");
+		modelMap.addAttribute("newsDTO", newsServiceImpl.find(id));
+		return "showGuestViewNews";
 	}
 
 	@PreAuthorize(value = "hasAuthority('ROLE_ADMIN')")
@@ -262,6 +285,34 @@ public class NewsController {
 		Page<NewsDTO> page = newsServiceImpl.findAllByStatus(pageRequest, "oncheck");
 		modelMap.addAttribute("page", page);
 	}
+	
+	private void createHistoryPageRequest(Integer pageNumber, ModelMap modelMap) {
+		log.debug("createHistoryPageRequest()");
+		Pageable pageRequest = new PageRequest(pageNumber, PAGESIZE);
+		Page<HistoryItem> pageHistory = historyItemServiceImpl.findAll(pageRequest);
+		log.debug("pageHistory.getTotalElements(): {}", pageHistory.getTotalElements());
+		List<NewsDTO> newsList = new ArrayList<>();
+		for (HistoryItem item : pageHistory.getContent()) {
+			newsList.add(newsServiceImpl.find(item.getNewsId()));
+		}
+		log.debug("newsList.size(): {}", newsList.size());
+		Page<NewsDTO> page = new PageImpl<>(newsList);
+		modelMap.addAttribute("page", page);
+	}
+	
+//	private void createHistoryPageRequest(Integer pageNumber, ModelMap modelMap) {
+//		log.debug("createHistoryPageRequest()");
+//		Pageable pageRequest = new PageRequest(pageNumber, PAGESIZE, Sort.Direction.DESC, "date");
+//		List<HistoryItem> historyItems = historyItemServiceImpl.findAll();
+//		log.debug("historyItems.size(): {}", historyItems.size());
+//		List<NewsDTO> newsList = new ArrayList<>();
+//		for (HistoryItem item : historyItems) {
+//			newsList.add(newsServiceImpl.find(item.getNewsId()));
+//		}
+//		log.debug("newsList.size(): {}", newsList.size());
+//		Page<NewsDTO> page = new PageImpl<>(newsList, pageRequest, newsList.size());
+//		modelMap.addAttribute("page", page);
+//	}
 
 	private boolean hasRole(String role) {
 		Collection<GrantedAuthority> authorities = (Collection<GrantedAuthority>) SecurityContextHolder.getContext()
@@ -269,6 +320,7 @@ public class NewsController {
 		boolean hasRole = false;
 		for (GrantedAuthority authority : authorities) {
 			hasRole = authority.getAuthority().endsWith(role);
+			log.debug("authority.getAuthority(): {}", authority.getAuthority());
 			if (hasRole) {
 				break;
 			}
