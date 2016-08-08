@@ -1,5 +1,7 @@
 package com.epam.yalexeyenko.repository;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -9,5 +11,5 @@ import com.epam.yalexeyenko.model.HistoryItem;
 
 @Repository
 public interface HistoryItemRepository extends JpaRepository<HistoryItem, Long> {
-	Page<HistoryItem> findAll(Pageable pageable);
+	Page<HistoryItem> findAll(Pageable pageRequest);
 }
