@@ -42,6 +42,6 @@
 		</div>
 	</c:if>
 	<c:if test="${empty page.content}">
-		<span>News is not found</span>
+		<span><spring:message code="news.not.found"/></span>
 	</c:if>
 </div>
