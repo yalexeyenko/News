@@ -11,6 +11,7 @@ html {
 
 body {
 	height: 100%;
+	background-color: ivory;
 }
 
 .wrapper {
@@ -20,6 +21,9 @@ body {
 	margin: 0 auto;
 	height: auto !important;
 	height: 100%;
+	background-color: snow;
+	border-left: 1px solid black;
+	border-right: 1px solid black;
 }
 
 /*Header*/
@@ -267,15 +271,16 @@ body {
 
 /*table*/
 table {
-	font-family: verdana,arial,sans-serif;
-	font-size:11px;
-	color:#333333;
+	font-family: verdana, arial, sans-serif;
+	font-size: 11px;
+	color: #333333;
 	border-width: 1px;
 	border-color: #666666;
 	border-collapse: collapse;
 	width: 80%;
-    margin: 0 auto;
+	margin: 0 auto;
 }
+
 table th {
 	border-width: 1px;
 	padding: 8px;
@@ -284,6 +289,7 @@ table th {
 	background-color: #DEDD3D;
 	border-style: solid;
 }
+
 table td {
 	border-width: 1px;
 	padding: 8px;
@@ -292,8 +298,11 @@ table td {
 	background-color: #ffffff;
 }
 
-
-
+#date_filter_form {
+	float: right;
+    margin-top: -33px;
+    margin-right: 19px;
+}
 
 /*Edit page content*/
 .edit_news_form form {
@@ -312,6 +321,14 @@ table td {
 #input_wrap_title, #input_wrap_date, #input_wrap_brief,
 	#input_wrap_content, #input_wrap_status span:FIRST-CHILD {
 	font-weight: bold;
+}
+
+#date_filter_buttons {
+	display: inline;
+}
+
+#date_filter_buttons button {
+	padding: 2px;
 }
 
 /*View page content*/
