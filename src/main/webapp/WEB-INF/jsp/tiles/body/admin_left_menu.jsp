@@ -14,6 +14,10 @@
 						code="left.menu.history" />
 			</a></li>
 			<li>
+			<li><a href="showUsers"> <spring:message
+						code="users" />
+			</a></li>
+			<li>
 		</ul>
 	</div>
 </div>
