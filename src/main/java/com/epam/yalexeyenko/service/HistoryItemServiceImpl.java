@@ -1,7 +1,5 @@
 package com.epam.yalexeyenko.service;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,7 +20,6 @@ public class HistoryItemServiceImpl implements HistoryItemService {
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
 	public HistoryItem create(HistoryItem t) {
-//		throw new RuntimeException("RuntimeException inside create()");
 		return historyItemRepository.saveAndFlush(t);
 	}
 
