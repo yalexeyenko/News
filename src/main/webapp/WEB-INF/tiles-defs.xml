@@ -14,6 +14,11 @@
 		<put-attribute name="footer"
 			value="/WEB-INF/jsp/tiles/footer/footer.jsp" />
 	</definition>
+	
+	<definition name="admin_history" template="/WEB-INF/jsp/tiles/body/admin_history.jsp">
+		<put-attribute name="historyTable"
+			value="/WEB-INF/jsp/tiles/body/history_table.jsp" />
+	</definition>
 
 	<definition name="index" template="/WEB-INF/index.jsp" />
 
@@ -42,7 +47,7 @@
 		<put-attribute name="title" type="string" value="hisotryTitle" />
 		<put-attribute name="leftMenu"
 			value="/WEB-INF/jsp/tiles/body/admin_left_menu.jsp" />
-		<put-attribute name="content" value="/WEB-INF/jsp/tiles/body/admin_history.jsp" />
+		<put-attribute name="content" value="admin_history" />
 	</definition>
 	
 	<definition name="showGuestViewNews" extends="commonDefinition">
@@ -92,6 +97,13 @@
 		<put-attribute name="leftMenu"
 			value="/WEB-INF/jsp/tiles/body/admin_left_menu.jsp" />
 		<put-attribute name="content" value="/WEB-INF/jsp/tiles/body/admin.jsp" />
+	</definition>
+	
+	<definition name="users" extends="commonDefinition">
+		<put-attribute name="title" type="string" value="users" />
+		<put-attribute name="leftMenu"
+			value="/WEB-INF/jsp/tiles/body/admin_left_menu.jsp" />
+		<put-attribute name="content" value="/WEB-INF/jsp/tiles/body/users.jsp" />
 	</definition>
 	
 	<definition name="403" extends="commonDefinition">
