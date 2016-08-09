@@ -84,6 +84,14 @@ public class NewsServiceImpl implements NewsService {
 
 	@Override
 	@Transactional(readOnly = true)
+	public Page<NewsDTO> findAllHistory(Pageable pageRequest) {
+		Page<News> pageNews = newsRepository.findAllHistory(pageRequest);
+		return new PageImpl<NewsDTO>(newsConverter.newsToDTO(pageNews.getContent()), pageRequest,
+				pageNews.getTotalElements());
+	}
+
+	@Override
+	@Transactional(readOnly = true)
 	public Page<NewsDTO> findAllByUser(Pageable pageRequest, String userEmail) {
 		Page<News> pageNews = newsRepository.findByUser(pageRequest, userRepository.findByEmail(userEmail));
 		log.debug("pageNews.getContent().size(): {}", pageNews.getContent().size());
@@ -101,9 +109,16 @@ public class NewsServiceImpl implements NewsService {
 	}
 
 	@Override
-	public Page<NewsDTO> findByDateBetween(Pageable pageRequest, LocalDate start, LocalDate end, String userEmail) {
-		Page<News> pageNews = newsRepository.findByDateBetweenAndUser(pageRequest, start, end,
-				userRepository.findByEmail(userEmail));
+	public Page<NewsDTO> findByDateBetween(Pageable pageRequest, LocalDate start, LocalDate end) {
+		Page<News> pageNews = newsRepository.findByDateBetween(pageRequest, start, end);
+		log.debug("pageNews.getContent().size(): {}", pageNews.getContent().size());
+		return new PageImpl<NewsDTO>(newsConverter.newsToDTO(pageNews.getContent()), pageRequest,
+				pageNews.getTotalElements());
+	}
+	
+	@Override
+	public Page<NewsDTO> findAllHistoryByDateBetween(Pageable pageRequest, LocalDate start, LocalDate end) {
+		Page<News> pageNews = newsRepository.findAllHistoryByDateBetween(pageRequest, start, end);
 		log.debug("pageNews.getContent().size(): {}", pageNews.getContent().size());
 		return new PageImpl<NewsDTO>(newsConverter.newsToDTO(pageNews.getContent()), pageRequest,
 				pageNews.getTotalElements());
