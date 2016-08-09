@@ -1,9 +1,7 @@
 package com.epam.yalexeyenko.controller;
 
-import java.security.Principal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -13,13 +11,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -34,9 +29,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.epam.yalexeyenko.dto.ListOfCheckboxes;
 import com.epam.yalexeyenko.dto.NewsDTO;
 import com.epam.yalexeyenko.dto.UserDTO;
-import com.epam.yalexeyenko.model.HistoryItem;
-import com.epam.yalexeyenko.model.News;
-import com.epam.yalexeyenko.service.HistoryItemService;
 import com.epam.yalexeyenko.service.NewsService;
 import com.epam.yalexeyenko.service.UserService;
 
@@ -46,15 +38,13 @@ public class NewsController {
 	private static final Logger log = LoggerFactory.getLogger(NewsController.class);
 
 	private static final int PAGESIZE = 3;
+	private static final int USERS_PER_PAGE = 10;
 
 	@Autowired
 	private NewsService newsServiceImpl;
 
 	@Autowired
 	private UserService userServiceImpl;
-	
-	@Autowired
-	private HistoryItemService historyItemServiceImpl;
 
 	@RequestMapping(value = "showMainPage")
 	public String showMainPage() {
@@ -68,7 +58,7 @@ public class NewsController {
 		}
 	}
 
-//	@PreAuthorize("isAnonymous()")
+	// @PreAuthorize("isAnonymous()")
 	@RequestMapping(value = "guest")
 	public String guest(@RequestParam(value = "pageNumber", defaultValue = "0") Integer pageNumber, ModelMap modelMap) {
 		log.debug("listNews()...");
@@ -92,12 +82,39 @@ public class NewsController {
 		createAdminPageRequest(pageNumber, modelMap);
 		return "admin";
 	}
-	
+
 	@PreAuthorize(value = "hasAuthority('ROLE_ADMIN')")
 	@RequestMapping(value = "showHistory")
-	public String showHistory(@RequestParam(value = "pageNumber", defaultValue = "0") Integer pageNumber, ModelMap modelMap) {
+	public String showHistory(@RequestParam(value = "pageNumber", defaultValue = "0") Integer pageNumber,
+			ModelMap modelMap) {
 		log.debug("showHistory()...");
 		createHistoryPageRequest(pageNumber, modelMap);
+		modelMap.addAttribute("startDate", LocalDate.of(2016, 7, 1).format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+		modelMap.addAttribute("endDate", LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+		return "showHistory";
+	}
+	
+	@PreAuthorize(value = "hasAuthority('ROLE_ADMIN')")
+	@RequestMapping(value = "showUser")
+	public String showUsers(@RequestParam(value = "pageNumber", defaultValue = "0") Integer pageNumber, ModelMap modelMap) {
+		log.debug("showUser()...");
+		Page<UserDTO> page = userServiceImpl.findAll(new PageRequest(pageNumber, USERS_PER_PAGE, Sort.Direction.ASC, "lastName"));
+		modelMap.addAttribute("page", page);
+		return "users";
+	}
+
+	@PreAuthorize(value = "hasAuthority('ROLE_ADMIN')")
+	@RequestMapping(value = "showHistoryFilteredByDate")
+	public String showHistoryFilteredByDate(@RequestParam(value = "pageNumber", defaultValue = "0") Integer pageNumber,
+			@RequestParam(value = "startDate") String startDate, @RequestParam(value = "endDate") String endDate,
+			ModelMap modelMap) {
+		log.debug("showHistoryFilteredByDate()...");
+		LocalDate start = LocalDate.parse(startDate, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		LocalDate end = LocalDate.parse(endDate, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		Page<NewsDTO> page = newsServiceImpl.findAllHistoryByDateBetween(new PageRequest(pageNumber, PAGESIZE, Sort.Direction.DESC, "date"), start, end);
+		modelMap.addAttribute("startDate", startDate);
+		modelMap.addAttribute("endDate", endDate);
+		modelMap.addAttribute("page", page);
 		return "showHistory";
 	}
 
@@ -130,7 +147,7 @@ public class NewsController {
 		modelMap.addAttribute("newsDTO", newsServiceImpl.find(id));
 		return "showViewNews";
 	}
-	
+
 	@PreAuthorize("isAnonymous()")
 	@RequestMapping(value = "showGuestViewNews", method = RequestMethod.GET)
 	public String showGuestViewNews(@RequestParam("id") Long id, ModelMap modelMap) {
@@ -172,7 +189,7 @@ public class NewsController {
 		createUserPageRequest(pageNumber, modelMap, listOfCheckboxes);
 		return "cabinet";
 	}
-	
+
 	@PreAuthorize(value = "hasAuthority('ROLE_USER')")
 	@RequestMapping(value = "showEditNews", method = RequestMethod.GET)
 	public String showEditNews(@RequestParam("id") Long id, ModelMap modelMap) {
@@ -219,12 +236,12 @@ public class NewsController {
 		return "cabinet";
 	}
 
-//	@RequestMapping(value = "login", method = RequestMethod.GET)
-//	public String showloginForm(ModelMap modelMap) {
-//		UserDTO userDTO = new UserDTO();
-//		modelMap.addAttribute("userDTO", userDTO);
-//		return "login";
-//	}
+	// @RequestMapping(value = "login", method = RequestMethod.GET)
+	// public String showloginForm(ModelMap modelMap) {
+	// UserDTO userDTO = new UserDTO();
+	// modelMap.addAttribute("userDTO", userDTO);
+	// return "login";
+	// }
 
 	@PreAuthorize("isAnonymous()")
 	@RequestMapping(value = "signup", method = RequestMethod.GET)
@@ -255,17 +272,6 @@ public class NewsController {
 
 	}
 
-	@RequestMapping(value = "403", method = RequestMethod.GET)
-	public String accessDenied(Principal user, ModelMap modelMap) {
-		if (user != null) {
-			UserDTO currentUser = userServiceImpl.findByEmail(user.getName());
-			modelMap.addAttribute("currentUser", currentUser.getFirstName() + " " + currentUser.getLastName());
-		} else {
-			modelMap.addAttribute("currentUser", "Anonymous user");
-		}
-		return "403";
-	}
-
 	private void createPageRequest(Integer pageNumber, ModelMap modelMap) {
 		Pageable pageRequest = new PageRequest(pageNumber, PAGESIZE, Sort.Direction.DESC, "date");
 		Page<NewsDTO> page = newsServiceImpl.findAllByStatus(pageRequest, "approved");
@@ -285,34 +291,13 @@ public class NewsController {
 		Page<NewsDTO> page = newsServiceImpl.findAllByStatus(pageRequest, "oncheck");
 		modelMap.addAttribute("page", page);
 	}
-	
+
 	private void createHistoryPageRequest(Integer pageNumber, ModelMap modelMap) {
 		log.debug("createHistoryPageRequest()");
-		Pageable pageRequest = new PageRequest(pageNumber, PAGESIZE);
-		Page<HistoryItem> pageHistory = historyItemServiceImpl.findAll(pageRequest);
-		log.debug("pageHistory.getTotalElements(): {}", pageHistory.getTotalElements());
-		List<NewsDTO> newsList = new ArrayList<>();
-		for (HistoryItem item : pageHistory.getContent()) {
-			newsList.add(newsServiceImpl.find(item.getNewsId()));
-		}
-		log.debug("newsList.size(): {}", newsList.size());
-		Page<NewsDTO> page = new PageImpl<>(newsList);
+		Pageable pageRequest = new PageRequest(pageNumber, PAGESIZE, Sort.Direction.DESC, "date");
+		Page<NewsDTO> page = newsServiceImpl.findAllHistory(pageRequest);
 		modelMap.addAttribute("page", page);
 	}
-	
-//	private void createHistoryPageRequest(Integer pageNumber, ModelMap modelMap) {
-//		log.debug("createHistoryPageRequest()");
-//		Pageable pageRequest = new PageRequest(pageNumber, PAGESIZE, Sort.Direction.DESC, "date");
-//		List<HistoryItem> historyItems = historyItemServiceImpl.findAll();
-//		log.debug("historyItems.size(): {}", historyItems.size());
-//		List<NewsDTO> newsList = new ArrayList<>();
-//		for (HistoryItem item : historyItems) {
-//			newsList.add(newsServiceImpl.find(item.getNewsId()));
-//		}
-//		log.debug("newsList.size(): {}", newsList.size());
-//		Page<NewsDTO> page = new PageImpl<>(newsList, pageRequest, newsList.size());
-//		modelMap.addAttribute("page", page);
-//	}
 
 	private boolean hasRole(String role) {
 		Collection<GrantedAuthority> authorities = (Collection<GrantedAuthority>) SecurityContextHolder.getContext()
