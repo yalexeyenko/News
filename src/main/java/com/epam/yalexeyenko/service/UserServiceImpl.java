@@ -6,6 +6,9 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -48,6 +51,12 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public UserDTO findByEmail(String email) {
 		return userConverter.userToDTO(userRepository.findByEmail(email));
+	}
+	
+	@Override
+	public Page<UserDTO> findAll(Pageable pageable) {
+		Page<User> pageUsers = userRepository.findAll(pageable);
+		return new PageImpl<UserDTO>(userConverter.userToDTO(pageUsers.getContent()), pageable, pageUsers.getTotalElements());
 	}
 
 	@Override
