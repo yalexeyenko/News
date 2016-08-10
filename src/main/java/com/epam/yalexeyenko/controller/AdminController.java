@@ -26,7 +26,7 @@ import com.epam.yalexeyenko.service.UserService;
 @Controller
 @RequestMapping("/")
 public class AdminController {
-	private static final Logger log = LoggerFactory.getLogger(NewsController.class);
+	private static final Logger log = LoggerFactory.getLogger(AdminController.class);
 
 	private static final int PAGESIZE = 3;
 	private static final int USERS_PER_PAGE = 10;
