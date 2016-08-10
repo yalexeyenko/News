@@ -120,7 +120,11 @@ body {
 	margin-bottom: 15px;
 }
 
-form button {
+#login_logout_ref button {
+	padding: 2px;
+}
+
+#login_form button, #signup_form button {
 	padding: 2px;
 	margin-left: 43%;
 }
@@ -355,9 +359,10 @@ table td {
 }
 
 #date_filter_form {
-	float: right;
 	margin-top: -33px;
-	margin-right: 19px;
+	margin-left: 220px;
+	margin-bottom: 6px;
+	width: 700px;
 }
 
 /*Edit page content*/
@@ -380,11 +385,13 @@ table td {
 }
 
 #date_filter_buttons {
-	display: inline;
+	display: inline-flex;
 }
 
 #date_filter_buttons button {
 	padding: 2px;
+    margin-left: 5px;
+    margin-right: 5px;
 }
 
 /*View page content*/
