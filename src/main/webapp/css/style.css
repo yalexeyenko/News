@@ -129,6 +129,12 @@ body {
 	margin-left: 43%;
 }
 
+#login_error_message {
+	display: inline;
+	font-size: 12px;
+	color: red;
+}
+
 /*signup*/
 .signup {
 	margin: 0px auto;
@@ -390,8 +396,8 @@ table td {
 
 #date_filter_buttons button {
 	padding: 2px;
-    margin-left: 5px;
-    margin-right: 5px;
+	margin-left: 5px;
+	margin-right: 5px;
 }
 
 /*View page content*/
