@@ -31,6 +31,10 @@ public class UserDTO implements Dto {
 	private String password;
 	private String matchingPassword;
 	
+	public UserDTO() {
+		this.enabled = true;
+	}
+	
 	public Long getId() {
 		return id;
 	}
