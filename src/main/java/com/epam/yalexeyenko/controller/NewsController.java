@@ -58,11 +58,11 @@ public class NewsController {
 		}
 	}
 
-	// @PreAuthorize("isAnonymous()")
 	@RequestMapping(value = "guest")
 	public String guest(@RequestParam(value = "pageNumber", defaultValue = "0") Integer pageNumber, ModelMap modelMap) {
-		log.debug("listNews()...");
-		createPageRequest(pageNumber, modelMap);
+		log.debug("guest()...");
+		Page<NewsDTO> page = newsServiceImpl.findAllByStatus(new PageRequest(pageNumber, PAGESIZE, Sort.Direction.DESC, "date"), "approved");
+		modelMap.addAttribute("page", page);
 		return "guest";
 	}
 
@@ -79,7 +79,8 @@ public class NewsController {
 	@RequestMapping(value = "admin")
 	public String admin(@RequestParam(value = "pageNumber", defaultValue = "0") Integer pageNumber, ModelMap modelMap) {
 		log.debug("admin()...");
-		createAdminPageRequest(pageNumber, modelMap);
+		Page<NewsDTO> page = newsServiceImpl.findAllByStatus(new PageRequest(pageNumber, PAGESIZE, Sort.Direction.DESC, "date"), "oncheck");
+		modelMap.addAttribute("page", page);
 		return "admin";
 	}
 
@@ -87,8 +88,9 @@ public class NewsController {
 	@RequestMapping(value = "showHistory")
 	public String showHistory(@RequestParam(value = "pageNumber", defaultValue = "0") Integer pageNumber,
 			ModelMap modelMap) {
-		log.debug("showHistory()...");
-		createHistoryPageRequest(pageNumber, modelMap);
+		log.debug("showHistory()...");		
+		Page<NewsDTO> page = newsServiceImpl.findAllHistory(new PageRequest(pageNumber, PAGESIZE, Sort.Direction.DESC, "date"));
+		modelMap.addAttribute("page", page);		
 		modelMap.addAttribute("startDate", LocalDate.of(2016, 7, 1).format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 		modelMap.addAttribute("endDate", LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 		return "showHistory";
@@ -251,7 +253,8 @@ public class NewsController {
 		log.debug("status: {}", status);
 		newsDTO.setStatus(status);
 		newsServiceImpl.update(newsDTO, email);
-		createAdminPageRequest(pageNumber, modelMap);
+		Page<NewsDTO> page = newsServiceImpl.findAllByStatus(new PageRequest(pageNumber, PAGESIZE, Sort.Direction.DESC, "date"), "oncheck");
+		modelMap.addAttribute("page", page);
 		return "admin";
 	}
 
@@ -262,13 +265,6 @@ public class NewsController {
 		createUserPageRequest(pageNumber, modelMap, listOfCheckboxes);
 		return "cabinet";
 	}
-
-	// @RequestMapping(value = "login", method = RequestMethod.GET)
-	// public String showloginForm(ModelMap modelMap) {
-	// UserDTO userDTO = new UserDTO();
-	// modelMap.addAttribute("userDTO", userDTO);
-	// return "login";
-	// }
 
 	@PreAuthorize("isAnonymous()")
 	@RequestMapping(value = "signup", method = RequestMethod.GET)
@@ -299,30 +295,11 @@ public class NewsController {
 
 	}
 
-	private void createPageRequest(Integer pageNumber, ModelMap modelMap) {
-		Pageable pageRequest = new PageRequest(pageNumber, PAGESIZE, Sort.Direction.DESC, "date");
-		Page<NewsDTO> page = newsServiceImpl.findAllByStatus(pageRequest, "approved");
-		modelMap.addAttribute("page", page);
-	}
-
 	private void createUserPageRequest(Integer pageNumber, ModelMap modelMap, ListOfCheckboxes listOfCheckboxes) {
 		Pageable pageRequest = new PageRequest(pageNumber, PAGESIZE, Sort.Direction.DESC, "date");
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		Page<NewsDTO> page = newsServiceImpl.findAllByUser(pageRequest, auth.getName());
 		modelMap.addAttribute("listOfCheckboxes", listOfCheckboxes);
-		modelMap.addAttribute("page", page);
-	}
-
-	private void createAdminPageRequest(Integer pageNumber, ModelMap modelMap) {
-		Pageable pageRequest = new PageRequest(pageNumber, PAGESIZE, Sort.Direction.DESC, "date");
-		Page<NewsDTO> page = newsServiceImpl.findAllByStatus(pageRequest, "oncheck");
-		modelMap.addAttribute("page", page);
-	}
-
-	private void createHistoryPageRequest(Integer pageNumber, ModelMap modelMap) {
-		log.debug("createHistoryPageRequest()");
-		Pageable pageRequest = new PageRequest(pageNumber, PAGESIZE, Sort.Direction.DESC, "date");
-		Page<NewsDTO> page = newsServiceImpl.findAllHistory(pageRequest);
 		modelMap.addAttribute("page", page);
 	}
 
