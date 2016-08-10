@@ -93,12 +93,14 @@ public class NewsController {
 		modelMap.addAttribute("endDate", LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 		return "showHistory";
 	}
-	
+
 	@PreAuthorize(value = "hasAuthority('ROLE_ADMIN')")
-	@RequestMapping(value = "showUser")
-	public String showUsers(@RequestParam(value = "pageNumber", defaultValue = "0") Integer pageNumber, ModelMap modelMap) {
-		log.debug("showUser()...");
-		Page<UserDTO> page = userServiceImpl.findAll(new PageRequest(pageNumber, USERS_PER_PAGE, Sort.Direction.ASC, "lastName"));
+	@RequestMapping(value = "showUsers")
+	public String showUsers(@RequestParam(value = "pageNumber", defaultValue = "0") Integer pageNumber,
+			ModelMap modelMap) {
+		log.debug("showUsers()...");
+		Page<UserDTO> page = userServiceImpl
+				.findAll(new PageRequest(pageNumber, USERS_PER_PAGE, Sort.Direction.ASC, "lastName"));
 		modelMap.addAttribute("page", page);
 		return "users";
 	}
@@ -111,7 +113,8 @@ public class NewsController {
 		log.debug("showHistoryFilteredByDate()...");
 		LocalDate start = LocalDate.parse(startDate, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		LocalDate end = LocalDate.parse(endDate, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-		Page<NewsDTO> page = newsServiceImpl.findAllHistoryByDateBetween(new PageRequest(pageNumber, PAGESIZE, Sort.Direction.DESC, "date"), start, end);
+		Page<NewsDTO> page = newsServiceImpl.findAllHistoryByDateBetween(
+				new PageRequest(pageNumber, PAGESIZE, Sort.Direction.DESC, "date"), start, end);
 		modelMap.addAttribute("startDate", startDate);
 		modelMap.addAttribute("endDate", endDate);
 		modelMap.addAttribute("page", page);
@@ -177,6 +180,30 @@ public class NewsController {
 		}
 		createUserPageRequest(pageNumber, modelMap, listOfCheckboxes);
 		return "cabinet";
+	}
+
+	@PreAuthorize(value = "hasAuthority('ROLE_ADMIN')")
+	@RequestMapping(value = "enableUser", method = RequestMethod.GET)
+	public String enableUser(@RequestParam("id") Long id,
+			@RequestParam(value = "pageNumber", defaultValue = "0") Integer pageNumber, ModelMap modelMap) {
+		log.debug("enableUser()...");
+		userServiceImpl.updateUserStatus(true, id);
+		Page<UserDTO> page = userServiceImpl
+				.findAll(new PageRequest(pageNumber, USERS_PER_PAGE, Sort.Direction.ASC, "lastName"));
+		modelMap.addAttribute("page", page);
+		return "users";
+	}
+
+	@PreAuthorize(value = "hasAuthority('ROLE_ADMIN')")
+	@RequestMapping(value = "disableUser", method = RequestMethod.GET)
+	public String disableUser(@RequestParam("id") Long id,
+			@RequestParam(value = "pageNumber", defaultValue = "0") Integer pageNumber, ModelMap modelMap) {
+		log.debug("disableUser()...");
+		userServiceImpl.updateUserStatus(false, id);
+		Page<UserDTO> page = userServiceImpl
+				.findAll(new PageRequest(pageNumber, USERS_PER_PAGE, Sort.Direction.ASC, "lastName"));
+		modelMap.addAttribute("page", page);
+		return "users";
 	}
 
 	@PreAuthorize(value = "hasAuthority('ROLE_USER')")
