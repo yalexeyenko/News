@@ -30,13 +30,16 @@ public class AuthentificationProviderImpl implements AuthentificationProvider {
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		User user = userRepository.findByEmail(email);
 		if (user != null) {
+			if (user.isEnabled() == false) {
+				throw new UsernameNotFoundException("User with email '" + email + "' is blocked.");
+			}
 			List<GrantedAuthority> authorities = new ArrayList<>();
 			for (Role role : user.getRoles()) {
 				authorities.add(new SimpleGrantedAuthority(role.getName()));
 			}
 			return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), authorities);
 		}
-		throw new UsernameNotFoundException("Email '" + email + "' not found,");
+		throw new UsernameNotFoundException("Email '" + email + "' not found.");
 	}
 	
 	public UserService getUserServiceImpl() {
