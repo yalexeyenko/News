@@ -99,6 +99,61 @@ body {
 	font-family: sans-serif;
 }
 
+/*login*/
+.login {
+	margin: 0px auto;
+	width: 300px;
+	margin-top: 50px;
+}
+
+#login_form h3 {
+	text-align: center;
+	padding-bottom: 15px;
+}
+
+.login_field_wrap input {
+	float: right;
+	margin-top: -3px;
+}
+
+.login_field_wrap {
+	margin-bottom: 15px;
+}
+
+form button {
+	padding: 2px;
+	margin-left: 43%;
+}
+
+/*signup*/
+.signup {
+	margin: 0px auto;
+	width: 350px;
+	margin-top: 50px;
+}
+
+#signup_form  h3 {
+	text-align: center;
+	padding-bottom: 15px;
+}
+
+.reg_field_wrap input {
+	float: right;
+	margin-top: -3px;
+}
+
+.reg_field_wrap {
+	margin-bottom: 15px;
+}
+
+.input_error {
+	position: absolute;
+	margin-left: 355px;
+	margin-top: -16px;
+	font-size: 12;
+	color: red;
+}
+
 /*News list page content*/
 .news_brief {
 	width: 700px;
@@ -136,7 +191,7 @@ body {
 	color: green;
 }
 
-.listNewsContent, .cabinet, .admin {
+.listNewsContent, .cabinet, .admin, .users {
 	padding-top: 40px;
 }
 
@@ -262,7 +317,8 @@ body {
 	margin-top: -21px;
 }
 
-.listNewsContent #paging, .cabinet #paging, .admin #paging {
+.listNewsContent #paging, .cabinet #paging, .admin #paging, .users #paging
+	{
 	position: absolute;
 	width: 50px;
 	margin-left: 663px;
@@ -300,8 +356,8 @@ table td {
 
 #date_filter_form {
 	float: right;
-    margin-top: -33px;
-    margin-right: 19px;
+	margin-top: -33px;
+	margin-right: 19px;
 }
 
 /*Edit page content*/
@@ -403,6 +459,11 @@ table td {
 	font-size: 12px;
 	padding: 3px;
 	color: black;
+}
+
+/* users */
+#enabled_user img, #disabled_user img {
+	height: 24px;
 }
 
 /*Footer*/
