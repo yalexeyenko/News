@@ -8,4 +8,5 @@ import com.epam.yalexeyenko.dto.UserDTO;
 public interface UserService extends Service<UserDTO> {
 	UserDTO findByEmail(String email);
 	Page<UserDTO> findAll(Pageable pageable);
+	void updateUserStatus(boolean enabled, Long id);
 }

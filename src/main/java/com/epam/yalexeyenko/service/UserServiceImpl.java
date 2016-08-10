@@ -49,6 +49,11 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
+	public void updateUserStatus(boolean enabled, Long id) {
+		userRepository.updateUserStatus(enabled, id);		
+	}
+	
+	@Override
 	public UserDTO findByEmail(String email) {
 		return userConverter.userToDTO(userRepository.findByEmail(email));
 	}
