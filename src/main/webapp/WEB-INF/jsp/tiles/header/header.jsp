@@ -7,7 +7,7 @@
 
 <div class="header">
 	<h1>
-		<spring:message code="header.title" />
+		<a href="showMainPage"><spring:message code="header.title" /></a>
 	</h1>
 	<security:authorize access="isAuthenticated()">
 		<div id=userEmail>
