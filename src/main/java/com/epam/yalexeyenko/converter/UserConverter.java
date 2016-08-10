@@ -21,6 +21,7 @@ public class UserConverter {
 		userDTO.setFirstName(user.getFirstName());
 		userDTO.setLastName(user.getLastName());
 		userDTO.setEmail(user.getEmail());
+		userDTO.setEnabled(user.isEnabled());
 		userDTO.setPassword(user.getPassword());
 		return userDTO;
 	}
@@ -31,6 +32,7 @@ public class UserConverter {
 		user.setFirstName(userDTO.getFirstName());
 		user.setLastName(userDTO.getLastName());
 		user.setEmail(userDTO.getEmail());
+		user.setEnabled(userDTO.isEnabled());
 		user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
 		return user;
 	}
