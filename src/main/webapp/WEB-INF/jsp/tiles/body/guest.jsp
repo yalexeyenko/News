@@ -30,11 +30,11 @@
 		</c:forEach>
 		<div id="paging">
 			<c:if test="${page.number > 0}">
-				<a href="home?pageNumber=${page.number - 1}">&lt;</a>
+				<a href="guest?pageNumber=${page.number - 1}">&lt;</a>
 			</c:if>
 			<label>${page.number + 1}</label>
 			<c:if test="${page.totalPages > page.number + 1}">
-				<a href="home?pageNumber=${page.number + 1}">&gt;</a>
+				<a href="guest?pageNumber=${page.number + 1}">&gt;</a>
 			</c:if>
 		</div>
 	</c:if>
