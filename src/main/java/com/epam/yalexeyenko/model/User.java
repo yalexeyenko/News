@@ -36,10 +36,6 @@ public class User extends BaseEntity {
 	
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private List<News> newsList;
-	
-	public User() {
-		this.enabled = true;
-	}
 
 	public String getFirstName() {
 		return firstName;
