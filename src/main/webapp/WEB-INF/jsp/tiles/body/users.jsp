@@ -6,27 +6,43 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 
+<spring:url value="/img" var="img" />
+
 <div class="users">
 	<c:if test="${not empty page.content}">
 		<div id="table_users">
-			<tr>
-				<th>№</th>
-				<th><spring:message code="user" /></th>
-				<th><spring:message code="email" /></th>
-				<th><spring:message code="status" /></th>
-			</tr>
-			<c:forEach items="${page.content}" var="userDTO" varStatus="status">
+			<table>
 				<tr>
-					<td>${status.count}</td>
-					<td>${userDTO.firstName} ${userDTO.lastName}</td>
-					<td>${userDTO.email}</td>
-					<td>
-						<c:if test="${userDTO.enabled eq 'true'}">
-							
-						</c:if>
-					</td>
+					<th>№</th>
+					<th><spring:message code="user" /></th>
+					<th><spring:message code="email" /></th>
+					<th><spring:message code="status" /></th>
 				</tr>
-			</c:forEach>
+				<c:forEach items="${page.content}" var="userDTO" varStatus="status">
+					<tr>
+						<td>${status.count}</td>
+						<td>${userDTO.firstName}${userDTO.lastName}</td>
+						<td>${userDTO.email}</td>
+						<td>
+							<c:if test="${userDTO.enabled eq true}">
+								<a id="enabled_user" href="disableUser?id=${userDTO.id}"><img src="${img}/padlock_opened.png"></img></a>
+							</c:if>
+							<c:if test="${userDTO.enabled eq false}">
+								<a id="disabled_user" href="enableUser?id=${userDTO.id}"><img src="${img}/padlock_closed.png"></img></a>
+							</c:if>
+						</td>
+					</tr>
+				</c:forEach>
+			</table>
+			<div id="paging">
+				<c:if test="${page.number > 0}">
+					<a href="cabinet?pageNumber=${page.number - 1}">&lt;</a>
+				</c:if>
+				<label>${page.number + 1}</label>
+				<c:if test="${page.totalPages > page.number + 1}">
+					<a href="cabinet?pageNumber=${page.number + 1}">&gt;</a>
+				</c:if>
+			</div>
 		</div>
 	</c:if>
 	<c:if test="${empty page.content}">
