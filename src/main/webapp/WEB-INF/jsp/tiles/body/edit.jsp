@@ -75,7 +75,7 @@
 					<spring:message code="content.add.button.save" />
 					<input type="hidden" name="id" value="${newsDTO.id}" />
 				</form:button>
-				<a class="but_ref" href="listNews"> <spring:message
+				<a class="but_ref" href="cabinet"> <spring:message
 						code="content.add.button.cancel" />
 				</a>
 			</div>
