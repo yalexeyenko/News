@@ -69,7 +69,7 @@ public class UrlAuthenticationSuccessHandler implements AuthenticationSuccessHan
 		} else if (isAdmin) {
 			return "/admin";
 		} else {
-			return "/home";
+			return "/guest";
 		}
 	}
 	
