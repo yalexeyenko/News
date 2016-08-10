@@ -4,39 +4,36 @@
 
 <div class="signup">
 	<div id="signup_form">
-		<h3>Sign up</h3>
+		<h3><spring:message code="signup" /></h3>
 		<form:form action="register" modelAttribute="userDTO" method="POST" enctype="UTF-8">
 			<div class="reg_field_wrap">
-				<label>First name: </label>
+				<label><spring:message code="firstName" />: </label>
 				<form:input path="firstName" value="" />
-				<form:errors path="firstName" element="div" />
+				<form:errors path="firstName" element="div" class="input_error" />
 			</div>
 			<div class="reg_field_wrap">
-				<label>Last name: </label>
+				<label><spring:message code="lastName" />: </label>
 				<form:input path="lastName" value="" />
-				<form:errors path="lastName" element="div"  />
+				<form:errors path="lastName" element="div" class="input_error"  />
 			</div>
 			<div class="reg_field_wrap">
-				<label>email: </label>
+				<label><spring:message code="email" />: </label>
 				<form:input path="email" value="" />
-				<form:errors path="email" element="div" />
+				<form:errors path="email" element="div" class="input_error" />
 			</div>
 			<div class="reg_field_wrap">
-				<label>Password: </label>
+				<label><spring:message code="Password" />: </label>
 				<form:input path="password" value="" type="password" />
-				<form:errors path="password" element="div" />
+				<form:errors path="password" element="div" class="input_error" />
 			</div>
 			<div class="reg_field_wrap">
-				<label>Repeat password: </label>
+				<label><spring:message code="repeatPassword" />: </label>
 				<form:input path="matchingPassword" value="" type="password" />
-				<form:errors element="div" />
+				<form:errors element="div" class="input_error" />
 			</div>
 			<input type="hidden" name="${_csrf.parameterName}"
 				value="${_csrf.token}" />
-			<button type="submit">Sign up</button>
+			<button type="submit"><spring:message code="signup" /></button>
 		</form:form>
-		<div id="login_ref">
-			<a href="login">Log in</a>
-		</div>
 	</div>
 </div>

@@ -5,21 +5,18 @@
 
 <div class="login">
 	<div id="login_form">
-		<h3>Log in</h3>
+		<h3><spring:message code="login"/></h3>
 		<form action="login" method="POST" enctype="UTF-8">
 			<div class="login_field_wrap">
 				<label>Email: </label>
 				<input type="text" name="username" />
 			</div>
 			<div class="login_field_wrap">
-				<label>Password: </label>
+				<label><spring:message code="Password"/>: </label>
 				<input name="password" type="password" />
 			</div>
 			<input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"/>
-			<button type="submit">Log in</button>
+			<button type="submit"><spring:message code="login"/></button>
 		</form>
-		<div id="signup_ref">
-			<a href="signup">Sign up</a>
-		</div>
 	</div>
 </div>
